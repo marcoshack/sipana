@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>br.com.voicetechnology.sipana</groupId>
+  <artifactId>sipana</artifactId>
+  <packaging>pom</packaging>
+  <name>GCache</name>
+  <version>0.1-SNAPSHOT</version>
+  <description>SIP analizer.</description>
+  <scm>
+    <connection>scm:svn:http://192.168.192.111/svn/sipana/trunk</connection>
+    <developerConnection>scm:svn:http://192.168.192.111/svn/sipana/trunk</developerConnection>
+    <url>http://192.168.192.111/viewcvs/trunk/?root=sipana</url>
+  </scm>
+  <modules>
+    <module>capturer</module>
+    <module>server</module>
+    <module>agent</module>
+  </modules>
+  <dependencies>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mortbay.jetty</groupId>
+      <artifactId>jetty</artifactId>
+      <version>6.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>jakarta-regexp</groupId>
+      <artifactId>jakarta-regexp</artifactId>
+      <version>1.4</version>
+    </dependency>
+  </dependencies>
+  <properties>
+    <sipanaVersion>0.1-SNAPSHOT</sipanaVersion>
+  </properties>
+</project>
+

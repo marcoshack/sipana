@@ -1,0 +1,24 @@
+#!/bin/bash
+
+cd `dirname $0`
+
+#JAVA_HOME="/usr/lib/jvm/java-1.5.0-sun"
+JAVA_HOME="/usr/local/lib/jvm/jdk1.6.0"
+CONFIG_FILE="../conf/sipana.conf"
+
+JAVA_OPT="-server -Dsipana.config=$CONFIG_FILE" 
+
+# Options for SNMP and JVM agents (remenber that JVM will run on ./bin directory)
+#JAVA_OPT="${JAVA_OPT} -Dcom.sun.management.config.file=$JAVA_HOME/jre/lib/management/management.properties"
+
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:../lib
+CLASSPATH=../lib/net.sourceforge.jpcap-0.01.16.jar:../lib/JainSipRi1.2.jar:../lib/JainSipApi1.2.jar:../lib/jakarta-regexp-1.3.jar:../lib/log4j-1.2.14.jar:../lib/jetty-6.1.1.jar:../lib/servlet-api-2.5-6.1.1.jar:../lib/jetty-util-6.1.1.jar:.:
+
+export JAVA_HOME
+export WORK_DIR
+export LD_LIBRARY_PATH
+export CLASSPATH
+
+cd ./bin
+java $JAVA_OPT br.com.voicetechnology.sipana.SipanaCapturer
+
