@@ -1,5 +1,5 @@
 package br.com.voicetechnology.sipana.capturer;
 
 public interface EventHandler {
-	public void processEvent(Event event) ;
+    public void processEvent(Event event);
 }

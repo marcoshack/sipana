@@ -9,81 +9,94 @@ import org.apache.log4j.Logger;
 
 import br.com.voicetechnology.sipana.capturer.Dispatcher;
 import br.com.voicetechnology.sipana.capturer.pcap.CapturerPcap;
-import br.com.voicetechnology.sipana.http.HttpServer;
-import br.com.voicetechnology.sipana.http.HttpSipStatisticHandler;
 import br.com.voicetechnology.sipana.sip.SipMessageHandler;
-import br.com.voicetechnology.sipana.statistic.StatisticSip;
+
+/* Moved to server module
+ import br.com.voicetechnology.sipana.http.HttpServer;
+ import br.com.voicetechnology.sipana.http.HttpSipStatisticHandler;
+ import br.com.voicetechnology.sipana.statistic.StatisticSip;
+ */
 
 public class SipanaCapturer extends Thread {
-	private static Logger logger;
-	private static Properties properties;
-	private Dispatcher dispatcher;
-	private SipMessageHandler handler;
-	private StatisticSip statistics;
-	private HttpServer http_server;
-	private CapturerPcap capturer;
-	
-	public SipanaCapturer() throws Exception {
-		logger = Logger.getLogger(SipanaCapturer.class);
-		properties = new Properties();
+    private static Logger logger;
 
-		// Get configuration properties
-		
-		// TODO: Obter e validar opcoes de linha de comando usando Jakarta CLI
-		// TODO: Validar configuracoes obritatorias
-		// TODO: Implementar mecanismo padrao de propriedades com valores default. 
+    private static Properties properties;
 
-		String config_file = System.getProperty("sipana.config");
-		if (config_file == null) {
-			throw new Exception("Config file not set.");
-		}
+    private Dispatcher dispatcher;
 
-		try {
-			FileInputStream in = new FileInputStream(config_file);
-			properties.load((InputStream) in);
-			properties.list(System.out);
-			
-			handler = new SipMessageHandler();
-			dispatcher = new Dispatcher(handler);
-			statistics = StatisticSip.getInstance();
-			http_server = new HttpServer(new HttpSipStatisticHandler(statistics));
-			
-		} catch (IOException e) {
-			logger.fatal("Cannot open config file", e);
-			System.exit(1);
-		} catch (Exception e) {
-			logger.fatal("Error starting Sipana", e);
-			System.exit(2);
-		}
-	}
-	
-	public static Properties getProperties() {
-		return properties;
-	}
-		
-	public void run() {
-		this.setName("SipanaCapturer");
-		
-		try {
-			// Start capturer
-			capturer = new CapturerPcap(dispatcher);
-			dispatcher.start();
-			capturer.start();
-			http_server.start();			
-		} catch (Exception e) {
-			logger.fatal("Error running JSipana", e);
-			System.exit(-1);
-		}
-	}
+    private SipMessageHandler handler;
 
-	public static void main(String[] args) {
-		BasicConfigurator.configure();
-		
-		try {
-			SipanaCapturer sipana = new SipanaCapturer();
-			sipana.start();
-		} catch (Exception e) {
-			logger.fatal(e);
-		}
-	}
+    private CapturerPcap capturer;
+    
+    private SipanaServerClient client;
+
+    // moved to server module
+    // private StatisticSip statistics;
+    // private HttpServer http_server;
+
+    public SipanaCapturer() throws Exception {
+        logger = Logger.getLogger(SipanaCapturer.class);
+        properties = new Properties();
+
+        // Get configuration properties
+        // TODO: Obter e validar opcoes de linha de comando usando Jakarta CLI
+        // TODO: Get and check command line options using jakarta-cli
+        // TODO: Implement a stantard properties configurator with default
+        // values.
+        String config_file = System.getProperty("sipana.config");
+        if (config_file == null) {
+            throw new Exception("Config file not set.");
+        }
+
+        try {
+            FileInputStream in = new FileInputStream(config_file);
+            properties.load((InputStream) in);
+            properties.list(System.out);
+            
+            client = new SipanaServerClientImp();
+            handler = new SipMessageHandler(client);
+            dispatcher = new Dispatcher(handler);
+            
+            // statistics = StatisticSip.getInstance();
+            // http_server = new HttpServer(new
+            // HttpSipStatisticHandler(statistics));
+            
+        } catch (IOException e) {
+            logger.fatal("Cannot open config file", e);
+            System.exit(1);
+        } catch (Exception e) {
+            logger.fatal("Error starting Sipana", e);
+            System.exit(2);
+        }
+    }
+
+    public static Properties getProperties() {
+        return properties;
+    }
+
+    public void run() {
+        this.setName("SipanaCapturer");
+
+        try {
+            // Start capturer
+            capturer = new CapturerPcap(dispatcher);
+            dispatcher.start();
+            capturer.start();
+            // http_server.start();
+        } catch (Exception e) {
+            logger.fatal("Error running JSipana", e);
+            System.exit(-1);
+        }
+    }
+
+    public static void main(String[] args) {
+        BasicConfigurator.configure();
+
+        try {
+            SipanaCapturer sipana = new SipanaCapturer();
+            sipana.start();
+        } catch (Exception e) {
+            logger.fatal(e);
+        }
+    }
 }
