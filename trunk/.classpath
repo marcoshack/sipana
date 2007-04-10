@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="agent/src/test/java"/>
+	<classpathentry kind="src" path="capturer/src/main/java"/>
+	<classpathentry kind="src" path="capturer/src/test/java"/>
+	<classpathentry kind="src" path="server/src/test/java"/>
+	<classpathentry kind="src" path="server/src/main/java"/>
+	<classpathentry kind="src" path="agent/src/main/java"/>
+	<classpathentry kind="lib" path="lib/JainSipApi1.2.jar"/>
+	<classpathentry kind="lib" path="lib/JainSipRi1.2.jar"/>
+	<classpathentry kind="lib" path="lib/net.sourceforge.jpcap-0.01.16.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
