@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="sipana" default="all">
+
+	<property name="dest" value="classes"/>
+	<property name="dest.bundles" value="bundles"/>
+	<property name="src" value="src"/>
+	<property name="package.base" value="net/sourceforge/sipana"/>
+
+	<!-- LIBS -->
+	<property name="lib" value="lib"/>
+	<property name="lib.pcap" value="${lib}/net.sourceforge.jpcap-0.01.16.jar"/>
+
+    <path id="compile.class.path">
+        <fileset dir="${lib}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+	
+	<target name="all" depends="init,compile,bundles"/>
+	
+	<!-- INIT -->
+	<target name="init">
+		<mkdir dir="${dest}"/>
+		<mkdir dir="${dest.bundles}"/>
+	</target>
+	
+	<!-- COMPILE --> 
+	<target name="compile" depends="init">
+		<javac classpathref="compile.class.path" destdir="${dest}"
+		    debug="on" srcdir="${src}">
+			<include name="**/*.java"/>
+		</javac>
+	</target>
+	
+	<!-- ALL BUNDLES -->
+	<target name="bundles" depends="bundle-capturer"/>
+
+	<!-- BUNDLE CAPTURER -->
+	<target name="bundle-capturer" depends="init,compile">
+        <jar 
+        	compress="true" 
+        	destfile="${dest.bundles}/sipana-capturer.jar"
+            manifest="${src}/${package.base}/capturer/impl/capturer-manifest.mf">
+            <zipfileset 
+            	dir="${dest}/${package.base}/capturer"
+                prefix="${package.base}/capturer"/>
+            <zipfileset src="${lib.pcap}" prefix=""/>
+        </jar>
+	</target>
+	
+	<!-- CLEAN -->
+	<target name="clean">
+		<delete dir="${dest}"/>
+		<delete dir="${build}"/>
+	</target>
+	
+	<!-- RUN -->
+	<target name="run">
+		
+	</target>
+	
+</project>
