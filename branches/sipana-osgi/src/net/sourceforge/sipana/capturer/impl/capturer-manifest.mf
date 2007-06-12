@@ -6,5 +6,5 @@ Bundle-Description: Bundle for network packet capture based on jpcap library
 Bundle-Vendor: Voice Technology
 Bundle-Category: Network
 Bundle-Activator: net.sourceforge.sipana.capturer.impl.CapturerActivator
-Import-Package: org.osgi.framework
+Import-Package: org.osgi.framework,org.osgi.service.log
 Export-Package: net.sourceforge.sipana.capturer

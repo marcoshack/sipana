@@ -10,6 +10,7 @@ public class CaptureSessionImpl implements CaptureSession {
     private String device;
     private PacketListener listener;
     private boolean isPromiscuous;
+    private int state;
     private PacketCapture capturer;
     
     public CaptureSessionImpl() {
@@ -33,30 +34,32 @@ public class CaptureSessionImpl implements CaptureSession {
     }
 
     public void setDevice(String device) {
-        // TODO Auto-generated method stub
+        this.device = device;
     }
 
     public void setFilter(String filter) {
-        // TODO Auto-generated method stub
+        this.filter = filter;
     }
 
     public void setListener(PacketListener listener) {
-        // TODO Auto-generated method stub
+        this.listener = listener;
     }
 
     public void setPromiscuous(boolean promiscuous) {
-        // TODO Auto-generated method stub
-
+        isPromiscuous = promiscuous;
     }
 
     public void start() throws Exception {
-        // TODO Auto-generated method stub
-
+        capturer.open(device, CaptureSession.DEFAULT_SNAPLEN, isPromiscuous(),
+                CaptureSession.DEFAULT_TIMEOUT);
+        capturer.setFilter(filter, true);
+        capturer.addPacketListener(listener);
+        capturer.capture(CaptureSession.DEFAULT_COUNT);
     }
 
     public void stop() throws Exception {
-        // TODO Auto-generated method stub
-
+        capturer.endCapture();
+        capturer.close();
     }
 
 }
