@@ -4,7 +4,9 @@
 
 	<property name="dest" value="classes"/>
 	<property name="dest.bundles" value="bundles"/>
+	<property name="dest.tests" value="bundles-test"/>
 	<property name="src" value="src"/>
+	<property name="src.test" value="test"/>
 	<property name="package.base" value="net/sourceforge/sipana"/>
 
 	<!-- LIBS -->
@@ -23,6 +25,7 @@
 	<target name="init">
 		<mkdir dir="${dest}"/>
 		<mkdir dir="${dest.bundles}"/>
+		<mkdir dir="${dest.tests}"/>
 	</target>
 	
 	<!-- COMPILE --> 
@@ -31,10 +34,14 @@
 		    debug="on" srcdir="${src}">
 			<include name="**/*.java"/>
 		</javac>
+		<javac classpathref="compile.class.path" destdir="${dest}"
+		    debug="on" srcdir="${src.test}">
+			<include name="**/*.java"/>
+		</javac>
 	</target>
 	
 	<!-- ALL BUNDLES -->
-	<target name="bundles" depends="bundle-capturer"/>
+	<target name="bundles" depends="bundle-capturer,bundle-test-capturer"/>
 
 	<!-- BUNDLE CAPTURER -->
 	<target name="bundle-capturer" depends="init,compile">
@@ -48,11 +55,24 @@
             <zipfileset src="${lib.pcap}" prefix=""/>
         </jar>
 	</target>
+
+	<target name="bundle-test-capturer" depends="init,compile">
+        <jar 
+        	compress="true" 
+        	destfile="${dest.tests}/sipana-test-capturer.jar"
+            manifest="${src.test}/${package.base}/capturer/test-capturer-manifest.mf">
+            <zipfileset 
+            	dir="${dest}/${package.base}/capturer"
+                prefix="${package.base}/capturer"/>
+        </jar>
+	</target>
+
 	
 	<!-- CLEAN -->
 	<target name="clean">
 		<delete dir="${dest}"/>
 		<delete dir="${dest.bundles}"/>
+		<delete dir="${dest.tests}"/>
 	</target>
 	
 	<!-- RUN -->
