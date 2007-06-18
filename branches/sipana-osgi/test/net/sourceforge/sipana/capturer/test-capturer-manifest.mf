@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-Name: sipana-test-capturer
-bundle-SymbolicName: sipana-test-capturer
-Bundle-Version: 1.0.0
-Bundle-Description: Bundle to test Sipana CaptureService
-Bundle-Vendor: Voice Technology
-Bundle-Category: Test
-Bundle-Activator: net.sourceforge.sipana.capturer.TestCaptureService
-Import-Package: org.osgi.framework,org.osgi.service.log,net.sourceforge.sipana.capturer

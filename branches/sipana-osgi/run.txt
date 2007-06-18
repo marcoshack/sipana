@@ -1,8 +1,0 @@
-export LD_LIBRARY_PATH=./lib/native-linux
-
-java -jar lib/org.eclipse.osgi_3.2.2.R32x_v20070118.jar -console
-
-install file:///home/mhack/work/java/sipana-osgi/lib/org.eclipse.osgi.services_3.1.100.v20060601.jar
-install file:///home/mhack/work/java/sipana-osgi/lib/org.eclipse.equinox.log_1.0.1.R32x_v20060717.jar
-install file:///home/mhack/work/java/sipana-osgi/bundles/sipana-capturer.jar
-install file:///home/mhack/work/java/sipana-osgi/bundles-test/sipana-test-capturer.jar

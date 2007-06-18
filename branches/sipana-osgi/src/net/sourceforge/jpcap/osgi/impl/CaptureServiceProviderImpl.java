@@ -1,13 +1,14 @@
-package net.sourceforge.sipana.capturer.impl;
+package net.sourceforge.jpcap.osgi.impl;
 
 import java.util.LinkedList;
 
 import net.sourceforge.jpcap.capture.PacketCapture;
-import net.sourceforge.sipana.capturer.CaptureServiceProvider;
-import net.sourceforge.sipana.capturer.CaptureSession;
+import net.sourceforge.jpcap.osgi.CaptureServiceProvider;
+import net.sourceforge.jpcap.osgi.CaptureSession;
+import net.sourceforge.jpcap.osgi.impl.CaptureSessionImpl;
 
-public class CaptureServiceProviderImpl implements CaptureServiceProvider 
-{
+public class CaptureServiceProviderImpl implements CaptureServiceProvider {
+
     private LinkedList<CaptureSession> sessionList;
     
     public CaptureServiceProviderImpl() {

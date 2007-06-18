@@ -1,4 +1,4 @@
-package net.sourceforge.sipana.capturer;
+package net.sourceforge.jpcap.osgi;
 
 import net.sourceforge.jpcap.capture.PacketListener;
 

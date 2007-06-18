@@ -3,9 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/net.sourceforge.jpcap-0.01.16.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.osgi_3.2.2.R32x_v20070118.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.equinox.log_1.0.1.R32x_v20060717.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.osgi.services_3.1.100.v20060601.jar"/>
+	<classpathentry kind="lib" path="plugins/org.eclipse.osgi_3.3.0.v20070530.jar"/>
+	<classpathentry kind="lib" path="lib/jpcap-core.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

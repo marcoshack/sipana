@@ -1,7 +1,9 @@
-package net.sourceforge.sipana.capturer;
+package net.sourceforge.jpcap.osgi.test;
 
 import net.sourceforge.jpcap.capture.PacketListener;
 import net.sourceforge.jpcap.net.Packet;
+import net.sourceforge.jpcap.osgi.CaptureServiceProvider;
+import net.sourceforge.jpcap.osgi.CaptureSession;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

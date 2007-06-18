@@ -3,18 +3,29 @@
 <project name="sipana" default="all">
 
 	<property name="dest" value="classes"/>
-	<property name="dest.bundles" value="bundles"/>
-	<property name="dest.tests" value="bundles-test"/>
+	<property name="dest.bundles" value="plugins" />
+	<property name="dest.tests" value="plugins"/>
 	<property name="src" value="src"/>
 	<property name="src.test" value="test"/>
 	<property name="package.base" value="net/sourceforge/sipana"/>
 
 	<!-- LIBS -->
 	<property name="lib" value="lib"/>
-	<property name="lib.pcap" value="${lib}/net.sourceforge.jpcap-0.01.16.jar"/>
-
+	
+	<!-- PCAP -->
+	<property name="pcap.lib" value="${lib}/jpcap-core.jar"/>
+	<property name="pcap.version" value="0.01.16"/>
+	<property name="pcap.package.base" value="net/sourceforge/jpcap/osgi"/>
+	
+	<!-- EQUINOX --> 
+	<property name="plugins" value="plugins"/>
+	
+	<!-- COMPILE CLASS PATH -->
     <path id="compile.class.path">
         <fileset dir="${lib}">
+            <include name="*.jar"/>
+        </fileset>
+    	<fileset dir="${plugins}">
             <include name="*.jar"/>
         </fileset>
     </path>
@@ -41,29 +52,33 @@
 	</target>
 	
 	<!-- ALL BUNDLES -->
-	<target name="bundles" depends="bundle-capturer,bundle-test-capturer"/>
+	<target name="bundles" depends="bundle-jpcap,bundle-jpcap-test"/>
 
-	<!-- BUNDLE CAPTURER -->
-	<target name="bundle-capturer" depends="init,compile">
+	<!-- BUNDLE PCAP -->
+	<target name="bundle-jpcap" depends="init,compile">
         <jar 
         	compress="true" 
-        	destfile="${dest.bundles}/sipana-capturer.jar"
-            manifest="${src}/${package.base}/capturer/impl/capturer-manifest.mf">
+        	destfile="${dest.bundles}/net.sourceforge.jpcap.osgi-${pcap.version}.jar"
+            manifest="${src}/${pcap.package.base}/impl/capturer-manifest.mf">
             <zipfileset 
-            	dir="${dest}/${package.base}/capturer"
-                prefix="${package.base}/capturer"/>
-            <zipfileset src="${lib.pcap}" prefix=""/>
+            	dir="${dest}/${pcap.package.base}"
+                prefix="${pcap.package.base}"
+            	excludes="${pcap.package.base}/test"
+            />
+            <zipfileset src="${pcap.lib}" prefix=""/>
         </jar>
 	</target>
 
-	<target name="bundle-test-capturer" depends="init,compile">
-        <jar 
-        	compress="true" 
-        	destfile="${dest.tests}/sipana-test-capturer.jar"
-            manifest="${src.test}/${package.base}/capturer/test-capturer-manifest.mf">
+	<!-- BUNDLE PCAP TEST -->
+	<target name="bundle-jpcap-test" depends="init,compile">
+        <jar compress="true" 
+        	destfile="${dest.tests}/net.sourceforge.jpcap.osgi.test-${pcap.version}.jar"
+            manifest="${src.test}/${pcap.package.base}/test/test-capturer-manifest.mf">
+        	
             <zipfileset 
-            	dir="${dest}/${package.base}/capturer"
-                prefix="${package.base}/capturer"/>
+            	dir="${dest}/${pcap.package.base}/test"
+                prefix="${pcap.package.base}/test"/>
+        	
         </jar>
 	</target>
 
@@ -71,8 +86,12 @@
 	<!-- CLEAN -->
 	<target name="clean">
 		<delete dir="${dest}"/>
-		<delete dir="${dest.bundles}"/>
-		<delete dir="${dest.tests}"/>
+		<delete>
+			<fileset dir="${dest.bundles}">
+			      <include name="net.sourceforge.jpcap.osgi.*.jar" />
+			      <include name="net.sourceforge.sipana.*" />
+			</fileset>
+		</delete>
 	</target>
 	
 	<!-- RUN -->

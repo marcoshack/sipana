@@ -1,8 +1,8 @@
-package net.sourceforge.sipana.capturer.impl;
+package net.sourceforge.jpcap.osgi.impl;
 
 import net.sourceforge.jpcap.capture.PacketCapture;
 import net.sourceforge.jpcap.capture.PacketListener;
-import net.sourceforge.sipana.capturer.CaptureSession;
+import net.sourceforge.jpcap.osgi.CaptureSession;
 
 public class CaptureSessionImpl implements CaptureSession {
     
@@ -61,5 +61,4 @@ public class CaptureSessionImpl implements CaptureSession {
         capturer.endCapture();
         capturer.close();
     }
-
 }

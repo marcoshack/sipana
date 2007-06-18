@@ -1,17 +1,16 @@
-package net.sourceforge.sipana.capturer.impl;
+package net.sourceforge.jpcap.osgi.impl;
 
 import java.util.Hashtable;
 
+import net.sourceforge.jpcap.osgi.CaptureServiceProvider;
+
 import org.osgi.framework.*;
 
-import net.sourceforge.sipana.capturer.CaptureServiceProvider;
-
-
-public class CapturerActivator implements BundleActivator, ServiceListener {
+public class CaptureActivator implements BundleActivator, ServiceListener {
     private static BundleContext context = null;
 
     public void start(BundleContext bc) throws Exception {
-        CapturerActivator.context = bc;
+        CaptureActivator.context = bc;
         CaptureServiceProvider service = new CaptureServiceProviderImpl();
         
         context.registerService(CaptureServiceProvider.class.getName(), 
@@ -19,7 +18,7 @@ public class CapturerActivator implements BundleActivator, ServiceListener {
     }
 
     public void stop(BundleContext context) throws Exception {
-        CapturerActivator.context = null;
+        CaptureActivator.context = null;
     }
 
     public void serviceChanged(ServiceEvent event) {
