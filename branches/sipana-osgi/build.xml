@@ -88,15 +88,14 @@
 		<delete dir="${dest}"/>
 		<delete>
 			<fileset dir="${dest.bundles}">
-			      <include name="net.sourceforge.jpcap.osgi.*.jar" />
-			      <include name="net.sourceforge.sipana.*" />
+			    <include name="net.sourceforge.jpcap*" />
+    			<include name="net.sourceforge.sipana*" />
 			</fileset>
 		</delete>
 	</target>
 	
 	<!-- RUN -->
 	<target name="run">
-		
 	</target>
 	
 </project>
