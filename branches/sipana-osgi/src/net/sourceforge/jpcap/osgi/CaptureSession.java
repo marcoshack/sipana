@@ -7,6 +7,10 @@ public interface CaptureSession {
     public static int DEFAULT_TIMEOUT = -1;
     public static int DEFAULT_COUNT = -1; // Infinite
     
+    public static int RUNINNG = 1;
+    public static int IDLE = 2;
+    public static int FAIL = 3;
+    
     public void setListener(PacketListener listener);
     public void setFilter(String filter);
     public void setDevice(String device);
@@ -14,8 +18,10 @@ public interface CaptureSession {
     
     public PacketListener getListener();
     public String getFilter();
+    public String getDevice();
+    public int getState();
     public boolean isPromiscuous();
-    
+
     public void start() throws Exception;
     public void stop() throws Exception;
 }

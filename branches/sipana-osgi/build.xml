@@ -8,11 +8,8 @@
 	<property name="src" value="src"/>
 	<property name="src.test" value="test"/>
 	<property name="package.base" value="net/sourceforge/sipana"/>
-
-	<!-- LIBS -->
+	<property name="configuration" value="configuration"/>
 	<property name="lib" value="lib"/>
-	
-	<!-- PCAP -->
 	<property name="pcap.lib" value="${lib}/jpcap-core.jar"/>
 	<property name="pcap.version" value="0.01.16"/>
 	<property name="pcap.package.base" value="net/sourceforge/jpcap/osgi"/>
@@ -85,11 +82,16 @@
 	
 	<!-- CLEAN -->
 	<target name="clean">
-		<delete dir="${dest}"/>
-		<delete>
+		<delete dir="${dest}" verbose="yes"/>
+		<delete dir="${configuration}/org.eclipse.osgi" verbose="yes"/>
+		<delete dir="${configuration}/org.eclipse.update" verbose="yes"/>
+		<delete verbose="yes">
 			<fileset dir="${dest.bundles}">
 			    <include name="net.sourceforge.jpcap*" />
     			<include name="net.sourceforge.sipana*" />
+			</fileset>
+			<fileset dir="${configuration}">
+				<include name="*.log" />
 			</fileset>
 		</delete>
 	</target>

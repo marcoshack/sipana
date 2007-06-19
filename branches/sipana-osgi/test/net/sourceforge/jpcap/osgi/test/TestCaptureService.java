@@ -17,24 +17,35 @@ public class TestCaptureService implements BundleActivator, PacketListener
     public void start(BundleContext bc) throws Exception {
         String strService = CaptureServiceProvider.class.getName();
         ServiceReference ref = bc.getServiceReference(strService);
-        service = (CaptureServiceProvider)bc.getService(ref);
         
-        if (service != null) {
-            capturer = service.createCaptureSession();
-            capturer.setDevice("eth1");
-            capturer.setFilter("udp or icmp");
-            capturer.setPromiscuous(true);
-            capturer.setListener(this);
-            capturer.start();
+        if (ref != null) {
+            service = (CaptureServiceProvider)bc.getService(ref);
+            
+            if (service != null) {
+                capturer = service.createCaptureSession();
+                capturer.setDevice("eth0");
+                capturer.setFilter("udp or icmp");
+                capturer.setPromiscuous(true);
+                capturer.setListener(this);
+                capturer.start();
+            } else {
+                throw new Exception("Can not get CaptureService");
+            }
+            
         } else {
-            throw new Exception("Can not get CaptureService");
+            throw new Exception("Can not get CaptureServiceProvider service reference");
         }
+        
     }
 
     public void stop(BundleContext bc) throws Exception {
         capturer.stop();
+        
+        String strService = CaptureServiceProvider.class.getName();
+        ServiceReference ref = bc.getServiceReference(strService);
+        bc.ungetService((ServiceReference)ref);
+
         capturer = null;
-        bc.ungetService((ServiceReference)service);
         service = null;
     }
 
@@ -45,4 +56,10 @@ public class TestCaptureService implements BundleActivator, PacketListener
         
         System.out.println(sb);
     }
+    
+    @Override
+    public String toString() {
+        return "TestCaptureService";
+    }
+    
 }

@@ -6,4 +6,4 @@ Bundle-Description: Bundle to test JPcap bundle
 Bundle-Vendor: Voice Technology
 Bundle-Category: Test
 Bundle-Activator: net.sourceforge.jpcap.osgi.test.TestCaptureService
-Import-Package: org.osgi.framework, net.sourceforge.jpcap.osgi
+Import-Package: org.osgi.framework, net.sourceforge.jpcap.capture, net.sourceforge.jpcap.net, net.sourceforge.jpcap.util, net.sourceforge.jpcap.osgi, org.apache.commons.logging
