@@ -3,6 +3,8 @@ package net.sourceforge.jpcap.osgi.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.sun.corba.se.impl.orb.NormalDataCollector;
+
 import net.sourceforge.jpcap.capture.PacketCapture;
 import net.sourceforge.jpcap.capture.PacketListener;
 import net.sourceforge.jpcap.osgi.CaptureSession;
@@ -77,15 +79,14 @@ public class CaptureSessionImpl implements CaptureSession, Runnable {
     }
     
     public synchronized void start() throws Exception {
-        logger.info("Starting Capture Session for " + listener.toString());
-        logger.info(this);
+        logger.info("Starting " + this.toString());
         
         thread = new Thread(this);
         thread.setName("CaptureSession-" + listener.toString());
         thread.start();
         state = CaptureSession.RUNINNG;
         
-        logger.info("Capture Session started");
+        logger.info("Capture Session Id:" + this.hashCode() + " started");
     }
     
     public synchronized void stop() throws Exception {
@@ -104,12 +105,14 @@ public class CaptureSessionImpl implements CaptureSession, Runnable {
     
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("id: ");
-        sb.append(this.hashCode());
-        sb.append(", filter: \"");
-        sb.append(getFilter());
-        sb.append("\", device: ");
-        sb.append(getDevice());
-        return sb.toString();
+        StringBuilder sbInfo = new StringBuilder("Capture Session Id:");
+        sbInfo.append(hashCode());
+        sbInfo.append(" for listener ");
+        sbInfo.append(listener);
+        sbInfo.append(" on device ");
+        sbInfo.append(getDevice());
+        sbInfo.append(" with filter \"");
+        sbInfo.append(getFilter());
+        return sbInfo.toString();
     }
 }
