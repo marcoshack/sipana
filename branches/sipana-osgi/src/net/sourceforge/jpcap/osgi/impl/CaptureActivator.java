@@ -11,8 +11,9 @@ public class CaptureActivator implements BundleActivator, ServiceListener {
 
     public void start(BundleContext bc) throws Exception {
         CaptureActivator.context = bc;
+
+        // Register the service
         CaptureServiceProvider service = new CaptureServiceProviderImpl();
-        
         context.registerService(CaptureServiceProvider.class.getName(), 
                 service, new Hashtable());
     }

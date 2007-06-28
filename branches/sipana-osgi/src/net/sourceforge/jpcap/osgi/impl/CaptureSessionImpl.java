@@ -1,13 +1,11 @@
 package net.sourceforge.jpcap.osgi.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.sun.corba.se.impl.orb.NormalDataCollector;
-
 import net.sourceforge.jpcap.capture.PacketCapture;
 import net.sourceforge.jpcap.capture.PacketListener;
 import net.sourceforge.jpcap.osgi.CaptureSession;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class CaptureSessionImpl implements CaptureSession, Runnable {
 

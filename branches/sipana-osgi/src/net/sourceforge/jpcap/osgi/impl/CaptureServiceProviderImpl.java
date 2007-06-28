@@ -15,10 +15,15 @@ public class CaptureServiceProviderImpl implements CaptureServiceProvider {
         sessionList = new LinkedList<CaptureSession>();
     }
 
-    public CaptureSession createCaptureSession() {
+    public CaptureSession createCaptureSession() throws Exception {
         CaptureSessionImpl session = new CaptureSessionImpl();
         addSession(session);
         return session;
+    }
+    
+    public void destroyCaptureSession(CaptureSession session) throws Exception {
+        session.stop();
+        removeSession(session);
     }
 
     public LinkedList<CaptureSession> getCaptureSessionList() {
