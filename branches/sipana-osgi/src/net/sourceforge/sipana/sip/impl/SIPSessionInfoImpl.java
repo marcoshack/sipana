@@ -1,27 +1,33 @@
 package net.sourceforge.sipana.sip.impl;
 
+import java.util.LinkedList;
+
 import net.sourceforge.sipana.sip.SIPRequestInfo;
 import net.sourceforge.sipana.sip.SIPResponseInfo;
 import net.sourceforge.sipana.sip.SIPSessionInfo;
 
 public class SIPSessionInfoImpl implements SIPSessionInfo {
-    private long duration;
-
     private long startTime;
-
     private long endTime;
+    private String id;
+    private String method;
+    private LinkedList<SIPRequestInfo> requests;
+    private LinkedList<SIPResponseInfo> responses;
     
     public SIPSessionInfoImpl(SIPRequestInfo requestInfo) {
+        addRequestInfo(requestInfo);
+        method = requestInfo.getMethod();
         startTime = requestInfo.getTime();
+        endTime = -1;
+        id = requestInfo.getCallID();
     }
 
     public String getRequestMethod() {
-        // TODO Auto-generated method stub
-        return null;
+        return method;
     }
 
     public long getDuration() {
-        return duration;
+        return (endTime != -1 ? (endTime - startTime) : -1);
     }
 
     public long getEndTime() {
@@ -33,12 +39,22 @@ public class SIPSessionInfoImpl implements SIPSessionInfo {
     }
 
     public void addResponseInfo(SIPResponseInfo responseInfo) {
-        // TODO Auto-generated method stub
-        
+        synchronized (responseInfo) {
+            responses.add(responseInfo);
+        }
     }
 
-    public void terminateSession() {
-        // TODO Auto-generated method stub
-        
+    public void addRequestInfo(SIPRequestInfo requestInfo) {
+        synchronized (requests) {
+            requests.add(requestInfo);
+        }
+    }
+    
+    public void terminateSession(long time) {
+        endTime = time;
+    }
+
+    public String getId() {
+        return id;
     }
 }

@@ -106,11 +106,12 @@ public class CaptureSessionImpl implements CaptureSession, Runnable {
         StringBuilder sbInfo = new StringBuilder("Capture Session Id:");
         sbInfo.append(hashCode());
         sbInfo.append(" for listener ");
-        sbInfo.append(listener);
-        sbInfo.append(" on device ");
+        sbInfo.append(listener.getClass().getName());
+        sbInfo.append(" on device \"");
         sbInfo.append(getDevice());
-        sbInfo.append(" with filter \"");
+        sbInfo.append("\" with filter \"");
         sbInfo.append(getFilter());
+        sbInfo.append("\"");
         return sbInfo.toString();
     }
 }

@@ -8,5 +8,7 @@ public interface SIPSessionInfo {
     public String getRequestMethod();
     
     public void addResponseInfo(SIPResponseInfo responseInfo);
-    public void terminateSession();
+    public void addRequestInfo(SIPRequestInfo responseInfo);
+    public void terminateSession(long time);
+    public String getId();
 }
