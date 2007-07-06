@@ -9,6 +9,13 @@ import net.sourceforge.sipana.sip.SIPSessionInfo;
 public class SIPSessionInfoImpl implements SIPSessionInfo {
     private long startTime;
     private long endTime;
+
+    // SIP Performance Metrics as defined on draft [1]
+    // [1] http://tools.ietf.org/html/draft-malas-performance-metrics-06
+    private long requestDelay;
+    private long disconnectDelay;
+    
+    
     private String id;
     private String method;
     private LinkedList<SIPRequestInfo> requests;

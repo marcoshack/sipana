@@ -62,8 +62,7 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
     }
 
     private void processAck(SIPRequestInfo ackInfo) {
-        String callId = ackInfo.getCallID();
-        SIPSessionInfo session = getSessionInfo(callId);
+        SIPSessionInfo session = getSessionInfo(ackInfo.getCallID());
         
         if (session != null) {
             session.addRequestInfo(ackInfo);
@@ -75,7 +74,15 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
     }
     
     private void processBye(SIPRequestInfo byeInfo) {
+        SIPSessionInfo session = getSessionInfo(byeInfo.getCallID());
         
+        if (session != null) {
+            session.addRequestInfo(byeInfo);
+        } else {
+            StringBuilder sb = new StringBuilder("Session not found for request ");
+            sb.append(Request.ACK);
+            logger.debug(sb);
+        }
     }
     
     private void processCancel(SIPRequestInfo requestInfo) {
