@@ -27,24 +27,26 @@ import net.sourceforge.sipana.sip.SIPSessionInfo;
 public class SIPSessionInfoImpl implements SIPSessionInfo {
     private long startTime;
     private long endTime;
-
-    // SIP Performance Metrics as defined on draft [1]
-    // [1] http://tools.ietf.org/html/draft-malas-performance-metrics-06
-    private long requestDelay;
     private long disconnectDelay;
-    
-    
+    private long firstResponseTime;
+    private long disconnectStartTime;
+    private long establishedTime;
     private String id;
     private String method;
     private LinkedList<SIPRequestInfo> requests;
     private LinkedList<SIPResponseInfo> responses;
     
     public SIPSessionInfoImpl(SIPRequestInfo requestInfo) {
-        addRequestInfo(requestInfo);
-        method = requestInfo.getMethod();
+        method    = requestInfo.getMethod();
+        id        = requestInfo.getCallID();
         startTime = requestInfo.getTime();
-        endTime = -1;
-        id = requestInfo.getCallID();
+        
+        endTime             = -1;
+        disconnectStartTime = -1;
+        firstResponseTime   = -1;
+        establishedTime     = -1;
+        
+        addRequestInfo(requestInfo);
     }
 
     public String getRequestMethod() {
@@ -75,11 +77,32 @@ public class SIPSessionInfoImpl implements SIPSessionInfo {
         }
     }
     
-    public void terminateSession(long time) {
+    public void setEndTime(long time) {
         endTime = time;
+        disconnectDelay = time - disconnectStartTime;
     }
 
     public String getId() {
         return id;
+    }
+    
+    public void setDisconnectionStartTime(long time) {
+        disconnectStartTime = time;
+    }
+    
+    public long getDisconnectDelay() {
+        return disconnectDelay;
+    }
+    
+    public void setEstablishedTime(long time) {
+        establishedTime = time;
+    }
+    
+    public long getRequestDelay() {
+        return (firstResponseTime >= 0 ? firstResponseTime - startTime : -1);
+    }
+    
+    public void setFirstResponseTime(long time) {
+        firstResponseTime = time;
     }
 }

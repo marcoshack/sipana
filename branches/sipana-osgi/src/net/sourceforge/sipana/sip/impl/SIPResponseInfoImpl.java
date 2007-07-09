@@ -18,11 +18,15 @@
 
 package net.sourceforge.sipana.sip.impl;
 
-public class SIPResponseInfoImpl extends SIPMessageInfoImpl {
+import net.sourceforge.sipana.sip.SIPResponseInfo;
+
+public class SIPResponseInfoImpl extends SIPMessageInfoImpl implements SIPResponseInfo {
 
     private int statusCode;
 
     private String reasonPhrase;
+
+    private String relatedRequestMethod;
 
     public String getReasonPhrase() {
         return reasonPhrase;
@@ -38,5 +42,9 @@ public class SIPResponseInfoImpl extends SIPMessageInfoImpl {
 
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
+    }
+
+    public String getRelatedRequestMethod() {
+        return relatedRequestMethod;
     }
 }

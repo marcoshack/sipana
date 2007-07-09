@@ -25,8 +25,23 @@ public interface SIPSessionInfo {
     public long getDuration();
     public String getRequestMethod();
     
+    // SIP Performance Metrics as defined on draft document
+    // http://tools.ietf.org/html/draft-malas-performance-metrics-06
+    public long getDisconnectDelay();
+    public long getRequestDelay();
+
+    public void setEndTime(long time);
+    public void setDisconnectionStartTime(long time);
+    public void setEstablishedTime(long time);
+    
+    /**
+     * Set time of the first provisional response received indicating an 
+     * audible or visual status of the initial session setup request.
+     * @param time
+     */
+    public void setFirstResponseTime(long time);
+    
     public void addResponseInfo(SIPResponseInfo responseInfo);
     public void addRequestInfo(SIPRequestInfo responseInfo);
-    public void terminateSession(long time);
     public String getId();
 }

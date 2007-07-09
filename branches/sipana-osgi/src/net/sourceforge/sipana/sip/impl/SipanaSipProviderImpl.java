@@ -21,6 +21,7 @@ package net.sourceforge.sipana.sip.impl;
 import java.util.HashMap;
 
 import javax.sip.message.Request;
+import javax.sip.message.Response;
 
 import net.sourceforge.sipana.sip.SIPRequestInfo;
 import net.sourceforge.sipana.sip.SIPResponseInfo;
@@ -48,25 +49,60 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
     public void processRequest(SIPRequestInfo requestInfo) {
         String method = requestInfo.getMethod();
         
+        if (logger.isDebugEnabled()) {
+            StringBuilder sb = new StringBuilder("Processing request ");
+            sb.append(method);
+            logger.debug(sb);
+        }
+        
         if (method.equals(Request.INVITE)) {
             processInvite(requestInfo);
         } else if (method.equals(Request.ACK)) {
             processAck(requestInfo);
-        } else if (method.equals(Request.BYE)) {
-            processBye(requestInfo);
-        } else if (method.equals(Request.CANCEL)) {
-            processCancel(requestInfo);
+        } else if (method.equals(Request.BYE) || method.equals(Request.CANCEL)) {
+            processDisconnectRequest(requestInfo);
         } else {
             unkownRequest++;
-            StringBuilder sb = new StringBuilder("Unknown request method ");
-            sb.append(method);
-            logger.debug(sb);
+            if (logger.isDebugEnabled()) {
+                StringBuilder sb = new StringBuilder("Unknown request method ");
+                sb.append(method);
+                logger.debug(sb);
+            }
         }
     }
 
     public void processResponse(SIPResponseInfo responseInfo) {
-        // TODO Auto-generated method stub
+        String callId = responseInfo.getCallID();
+        SIPSessionInfo session = getSessionInfo(callId);
         
+        if (logger.isDebugEnabled()) {
+            StringBuilder sb = new StringBuilder("Processing response ");
+            sb.append(responseInfo.getStatusCode());
+            sb.append(" (");
+            sb.append(responseInfo.getReasonPhrase());
+            sb.append(") related to resquest ");
+            sb.append(responseInfo.getRelatedRequestMethod());
+            logger.debug(sb);
+        }
+        
+        if (session != null) {
+            int statusCode = responseInfo.getStatusCode();
+            session.addResponseInfo(responseInfo);
+            
+            if (statusCode >= 100 && statusCode < 200) {           // Provisional 1xx
+                processProvisionalResponse(session, responseInfo);
+            } else if (statusCode == 200) {                        // Sussceful 2xx
+                processSucessfulResponse(session, responseInfo);
+            } else if (statusCode >= 400 && statusCode < 700) {    // Failure 4xx, 5xx and 6xx
+                processFailureResponse(session, responseInfo);
+            } else {
+                unkownResponse++;
+                logger.debug("Unknown response ");
+            }
+        } else {
+            logger.debug("Session not found for response");
+        }
+
     }
     
     private void processInvite(SIPRequestInfo inviteInfo) {
@@ -85,40 +121,71 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
         if (session != null) {
             session.addRequestInfo(ackInfo);
         } else {
-            StringBuilder sb = new StringBuilder("Session not found for request ");
-            sb.append(Request.ACK);
-            logger.debug(sb);
+            if (logger.isDebugEnabled()) {
+                StringBuilder sb = new StringBuilder("Session not found for request ");
+                sb.append(Request.ACK);
+                logger.debug(sb);
+            }
         }
     }
     
-    private void processBye(SIPRequestInfo byeInfo) {
-        SIPSessionInfo session = getSessionInfo(byeInfo.getCallID());
+    private void processDisconnectRequest(SIPRequestInfo requestInfo) {
+        SIPSessionInfo session = getSessionInfo(requestInfo.getCallID());
         
         if (session != null) {
-            session.addRequestInfo(byeInfo);
+            session.addRequestInfo(requestInfo);
+            session.setDisconnectionStartTime(requestInfo.getTime());
         } else {
-            StringBuilder sb = new StringBuilder("Session not found for request ");
-            sb.append(Request.ACK);
-            logger.debug(sb);
+            if (logger.isDebugEnabled()) {
+                StringBuilder sb = new StringBuilder("Session not found for request ");
+                sb.append(Request.ACK);
+                logger.debug(sb);
+            }
         }
     }
     
-    private void processCancel(SIPRequestInfo requestInfo) {
-        
+    private void processProvisionalResponse(SIPSessionInfo session, SIPResponseInfo responseInfo) {
+        long responseTime = responseInfo.getTime();
+        session.setFirstResponseTime(responseTime);
     }
     
-    private void processFinalResponse(SIPResponseInfo respInfo) {
+    private void processSucessfulResponse(SIPSessionInfo session, SIPResponseInfo responseInfo) {
+        long respTime = responseInfo.getTime();
+        int statusCode = responseInfo.getStatusCode();
+        String method = responseInfo.getRelatedRequestMethod();
         
+        switch (statusCode) {
+            case Response.OK:
+                if (method.equals(Request.INVITE)) {
+                    session.setEstablishedTime(respTime);
+                } else if (method.equals(Request.BYE)) {
+                    session.setEndTime(respTime);
+                    terminateSessionInfo(session);
+                }
+                break;
+    
+            default:
+                if (logger.isDebugEnabled()) {
+                    StringBuilder sb = new StringBuilder("Nothing to do to response ");
+                    sb.append(statusCode);
+                    sb.append(" (");
+                    sb.append(responseInfo.getReasonPhrase());
+                    sb.append(")");
+                    logger.debug(sb);
+                }
+                break;
+        }
+    }
+
+    private void processFailureResponse(SIPSessionInfo session, SIPResponseInfo responseInfo) {
+        long responseTime = responseInfo.getTime();
+        session.setFirstResponseTime(responseTime);
     }
     
-    private void processProvisionalResponse(SIPResponseInfo respInfo) {
-        
-    }
     private void addSessionInfo(SIPSessionInfo session) {
         synchronized (currentSessions) {
             currentSessions.put(session.getId(), session);
         }
-        
     }
     
     private SIPSessionInfo getSessionInfo(String callId) {
@@ -127,4 +194,16 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
         }
     }
     
+    private void terminateSessionInfo(SIPSessionInfo session) {
+        String id = session.getId();
+        
+        synchronized (currentSessions) {
+            currentSessions.remove(id);
+        }
+        
+        synchronized (terminatedSessions) {
+            terminatedSessions.put(id, session);
+        }
+    }
+
 }

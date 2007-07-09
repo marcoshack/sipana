@@ -22,6 +22,7 @@ public interface SIPResponseInfo extends SIPMessageInfo {
     
     public int getStatusCode();
     public String getReasonPhrase();
+    public String getRelatedRequestMethod();
     
     public void setStatusCode(int code);
     public void setReasonPhrase(String phrase);
