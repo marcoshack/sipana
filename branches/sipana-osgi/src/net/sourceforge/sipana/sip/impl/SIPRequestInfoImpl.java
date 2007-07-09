@@ -18,7 +18,9 @@
 
 package net.sourceforge.sipana.sip.impl;
 
-public class SIPRequestInfoImpl extends SIPMessageInfoImpl {
+import net.sourceforge.sipana.sip.SIPRequestInfo;
+
+public class SIPRequestInfoImpl extends SIPMessageInfoImpl implements SIPRequestInfo {
     
     private String method;
 
