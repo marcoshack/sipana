@@ -41,6 +41,7 @@ public class SIPMessageFactoryImpl implements SIPMessageFactory, ParseExceptionL
             SIPResponseInfo response = (SIPResponseInfo)messageInfo;
             response.setStatusCode(sipResponse.getStatusCode());
             response.setReasonPhrase(sipResponse.getReasonPhrase());
+            response.setRelatedRequestMethod(sipResponse.getCSeq().getMethod());
         }
 
         messageInfo.setCallID(sipMessage.getCallId().getCallId());
@@ -50,13 +51,9 @@ public class SIPMessageFactoryImpl implements SIPMessageFactory, ParseExceptionL
         return messageInfo;
     }
 
-    public SIPMessageFactory getInstance() {
+    public static synchronized SIPMessageFactory getInstance() {
         if (instance == null) {
-            synchronized (instance) {
-                if (instance == null) {
-                    instance = new SIPMessageFactoryImpl();
-                }
-            }
+            instance = new SIPMessageFactoryImpl();
         }
         return instance;
     }

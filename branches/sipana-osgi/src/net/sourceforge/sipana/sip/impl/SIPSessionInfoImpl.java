@@ -37,6 +37,9 @@ public class SIPSessionInfoImpl implements SIPSessionInfo {
     private LinkedList<SIPResponseInfo> responses;
     
     public SIPSessionInfoImpl(SIPRequestInfo requestInfo) {
+        requests = new LinkedList<SIPRequestInfo>();
+        responses = new LinkedList<SIPResponseInfo>();
+        
         method    = requestInfo.getMethod();
         id        = requestInfo.getCallID();
         startTime = requestInfo.getTime();

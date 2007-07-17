@@ -23,9 +23,7 @@ import net.sourceforge.sipana.sip.SIPResponseInfo;
 public class SIPResponseInfoImpl extends SIPMessageInfoImpl implements SIPResponseInfo {
 
     private int statusCode;
-
     private String reasonPhrase;
-
     private String relatedRequestMethod;
 
     public String getReasonPhrase() {
@@ -46,5 +44,9 @@ public class SIPResponseInfoImpl extends SIPMessageInfoImpl implements SIPRespon
 
     public String getRelatedRequestMethod() {
         return relatedRequestMethod;
+    }
+    
+    public void setRelatedRequestMethod(String method) {
+        relatedRequestMethod = method;
     }
 }

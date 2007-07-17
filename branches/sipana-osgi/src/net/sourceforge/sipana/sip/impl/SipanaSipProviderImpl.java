@@ -23,6 +23,7 @@ import java.util.HashMap;
 import javax.sip.message.Request;
 import javax.sip.message.Response;
 
+import net.sourceforge.sipana.sip.SIPMessageFactory;
 import net.sourceforge.sipana.sip.SIPRequestInfo;
 import net.sourceforge.sipana.sip.SIPResponseInfo;
 import net.sourceforge.sipana.sip.SIPSessionInfo;
@@ -42,10 +43,11 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
     public SipanaSipProviderImpl() {
         logger = LogFactory.getLog(SipanaSipProvider.class);
         currentSessions = new HashMap<String, SIPSessionInfo>();
+        terminatedSessions = new HashMap<String, SIPSessionInfo>();
         unkownRequest = 0;
         unkownResponse = 0;
     }
-
+    
     public void processRequest(SIPRequestInfo requestInfo) {
         String method = requestInfo.getMethod();
         
@@ -204,6 +206,10 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
         synchronized (terminatedSessions) {
             terminatedSessions.put(id, session);
         }
+    }
+
+    public SIPMessageFactory getMessageFactory() {
+        return SIPMessageFactoryImpl.getInstance();
     }
 
 }
