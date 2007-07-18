@@ -1,6 +1,6 @@
 
 /**
- * This file is part of Sipana project <http://sipana.sourceforge.net>
+ * This file is part of Sipana project <http://sipana.org/>
  * 
  * Sipana is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -185,6 +185,7 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
     }
     
     private void addSessionInfo(SIPSessionInfo session) {
+        logger.debug("Adding Session to current session list");
         synchronized (currentSessions) {
             currentSessions.put(session.getId(), session);
         }
@@ -199,10 +200,18 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
     private void terminateSessionInfo(SIPSessionInfo session) {
         String id = session.getId();
         
+        if (logger.isDebugEnabled()) {
+            StringBuilder sb = new StringBuilder("Terminating Session ");
+            sb.append(id);
+            logger.debug(sb);
+        }
+        
+        logger.debug("Removing Session from curent session list");
         synchronized (currentSessions) {
             currentSessions.remove(id);
         }
-        
+
+        logger.debug("Adding Session to terminated session list");
         synchronized (terminatedSessions) {
             terminatedSessions.put(id, session);
         }
@@ -210,6 +219,14 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
 
     public SIPMessageFactory getMessageFactory() {
         return SIPMessageFactoryImpl.getInstance();
+    }
+
+    public int getCurrentSessionNumber() {
+        return currentSessions.size();
+    }
+
+    public int getTerminatedSessionNumber() {
+        return terminatedSessions.size();
     }
 
 }

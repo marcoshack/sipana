@@ -1,6 +1,6 @@
 
 /**
- * This file is part of Sipana project <http://sipana.sourceforge.net>
+ * This file is part of Sipana project <http://sipana.org/>
  * 
  * Sipana is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -97,10 +97,15 @@ public class TestSipanaSipProvider implements BundleActivator, PacketListener {
             SIPMessageInfo message = sipanaSipService.getMessageFactory().createMessage(packet.getData());
             
             if (message instanceof SIPRequestInfo) {
+                logger.info("Processing Request " + ((SIPRequestInfo)message).getMethod());
                 sipanaSipService.processRequest((SIPRequestInfo) message);
             } else if (message instanceof SIPResponseInfo) {
+                logger.info("Processing Response " + ((SIPResponseInfo)message).getStatusCode() + " " +((SIPResponseInfo)message).getReasonPhrase());
                 sipanaSipService.processResponse((SIPResponseInfo) message);
             }
+            
+            logger.info("Current Session number: " + sipanaSipService.getCurrentSessionNumber());
+            logger.info("Terminated Session number: " + sipanaSipService.getTerminatedSessionNumber());
             
         } catch (ParseException e) {
             logger.error("Fail processing packet", e);

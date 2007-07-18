@@ -1,6 +1,6 @@
 
 /**
- * This file is part of Sipana project <http://sipana.sourceforge.net>
+ * This file is part of Sipana project <http://sipana.org/>
  * 
  * Sipana is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,4 +22,6 @@ public interface SipanaSipProvider {
     public void processRequest(SIPRequestInfo requestInfo);
     public void processResponse(SIPResponseInfo responseInfo);
     public SIPMessageFactory getMessageFactory();
+    public int getCurrentSessionNumber();
+    public int getTerminatedSessionNumber();
 }

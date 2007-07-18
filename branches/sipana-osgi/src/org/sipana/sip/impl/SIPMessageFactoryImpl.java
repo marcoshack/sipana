@@ -62,11 +62,18 @@ public class SIPMessageFactoryImpl implements SIPMessageFactory, ParseExceptionL
             Class headerClass, String headerText, String messageText)
             throws ParseException
     {
-        String call_id = sipMessage.getCallId().getCallId();
-        StringBuilder sb = new StringBuilder("Error parsing heander \"");
-        sb.append(headerText);
-        sb.append("\" in message with Call-ID: ");
-        sb.append(call_id);
-        logger.warn(sb, ex);
+        if (sipMessage != null && sipMessage.getCallId() != null) {
+            String call_id = sipMessage.getCallId().getCallId();
+            StringBuilder sb = new StringBuilder("Error parsing header \"");
+            sb.append(headerText);
+            sb.append("\" in message with Call-ID: ");
+            sb.append(call_id);
+            logger.warn(sb, ex);
+        } else {
+            StringBuilder sb = new StringBuilder("Parse exception occured but I can't get the Call-ID of the message. Header text: \"");
+            sb.append(headerText);
+            sb.append("\"");
+            logger.warn(sb, ex);
+        }
     }
 }

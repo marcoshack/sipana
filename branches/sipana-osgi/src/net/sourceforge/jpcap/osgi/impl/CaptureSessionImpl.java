@@ -1,6 +1,6 @@
 
 /**
- * This file is part of Sipana project <http://sipana.sourceforge.net>
+ * This file is part of Sipana project <http://sipana.org/>
  * 
  * Sipana is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@ public class CaptureSessionImpl implements CaptureSession, Runnable {
         isPromiscuous = false;
         capturer = new PacketCapture();
         logger = LogFactory.getLog(CaptureSession.class);
+        state = CaptureSession.IDLE;
     }
 
     public String getFilter() {
@@ -96,26 +97,27 @@ public class CaptureSessionImpl implements CaptureSession, Runnable {
     
     public synchronized void start() throws Exception {
         logger.info("Starting " + this.toString());
-        
+        state = CaptureSession.RUNINNG;
         thread = new Thread(this);
         thread.setName("CaptureSession-" + listener.toString());
         thread.start();
-        state = CaptureSession.RUNINNG;
         
         logger.info("Capture Session Id:" + this.hashCode() + " started");
     }
     
     public synchronized void stop() throws Exception {
-        stopCapture();
         state = CaptureSession.IDLE;
+        stopCapture();
     }
     
     public void run() {
-        try {
-            startCapture();         
-        } 
-        catch (Exception e) {
-            logger.error("Fail running Capture Session: " + e.getMessage(), e);
+        while (getState() == CaptureSession.RUNINNG) {
+            try {
+                startCapture();         
+            } 
+            catch (Exception e) {
+                logger.error("Fail running Capture Session: " + e.getMessage(), e);
+            }
         }
     }
     
