@@ -16,21 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */ 
 
-package net.sourceforge.sipana.sip.impl;
+package org.sipana.sip.impl;
 
 import java.util.HashMap;
 
 import javax.sip.message.Request;
 import javax.sip.message.Response;
 
-import net.sourceforge.sipana.sip.SIPMessageFactory;
-import net.sourceforge.sipana.sip.SIPRequestInfo;
-import net.sourceforge.sipana.sip.SIPResponseInfo;
-import net.sourceforge.sipana.sip.SIPSessionInfo;
-import net.sourceforge.sipana.sip.SipanaSipProvider;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.sipana.sip.SIPMessageFactory;
+import org.sipana.sip.SIPRequestInfo;
+import org.sipana.sip.SIPResponseInfo;
+import org.sipana.sip.SIPSessionInfo;
+import org.sipana.sip.SipanaSipProvider;
 
 public class SipanaSipProviderImpl implements SipanaSipProvider 
 {

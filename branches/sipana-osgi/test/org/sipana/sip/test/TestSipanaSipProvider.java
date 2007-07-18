@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */ 
 
-package net.sourceforge.sipana.sip.test;
+package org.sipana.sip.test;
 
 import java.text.ParseException;
 
@@ -24,16 +24,16 @@ import net.sourceforge.jpcap.capture.PacketListener;
 import net.sourceforge.jpcap.net.Packet;
 import net.sourceforge.jpcap.osgi.CaptureServiceProvider;
 import net.sourceforge.jpcap.osgi.CaptureSession;
-import net.sourceforge.sipana.sip.SIPMessageInfo;
-import net.sourceforge.sipana.sip.SIPRequestInfo;
-import net.sourceforge.sipana.sip.SIPResponseInfo;
-import net.sourceforge.sipana.sip.SipanaSipProvider;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.sipana.sip.SIPMessageInfo;
+import org.sipana.sip.SIPRequestInfo;
+import org.sipana.sip.SIPResponseInfo;
+import org.sipana.sip.SipanaSipProvider;
 
 public class TestSipanaSipProvider implements BundleActivator, PacketListener {
 

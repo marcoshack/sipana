@@ -16,15 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */ 
 
-package net.sourceforge.sipana.sip;
+package org.sipana.sip;
 
-public interface SIPResponseInfo extends SIPMessageInfo {
-    
-    public int getStatusCode();
-    public String getReasonPhrase();
-    public String getRelatedRequestMethod();
-    
-    public void setStatusCode(int code);
-    public void setReasonPhrase(String phrase);
-    public void setRelatedRequestMethod(String method);
+public interface SipanaSipProvider {
+    public void processRequest(SIPRequestInfo requestInfo);
+    public void processResponse(SIPResponseInfo responseInfo);
+    public SIPMessageFactory getMessageFactory();
 }

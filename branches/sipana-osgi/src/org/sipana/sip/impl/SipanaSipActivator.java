@@ -16,16 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */ 
 
-package net.sourceforge.sipana.sip.impl;
+package org.sipana.sip.impl;
 
 import java.util.Hashtable;
 
-import net.sourceforge.sipana.sip.SipanaSipProvider;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.sipana.sip.SipanaSipProvider;
 
 public class SipanaSipActivator implements BundleActivator {
     private static BundleContext bc = null;

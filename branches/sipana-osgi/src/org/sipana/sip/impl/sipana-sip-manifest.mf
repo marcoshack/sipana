@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
-Bundle-Name: net.sourceforge.sipana.sip
-bundle-SymbolicName: net.sourceforge.sipana.sip
+Bundle-Name: org.sipana.sip
+bundle-SymbolicName: org.sipana.sip
 Bundle-Version: 1.0.0
 Bundle-Description: Bundle for SIP analysis
 Bundle-Vendor: Voice Technology
 Bundle-Category: Network
-Bundle-Activator: net.sourceforge.sipana.sip.impl.SipanaSipActivator
+Bundle-Activator: org.sipana.sip.impl.SipanaSipActivator
 Import-Package: org.osgi.framework, org.apache.commons.logging, net.sourceforge.jpcap.capture, net.sourceforge.jpcap.net, net.sourceforge.jpcap.util, net.sourceforge.jpcap.osgi
-Export-Package: net.sourceforge.sipana.sip
+Export-Package: org.sipana.sip

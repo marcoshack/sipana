@@ -1,4 +1,4 @@
-package net.sourceforge.sipana.sip;
+package org.sipana.sip;
 
 import java.text.ParseException;
 

@@ -16,9 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */ 
 
-package net.sourceforge.sipana.sip.impl;
+package org.sipana.sip.impl;
 
-import net.sourceforge.sipana.sip.SIPResponseInfo;
+import org.sipana.sip.SIPResponseInfo;
 
 public class SIPResponseInfoImpl extends SIPMessageInfoImpl implements SIPResponseInfo {
 

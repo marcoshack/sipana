@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */ 
 
-package net.sourceforge.sipana.sip;
+package org.sipana.sip;
 
 public interface SIPSessionInfo {
     

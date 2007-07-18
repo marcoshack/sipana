@@ -16,19 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */ 
 
-package net.sourceforge.sipana.sip.impl;
+package org.sipana.sip;
 
-import net.sourceforge.sipana.sip.SIPRequestInfo;
-
-public class SIPRequestInfoImpl extends SIPMessageInfoImpl implements SIPRequestInfo {
+public interface SIPResponseInfo extends SIPMessageInfo {
     
-    private String method;
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
-    }
+    public int getStatusCode();
+    public String getReasonPhrase();
+    public String getRelatedRequestMethod();
+    
+    public void setStatusCode(int code);
+    public void setReasonPhrase(String phrase);
+    public void setRelatedRequestMethod(String method);
 }

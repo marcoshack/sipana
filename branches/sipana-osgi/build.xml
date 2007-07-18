@@ -26,7 +26,7 @@
 	<property name="dest.tests" value="plugins"/>
 	<property name="src" value="src"/>
 	<property name="src.test" value="test"/>
-	<property name="package.base" value="net/sourceforge/sipana"/>
+	<property name="package.base" value="org/sipana"/>
 	<property name="configuration" value="configuration"/>
 	<property name="lib" value="lib"/>
 	
@@ -35,7 +35,7 @@
 	<property name="pcap.package.base" value="net/sourceforge/jpcap/osgi"/>
 	
 	<property name="sipana-sip.version" value="1.0.0"/>
-	<property name="sipana-sip.package.base" value="net/sourceforge/sipana/sip"/>
+	<property name="sipana-sip.package.base" value="org/sipana/sip"/>
 	
 	<!-- EQUINOX --> 
 	<property name="plugins" value="plugins"/>
@@ -50,7 +50,7 @@
         </fileset>
     </path>
 	
-	<target name="all" depends="init,compile,bundles"/>
+	<target name="all" depends="init,compile,bundles,bundles-test"/>
 	
 	<!-- INIT -->
 	<target name="init">
@@ -107,7 +107,7 @@
 	<target name="bundle-sipana-sip" depends="init,compile">
         <jar 
         	compress="true" 
-        	destfile="${dest.bundles}/net.sourceforge.sipana.sip-${sipana-sip.version}.jar"
+        	destfile="${dest.bundles}/org.sipana.sip-${sipana-sip.version}.jar"
             manifest="${src}/${sipana-sip.package.base}/impl/sipana-sip-manifest.mf">
             <zipfileset 
             	dir="${dest}/${sipana-sip.package.base}"
@@ -123,7 +123,7 @@
 	<!-- BUNDLE SIPANA-SIP TEST -->
 	<target name="bundle-sipana-sip-test" depends="init,compile">
         <jar compress="true" 
-        	destfile="${dest.tests}/net.sourceforge.sipana.sip.test-${sipana-sip.version}.jar"
+        	destfile="${dest.tests}/org.sipana.sip.test-${sipana-sip.version}.jar"
             manifest="${src.test}/${sipana-sip.package.base}/test/test-sipana-sip-manifest.mf">
         	
             <zipfileset 
@@ -141,7 +141,7 @@
 		<delete verbose="yes">
 			<fileset dir="${dest.bundles}">
 			    <include name="net.sourceforge.jpcap*" />
-    			<include name="net.sourceforge.sipana*" />
+    			<include name="org.sipana*" />
 			</fileset>
 			<fileset dir="${configuration}">
 				<include name="*.log" />

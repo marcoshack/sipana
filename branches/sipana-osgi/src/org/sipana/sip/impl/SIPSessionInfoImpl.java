@@ -16,13 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */ 
 
-package net.sourceforge.sipana.sip.impl;
+package org.sipana.sip.impl;
 
 import java.util.LinkedList;
 
-import net.sourceforge.sipana.sip.SIPRequestInfo;
-import net.sourceforge.sipana.sip.SIPResponseInfo;
-import net.sourceforge.sipana.sip.SIPSessionInfo;
+import org.sipana.sip.SIPRequestInfo;
+import org.sipana.sip.SIPResponseInfo;
+import org.sipana.sip.SIPSessionInfo;
+
 
 public class SIPSessionInfoImpl implements SIPSessionInfo {
     private long startTime;
