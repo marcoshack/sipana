@@ -28,9 +28,11 @@
 	<property name="src.test" value="test"/>
 	<property name="package.base" value="org/sipana"/>
 	<property name="configuration" value="configuration"/>
-	<property name="lib" value="lib"/>
+	<property name="lib.dir" value="lib"/>
+	<property name="log.dir" value="log"/>
+	<property name="cache.dir" value=".cache"/>
 	
-	<property name="pcap.lib" value="${lib}/jpcap-core.jar"/>
+	<property name="pcap.lib" value="${lib.dir}/jpcap-core.jar"/>
 	<property name="pcap.version" value="0.01.16"/>
 	<property name="pcap.package.base" value="net/sourceforge/jpcap/osgi"/>
 	
@@ -42,7 +44,7 @@
 	
 	<!-- COMPILE CLASS PATH -->
     <path id="compile.class.path">
-        <fileset dir="${lib}">
+        <fileset dir="${lib.dir}">
             <include name="*.jar"/>
         </fileset>
     	<fileset dir="${plugins}">
@@ -114,9 +116,9 @@
                 prefix="${sipana-sip.package.base}"
             	excludes="${sipana-sip.package.base}/test"
             />
-            <zipfileset src="${lib}/sip-sdp.jar" prefix=""/>
-        	<zipfileset src="${lib}/concurrent.jar" prefix=""/>
-        	<zipfileset src="${lib}/jakarta-regexp-1.3.jar" prefix=""/>
+            <zipfileset src="${lib.dir}/sip-sdp.jar" prefix=""/>
+        	<zipfileset src="${lib.dir}/concurrent.jar" prefix=""/>
+        	<zipfileset src="${lib.dir}/jakarta-regexp-1.3.jar" prefix=""/>
         </jar>
 	</target>
 	
@@ -136,17 +138,9 @@
 	<!-- CLEAN -->
 	<target name="clean">
 		<delete dir="${dest}" verbose="yes"/>
-		<delete dir="${configuration}/org.eclipse.osgi" verbose="yes"/>
-		<delete dir="${configuration}/org.eclipse.update" verbose="yes"/>
-		<delete verbose="yes">
-			<fileset dir="${dest.bundles}">
-			    <include name="net.sourceforge.jpcap*" />
-    			<include name="org.sipana*" />
-			</fileset>
-			<fileset dir="${configuration}">
-				<include name="*.log" />
-			</fileset>
-		</delete>
+		<delete dir="${dest.bundles}" verbose="yes"/>
+		<delete dir="${log.dir}" verbose="yes"/>
+		<delete dir="${cache.dir}" verbose="yes"/>
 	</target>
 	
 	<!-- RUN -->
