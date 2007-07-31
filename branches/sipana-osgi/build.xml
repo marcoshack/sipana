@@ -27,9 +27,10 @@
 	<property name="src" value="src"/>
 	<property name="src.test" value="test"/>
 	<property name="package.base" value="org/sipana"/>
-	<property name="configuration" value="configuration"/>
+	<property name="configuration" value="conf"/>
 	<property name="lib.dir" value="lib"/>
 	<property name="log.dir" value="log"/>
+	<property name="bundle" value="bundle"/>
 	<property name="cache.dir" value=".cache"/>
 	
 	<property name="pcap.lib" value="${lib.dir}/jpcap-core.jar"/>
@@ -47,7 +48,7 @@
         <fileset dir="${lib.dir}">
             <include name="*.jar"/>
         </fileset>
-    	<fileset dir="${plugins}">
+    	<fileset dir="${bundle}">
             <include name="*.jar"/>
         </fileset>
     </path>
@@ -75,7 +76,7 @@
 	
 	<!-- ALL BUNDLES -->
 	<target name="bundles" depends="bundle-jpcap,bundle-sipana-sip"/>
-	<target name="bundles-test" depends="bundle-jpcap-test,bundle-sipana-sip-test"/>
+	<target name="bundles-test" depends="bundle-jpcap-test,bundle-sipana-sip-test,bundle-activemq-test"/>
 
 	<!-- BUNDLE PCAP -->
 	<target name="bundle-jpcap" depends="init,compile">
@@ -104,7 +105,20 @@
         	
         </jar>
 	</target>
-
+	
+	<!-- BUNDLE ACTIVEMQ PRODUCER TEST -->
+	<target name="bundle-activemq-test" depends="init,compile">
+        <jar compress="true" 
+        	destfile="${dest.tests}/org.apache.activemq.test.producer.jar"
+            manifest="${src.test}/org/apache/activemq/test/producer-manifest.mf">
+        	
+            <zipfileset 
+            	dir="${dest}/org/apache/activemq/test"
+                prefix="org/apache/activemq/test"/>
+        	
+        </jar>
+	</target>
+	
 	<!-- BUNDLE SIPANA-SIP -->
 	<target name="bundle-sipana-sip" depends="init,compile">
         <jar 
@@ -136,11 +150,20 @@
 	</target>
 	
 	<!-- CLEAN -->
-	<target name="clean">
+	<target name="clean-all" depends="clean-bundles,clean-cache,clean-log">
+	</target>
+	
+	<target name="clean-bundles">
 		<delete dir="${dest}" verbose="yes"/>
 		<delete dir="${dest.bundles}" verbose="yes"/>
-		<delete dir="${log.dir}" verbose="yes"/>
+	</target>
+	
+	<target name="clean-cache">
 		<delete dir="${cache.dir}" verbose="yes"/>
+	</target>
+
+	<target name="clean-log">
+		<delete dir="${log.dir}" verbose="yes"/>
 	</target>
 	
 	<!-- RUN -->

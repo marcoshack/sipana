@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bundle-Name: org.sipana.sip
+Bundle-Name: Sipana SIP
 bundle-SymbolicName: org.sipana.sip
 Bundle-Version: 1.0.0
 Bundle-Description: Bundle for SIP analysis

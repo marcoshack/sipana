@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-Name: ActiveMQ ProducerTool
+Bundle-SymbolicName: org.apache.activemq.test
+Bundle-Version: 1.0.0
+Bundle-Description: Bundle to test ActiveMQ bundle
+Bundle-Vendor: sipana.org
+Bundle-Category: Test
+Bundle-Activator: org.apache.activemq.test.ProducerTool
+Import-Package: org.osgi.framework, org.apache.log4j, javax.jms, javax.naming, org.apache.activemq, org.apache.activemq.util, org.apache.activemq.management

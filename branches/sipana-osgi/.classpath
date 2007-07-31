@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="lib/sip-sdp.jar"/>
 	<classpathentry kind="lib" path="lib/felix.jar"/>
 	<classpathentry kind="lib" path="bundle/org.apache.log4j_1.2.13.v200706111418.jar"/>
+	<classpathentry kind="lib" path="bundle/org.apache.activemq-4.1.1.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
