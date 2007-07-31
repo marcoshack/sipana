@@ -8,8 +8,7 @@ import gov.nist.javax.sip.parser.StringMsgParser;
 
 import java.text.ParseException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.sipana.sip.SIPMessageFactory;
 import org.sipana.sip.SIPMessageInfo;
 import org.sipana.sip.SIPRequestInfo;
@@ -19,11 +18,11 @@ import org.sipana.sip.SIPResponseInfo;
 public class SIPMessageFactoryImpl implements SIPMessageFactory, ParseExceptionListener {
     private static SIPMessageFactory instance;
     private StringMsgParser parser = new StringMsgParser();
-    private Log logger;
+    private Logger logger;
     
     private SIPMessageFactoryImpl() {
         parser = new StringMsgParser(this);
-        logger = LogFactory.getLog(SIPMessageFactory.class);
+        logger = Logger.getLogger(SIPMessageFactory.class);
     }
 
     public SIPMessageInfo createMessage(byte[] rawMessage) throws ParseException {

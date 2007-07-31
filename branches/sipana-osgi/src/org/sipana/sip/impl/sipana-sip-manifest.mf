@@ -6,5 +6,5 @@ Bundle-Description: Bundle for SIP analysis
 Bundle-Vendor: Voice Technology
 Bundle-Category: Network
 Bundle-Activator: org.sipana.sip.impl.SipanaSipActivator
-Import-Package: org.osgi.framework, org.apache.commons.logging, net.sourceforge.jpcap.capture, net.sourceforge.jpcap.net, net.sourceforge.jpcap.util, net.sourceforge.jpcap.osgi
+Import-Package: org.osgi.framework, org.apache.log4j, net.sourceforge.jpcap.capture, net.sourceforge.jpcap.net, net.sourceforge.jpcap.util, net.sourceforge.jpcap.osgi
 Export-Package: org.sipana.sip

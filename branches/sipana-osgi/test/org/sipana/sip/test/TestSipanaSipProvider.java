@@ -25,8 +25,7 @@ import net.sourceforge.jpcap.net.Packet;
 import net.sourceforge.jpcap.osgi.CaptureServiceProvider;
 import net.sourceforge.jpcap.osgi.CaptureSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -40,10 +39,10 @@ public class TestSipanaSipProvider implements BundleActivator, PacketListener {
     private CaptureServiceProvider captureService;
     private SipanaSipProvider sipanaSipService;
     private CaptureSession capturer;
-    private Log logger;
+    private Logger logger;
     
     public void start(BundleContext bc) throws Exception {
-        logger = LogFactory.getLog(TestSipanaSipProvider.class.getName());
+        logger = Logger.getLogger(TestSipanaSipProvider.class.getName());
         
         // SipanaSipProvider
         ServiceReference refSipanaSip = bc.getServiceReference(SipanaSipProvider.class.getName());

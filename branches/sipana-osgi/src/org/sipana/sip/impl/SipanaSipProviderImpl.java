@@ -23,9 +23,7 @@ import java.util.HashMap;
 import javax.sip.message.Request;
 import javax.sip.message.Response;
 
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.sipana.sip.SIPMessageFactory;
 import org.sipana.sip.SIPRequestInfo;
 import org.sipana.sip.SIPResponseInfo;
@@ -34,14 +32,14 @@ import org.sipana.sip.SipanaSipProvider;
 
 public class SipanaSipProviderImpl implements SipanaSipProvider 
 {
-    private Log logger;
+    private Logger logger;
     private long unkownRequest;
     private long unkownResponse;
     private HashMap<String, SIPSessionInfo> currentSessions;
     private HashMap<String, SIPSessionInfo> terminatedSessions;
     
     public SipanaSipProviderImpl() {
-        logger = LogFactory.getLog(SipanaSipProvider.class);
+        logger = Logger.getLogger(SipanaSipProvider.class);
         currentSessions = new HashMap<String, SIPSessionInfo>();
         terminatedSessions = new HashMap<String, SIPSessionInfo>();
         unkownRequest = 0;

@@ -33,12 +33,14 @@ public interface CaptureSession {
     public void setFilter(String filter);
     public void setDevice(String device);
     public void setPromiscuous(boolean promiscuous);
+    public void setId(String id);
     
     public PacketListener getListener();
     public String getFilter();
     public String getDevice();
     public int getState();
     public boolean isPromiscuous();
+    public String getId();
 
     public void start() throws Exception;
     public void stop() throws Exception;

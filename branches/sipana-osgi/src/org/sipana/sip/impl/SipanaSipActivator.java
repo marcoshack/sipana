@@ -20,9 +20,7 @@ package org.sipana.sip.impl;
 
 import java.util.Hashtable;
 
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.sipana.sip.SipanaSipProvider;
@@ -30,11 +28,11 @@ import org.sipana.sip.SipanaSipProvider;
 public class SipanaSipActivator implements BundleActivator {
     private static BundleContext bc = null;
     private SipanaSipProviderImpl service;
-    private Log logger;
+    private Logger logger;
 
     public void start(BundleContext bc) throws Exception {
         SipanaSipActivator.bc = bc;
-        logger = LogFactory.getLog(SipanaSipActivator.class);
+        logger = Logger.getLogger(SipanaSipActivator.class);
         
         logger.info("Registering SipanaSipProvider");
         service = new SipanaSipProviderImpl();

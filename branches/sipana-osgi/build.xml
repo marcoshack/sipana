@@ -22,8 +22,8 @@
 <project name="sipana" default="all">
 
 	<property name="dest" value="classes"/>
-	<property name="dest.bundles" value="plugins" />
-	<property name="dest.tests" value="plugins"/>
+	<property name="dest.bundles" value="bundle-sipana" />
+	<property name="dest.tests" value="${dest.bundles}"/>
 	<property name="src" value="src"/>
 	<property name="src.test" value="test"/>
 	<property name="package.base" value="org/sipana"/>

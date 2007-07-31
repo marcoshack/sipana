@@ -20,9 +20,11 @@ package net.sourceforge.jpcap.osgi.test;
 
 import net.sourceforge.jpcap.capture.PacketListener;
 import net.sourceforge.jpcap.net.Packet;
+import net.sourceforge.jpcap.net.UDPPacket;
 import net.sourceforge.jpcap.osgi.CaptureServiceProvider;
 import net.sourceforge.jpcap.osgi.CaptureSession;
 
+import org.apache.log4j.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -31,18 +33,23 @@ public class TestCaptureService implements BundleActivator, PacketListener
 {
     private CaptureServiceProvider service;
     private CaptureSession capturer;
+    private Logger logger;
 
     public void start(BundleContext bc) throws Exception {
+        logger = Logger.getLogger(TestCaptureService.class);
+        
         String strService = CaptureServiceProvider.class.getName();
         ServiceReference ref = bc.getServiceReference(strService);
         
         if (ref != null) {
+            String iface  = bc.getProperty("net.sourceforge.jpcap.test.interface");
+            String filter = bc.getProperty("net.sourceforge.jpcap.test.filter");
             service = (CaptureServiceProvider)bc.getService(ref);
             
-            if (service != null) {
+            if (service != null && iface != null && filter != null) {
                 capturer = service.createCaptureSession();
-                capturer.setDevice("eth0");
-                capturer.setFilter("udp or icmp");
+                capturer.setDevice(iface);
+                capturer.setFilter(filter);
                 capturer.setPromiscuous(true);
                 capturer.setListener(this);
                 capturer.start();
@@ -68,11 +75,18 @@ public class TestCaptureService implements BundleActivator, PacketListener
     }
 
     public void packetArrived(Packet packet) {
-        StringBuilder sb = new StringBuilder(packet.getTimeval().toString());
-        sb.append(" ");
-        sb.append(packet.toColoredString(true));
         
-        System.out.println(sb);
+        if (packet instanceof UDPPacket) {
+            UDPPacket udpPacket = (UDPPacket) packet;
+            
+            StringBuilder sb = new StringBuilder(udpPacket.getTimeval().toString());
+            sb.append(" ");
+            sb.append(udpPacket.toColoredVerboseString(true));
+            
+            logger.debug(sb);
+        } else {
+            logger.debug("Packet isn't a UDP packet. Nothing to do");
+        }
     }
     
     @Override

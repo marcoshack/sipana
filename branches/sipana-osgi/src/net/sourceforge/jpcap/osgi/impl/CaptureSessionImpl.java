@@ -18,12 +18,11 @@
 
 package net.sourceforge.jpcap.osgi.impl;
 
+import org.apache.log4j.Logger;
+
 import net.sourceforge.jpcap.capture.PacketCapture;
 import net.sourceforge.jpcap.capture.PacketListener;
 import net.sourceforge.jpcap.osgi.CaptureSession;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 public class CaptureSessionImpl implements CaptureSession, Runnable {
 
@@ -31,10 +30,11 @@ public class CaptureSessionImpl implements CaptureSession, Runnable {
     private String device;
     private PacketListener listener;
     private boolean isPromiscuous;
+    private String id;
     private int state;
     private PacketCapture capturer;
     private Thread thread;
-    private Log logger;
+    private Logger logger;
     
     public CaptureSessionImpl() {
         filter = null;
@@ -42,7 +42,7 @@ public class CaptureSessionImpl implements CaptureSession, Runnable {
         listener = null;
         isPromiscuous = false;
         capturer = new PacketCapture();
-        logger = LogFactory.getLog(CaptureSession.class);
+        logger = Logger.getLogger(CaptureSession.class);
         state = CaptureSession.IDLE;
     }
 
@@ -96,13 +96,19 @@ public class CaptureSessionImpl implements CaptureSession, Runnable {
     }
     
     public synchronized void start() throws Exception {
-        logger.info("Starting " + this.toString());
+        logger.info(new StringBuilder("Starting ").append(this));
+        
         state = CaptureSession.RUNINNG;
         thread = new Thread(this);
-        thread.setName("CaptureSession-" + listener.toString());
+        thread.setName("CaptureSession");
         thread.start();
         
-        logger.info("Capture Session Id:" + this.hashCode() + " started");
+        StringBuilder sb = new StringBuilder("Capture Session Id: ");
+        sb.append(getId());
+        sb.append(", hashCode: ");
+        sb.append(this.hashCode());
+        sb.append(" started");
+        logger.info(sb);
     }
     
     public synchronized void stop() throws Exception {
@@ -134,4 +140,13 @@ public class CaptureSessionImpl implements CaptureSession, Runnable {
         sbInfo.append("\"");
         return sbInfo.toString();
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }
