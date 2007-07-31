@@ -150,7 +150,7 @@
 	</target>
 	
 	<!-- CLEAN -->
-	<target name="clean-all" depends="clean-bundles,clean-cache,clean-log">
+	<target name="clean" depends="clean-bundles,clean-cache,clean-log">
 	</target>
 	
 	<target name="clean-bundles">
@@ -167,7 +167,11 @@
 	</target>
 	
 	<!-- RUN -->
-	<target name="run">
+	<target name="run" depends="all">
+		<java jar="${lib.dir}/felix.jar" fork="true">
+			<sysproperty key="log4j.configuration" value="./conf/log4j.properties"/>
+			<sysproperty key="log4j.debug" value="1"/>
+		</java>
 	</target>
 	
 </project>
