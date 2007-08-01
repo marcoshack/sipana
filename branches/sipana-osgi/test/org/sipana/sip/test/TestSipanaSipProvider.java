@@ -96,14 +96,14 @@ public class TestSipanaSipProvider implements BundleActivator, PacketListener {
             SIPMessageInfo message = sipanaSipService.getMessageFactory().createMessage(packet.getData());
             
             if (message instanceof SIPRequestInfo) {
-                logger.info("Processing Request " + ((SIPRequestInfo)message).getMethod());
+                logger.debug("Processing Request " + ((SIPRequestInfo)message).getMethod());
                 sipanaSipService.processRequest((SIPRequestInfo) message);
             } else if (message instanceof SIPResponseInfo) {
-                logger.info("Processing Response " + ((SIPResponseInfo)message).getStatusCode() + " " +((SIPResponseInfo)message).getReasonPhrase());
+                logger.debug("Processing Response " + ((SIPResponseInfo)message).getStatusCode() + " " +((SIPResponseInfo)message).getReasonPhrase());
                 sipanaSipService.processResponse((SIPResponseInfo) message);
             }
             
-            logger.info("Current Session number: " + sipanaSipService.getCurrentSessionNumber());
+            logger.debug("Current Session number: " + sipanaSipService.getCurrentSessionNumber());
         } catch (ParseException e) {
             logger.error("Fail processing packet", e);
         }
