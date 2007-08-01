@@ -18,20 +18,25 @@
 
 package org.sipana.sip.impl;
 
+import java.text.ParseException;
 import java.util.HashMap;
 
 import javax.sip.message.Request;
 import javax.sip.message.Response;
 
+import net.sourceforge.jpcap.capture.PacketListener;
+import net.sourceforge.jpcap.net.Packet;
+
 import org.apache.log4j.Logger;
 import org.sipana.sip.SIPMessageFactory;
+import org.sipana.sip.SIPMessageInfo;
 import org.sipana.sip.SIPRequestInfo;
 import org.sipana.sip.SIPResponseInfo;
 import org.sipana.sip.SIPSessionInfo;
 import org.sipana.sip.SIPSessionInfoListener;
 import org.sipana.sip.SipanaSipProvider;
 
-public class SipanaSipProviderImpl implements SipanaSipProvider 
+public class SipanaSipProviderImpl implements SipanaSipProvider, PacketListener
 {
     private Logger logger;
     private long unkownRequest;
@@ -216,7 +221,7 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
         String id = session.getId();
         
         if (logger.isDebugEnabled()) {
-            StringBuilder sb = new StringBuilder("Terminating SIPSession ");
+            StringBuilder sb = new StringBuilder("Terminating SIP session ");
             sb.append(id);
             logger.debug(sb);
         }
@@ -239,5 +244,20 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
 
     public void setSessionListener(SIPSessionInfoListener listener) {
         this.sessionListener = listener;
+    }
+
+    public void packetArrived(Packet packet) {
+        try {
+            SIPMessageInfo message = getMessageFactory().createMessage(packet.getData());
+            
+            if (message instanceof SIPRequestInfo) {
+                processRequest((SIPRequestInfo) message);
+            } else if (message instanceof SIPResponseInfo) {
+                processResponse((SIPResponseInfo) message);
+            }
+            
+        } catch (ParseException e) {
+            logger.error("Fail processing packet: " + e.getMessage(), e);
+        }
     }
 }
