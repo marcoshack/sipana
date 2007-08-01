@@ -19,16 +19,26 @@
 package org.sipana.sip;
 
 public interface SIPSessionInfo {
+    public static final int COMPLETED = 0;
+    public static final int TIMEOUT = 1;
+    public static final int ERROR = 2;
+    public static final int ACTIVE = 3;
     
     public long getStartTime();
     public long getEndTime();
     public long getDuration();
     public String getRequestMethod();
+    public void addResponseInfo(SIPResponseInfo responseInfo);
+    public void addRequestInfo(SIPRequestInfo responseInfo);
+    public String getId();
+    public int getState();
+    public void setState(int state);
     
     // SIP Performance Metrics as defined on draft document
     // http://tools.ietf.org/html/draft-malas-performance-metrics-06
     public long getDisconnectDelay();
     public long getRequestDelay();
+    public long getEstablishedTime();
 
     public void setEndTime(long time);
     public void setDisconnectionStartTime(long time);
@@ -40,8 +50,4 @@ public interface SIPSessionInfo {
      * @param time
      */
     public void setFirstResponseTime(long time);
-    
-    public void addResponseInfo(SIPResponseInfo responseInfo);
-    public void addRequestInfo(SIPRequestInfo responseInfo);
-    public String getId();
 }

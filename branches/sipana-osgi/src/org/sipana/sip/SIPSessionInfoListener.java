@@ -18,11 +18,6 @@
 
 package org.sipana.sip;
 
-public interface SipanaSipProvider {
-    public void processRequest(SIPRequestInfo requestInfo);
-    public void processResponse(SIPResponseInfo responseInfo);
-    public SIPMessageFactory getMessageFactory();
-    public int getCurrentSessionNumber();
-    public void setSessionListener(SIPSessionInfoListener listener);
-    public SIPSessionInfoListener getSessionListener();
+public interface SIPSessionInfoListener {
+    public void sipSessionInfoFinished(SIPSessionInfo sessionInfo);
 }

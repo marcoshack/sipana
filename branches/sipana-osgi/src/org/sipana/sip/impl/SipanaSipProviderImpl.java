@@ -28,6 +28,7 @@ import org.sipana.sip.SIPMessageFactory;
 import org.sipana.sip.SIPRequestInfo;
 import org.sipana.sip.SIPResponseInfo;
 import org.sipana.sip.SIPSessionInfo;
+import org.sipana.sip.SIPSessionInfoListener;
 import org.sipana.sip.SipanaSipProvider;
 
 public class SipanaSipProviderImpl implements SipanaSipProvider 
@@ -36,12 +37,11 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
     private long unkownRequest;
     private long unkownResponse;
     private HashMap<String, SIPSessionInfo> currentSessions;
-    private HashMap<String, SIPSessionInfo> terminatedSessions;
+    private SIPSessionInfoListener sessionListener;
     
     public SipanaSipProviderImpl() {
         logger = Logger.getLogger(SipanaSipProvider.class);
         currentSessions = new HashMap<String, SIPSessionInfo>();
-        terminatedSessions = new HashMap<String, SIPSessionInfo>();
         unkownRequest = 0;
         unkownResponse = 0;
     }
@@ -160,17 +160,18 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
                     session.setEstablishedTime(respTime);
                 } else if (method.equals(Request.BYE)) {
                     session.setEndTime(respTime);
+                    session.setState(SIPSessionInfo.COMPLETED);
                     terminateSessionInfo(session);
                 }
                 break;
     
             default:
                 if (logger.isDebugEnabled()) {
-                    StringBuilder sb = new StringBuilder("Nothing to do to response ");
+                    StringBuilder sb = new StringBuilder("Response ");
                     sb.append(statusCode);
                     sb.append(" (");
                     sb.append(responseInfo.getReasonPhrase());
-                    sb.append(")");
+                    sb.append(") not implemented");
                     logger.debug(sb);
                 }
                 break;
@@ -183,9 +184,25 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
     }
     
     private void addSessionInfo(SIPSessionInfo session) {
-        logger.debug("Adding Session to current session list");
+        logger.debug("Adding session to current session list");
         synchronized (currentSessions) {
             currentSessions.put(session.getId(), session);
+        }
+    }
+    
+    private void removeSessionInfo(SIPSessionInfo session) {
+        logger.debug("Removing session from current session list");
+        synchronized (currentSessions) {
+            currentSessions.remove(session.getId());
+        }
+    }
+    
+    private void notifySessionListener(SIPSessionInfo session) {
+        logger.debug("Notifying SIPSessionInfoListener");
+        if (sessionListener != null) {
+            sessionListener.sipSessionInfoFinished(session);
+        } else {
+            logger.warn("Session listener is null. Discarding terminated session info");
         }
     }
     
@@ -199,20 +216,13 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
         String id = session.getId();
         
         if (logger.isDebugEnabled()) {
-            StringBuilder sb = new StringBuilder("Terminating Session ");
+            StringBuilder sb = new StringBuilder("Terminating SIPSession ");
             sb.append(id);
             logger.debug(sb);
         }
         
-        logger.debug("Removing Session from curent session list");
-        synchronized (currentSessions) {
-            currentSessions.remove(id);
-        }
-
-        logger.debug("Adding Session to terminated session list");
-        synchronized (terminatedSessions) {
-            terminatedSessions.put(id, session);
-        }
+        notifySessionListener(session);
+        removeSessionInfo(session);
     }
 
     public SIPMessageFactory getMessageFactory() {
@@ -223,8 +233,11 @@ public class SipanaSipProviderImpl implements SipanaSipProvider
         return currentSessions.size();
     }
 
-    public int getTerminatedSessionNumber() {
-        return terminatedSessions.size();
+    public SIPSessionInfoListener getSessionListener() {
+        return sessionListener;
     }
 
+    public void setSessionListener(SIPSessionInfoListener listener) {
+        this.sessionListener = listener;
+    }
 }

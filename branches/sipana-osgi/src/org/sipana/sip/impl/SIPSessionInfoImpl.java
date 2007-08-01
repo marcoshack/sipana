@@ -24,7 +24,6 @@ import org.sipana.sip.SIPRequestInfo;
 import org.sipana.sip.SIPResponseInfo;
 import org.sipana.sip.SIPSessionInfo;
 
-
 public class SIPSessionInfoImpl implements SIPSessionInfo {
     private long startTime;
     private long endTime;
@@ -32,6 +31,7 @@ public class SIPSessionInfoImpl implements SIPSessionInfo {
     private long firstResponseTime;
     private long disconnectStartTime;
     private long establishedTime;
+    private int state;
     private String id;
     private String method;
     private LinkedList<SIPRequestInfo> requests;
@@ -40,6 +40,7 @@ public class SIPSessionInfoImpl implements SIPSessionInfo {
     public SIPSessionInfoImpl(SIPRequestInfo requestInfo) {
         requests = new LinkedList<SIPRequestInfo>();
         responses = new LinkedList<SIPResponseInfo>();
+        state = SIPSessionInfo.ACTIVE;
         
         method    = requestInfo.getMethod();
         id        = requestInfo.getCallID();
@@ -102,11 +103,23 @@ public class SIPSessionInfoImpl implements SIPSessionInfo {
         establishedTime = time;
     }
     
+    public long getEstablishedTime() {
+        return establishedTime;
+    }
+    
     public long getRequestDelay() {
         return (firstResponseTime >= 0 ? firstResponseTime - startTime : -1);
     }
     
     public void setFirstResponseTime(long time) {
         firstResponseTime = time;
+    }
+
+    public int getState() {
+        return state;
+    }
+    
+    public void setState(int state) {
+        this.state = state;
     }
 }

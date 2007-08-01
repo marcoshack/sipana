@@ -104,8 +104,6 @@ public class TestSipanaSipProvider implements BundleActivator, PacketListener {
             }
             
             logger.info("Current Session number: " + sipanaSipService.getCurrentSessionNumber());
-            logger.info("Terminated Session number: " + sipanaSipService.getTerminatedSessionNumber());
-            
         } catch (ParseException e) {
             logger.error("Fail processing packet", e);
         }
