@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-Name: org.sipana.sip.test
-Bundle-SymbolicName: org.sipana.sip.test
-Bundle-Version: 1.0.0
-Bundle-Description: Bundle to test SipanaSipProvider bundle
-Bundle-Vendor: Voice Technology
-Bundle-Category: Test
-Bundle-Activator: org.sipana.sip.test.TestSipanaSipProvider
-Import-Package: org.osgi.framework, org.apache.log4j, org.sipana.sip, net.sourceforge.jpcap.capture, net.sourceforge.jpcap.net, net.sourceforge.jpcap.util, net.sourceforge.jpcap.osgi

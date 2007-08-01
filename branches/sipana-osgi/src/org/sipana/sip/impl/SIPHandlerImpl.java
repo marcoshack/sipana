@@ -28,25 +28,30 @@ import net.sourceforge.jpcap.capture.PacketListener;
 import net.sourceforge.jpcap.net.Packet;
 
 import org.apache.log4j.Logger;
+import org.sipana.sip.SIPHandler;
 import org.sipana.sip.SIPMessageFactory;
 import org.sipana.sip.SIPMessageInfo;
 import org.sipana.sip.SIPRequestInfo;
 import org.sipana.sip.SIPResponseInfo;
 import org.sipana.sip.SIPSessionInfo;
 import org.sipana.sip.SIPSessionInfoListener;
-import org.sipana.sip.SipanaSipProvider;
+import org.sipana.sip.SipanaSIPProvider;
 
-public class SipanaSipProviderImpl implements SipanaSipProvider, PacketListener
+public class SIPHandlerImpl implements SIPHandler, PacketListener
 {
     private Logger logger;
     private long unkownRequest;
     private long unkownResponse;
     private HashMap<String, SIPSessionInfo> currentSessions;
+    private SipanaSIPProvider provider;
     private SIPSessionInfoListener sessionListener;
+    private SIPMessageFactory messageFactory;
     
-    public SipanaSipProviderImpl() {
-        logger = Logger.getLogger(SipanaSipProvider.class);
+    public SIPHandlerImpl(SipanaSIPProvider provider) {
+        logger = Logger.getLogger(SIPHandler.class);
+        this.provider = provider;
         currentSessions = new HashMap<String, SIPSessionInfo>();
+        messageFactory = provider.getMessageFactory();
         unkownRequest = 0;
         unkownResponse = 0;
     }
@@ -230,10 +235,6 @@ public class SipanaSipProviderImpl implements SipanaSipProvider, PacketListener
         removeSessionInfo(session);
     }
 
-    public SIPMessageFactory getMessageFactory() {
-        return SIPMessageFactoryImpl.getInstance();
-    }
-
     public int getCurrentSessionNumber() {
         return currentSessions.size();
     }
@@ -248,7 +249,7 @@ public class SipanaSipProviderImpl implements SipanaSipProvider, PacketListener
 
     public void packetArrived(Packet packet) {
         try {
-            SIPMessageInfo message = getMessageFactory().createMessage(packet.getData());
+            SIPMessageInfo message = messageFactory.createMessage(packet.getData());
             
             if (message instanceof SIPRequestInfo) {
                 processRequest((SIPRequestInfo) message);

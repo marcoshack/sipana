@@ -1,3 +1,4 @@
+
 package org.sipana.sip.impl;
 
 import java.util.LinkedList;
@@ -16,8 +17,9 @@ import org.apache.log4j.NDC;
 import org.sipana.sip.SIPSessionInfo;
 import org.sipana.sip.SIPSessionInfoListener;
 
-public class SipanaSipSessionManager extends Thread implements SIPSessionInfoListener {
+public class SipanaSIPSessionManager extends Thread implements SIPSessionInfoListener {
     private LinkedList<SIPSessionInfo> sessions;
+    private Integer sessionSemaphore;
     private Boolean running;
     private long interval;
     private String serverURL;
@@ -29,9 +31,10 @@ public class SipanaSipSessionManager extends Thread implements SIPSessionInfoLis
     private MessageProducer messageProducer;
     private Logger logger;
     
-    public SipanaSipSessionManager() {
-        logger = Logger.getLogger(SipanaSipSessionManager.class);
+    public SipanaSIPSessionManager() {
+        logger = Logger.getLogger(SipanaSIPSessionManager.class);
         sessions = new LinkedList<SIPSessionInfo>();
+        sessionSemaphore = new Integer(0);
     }
     
     public void sipSessionInfoFinished(SIPSessionInfo session) {
@@ -62,8 +65,8 @@ public class SipanaSipSessionManager extends Thread implements SIPSessionInfoLis
                     LinkedList<SIPSessionInfo> currentList = null;
                     
                     logger.debug("Copying current list to send to server");
-                    synchronized (sessions) {
-                        currentList = (LinkedList<SIPSessionInfo>) sessions.clone();
+                    synchronized (sessionSemaphore) {
+                        currentList = sessions;
                         sessions = new LinkedList<SIPSessionInfo>();
                     }
                     
@@ -74,6 +77,8 @@ public class SipanaSipSessionManager extends Thread implements SIPSessionInfoLis
                     }
                     
                     currentList = null;
+                } else {
+                    logger.debug("Session list is empty. Nothing to do");
                 }
                 
                 if (logger.isDebugEnabled()) {

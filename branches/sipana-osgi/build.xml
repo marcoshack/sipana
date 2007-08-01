@@ -76,7 +76,7 @@
 	
 	<!-- ALL BUNDLES -->
 	<target name="bundles" depends="bundle-jpcap,bundle-sipana-sip"/>
-	<target name="bundles-test" depends="bundle-jpcap-test,bundle-sipana-sip-test,bundle-activemq-test"/>
+	<target name="bundles-test" depends="bundle-jpcap-test,bundle-activemq-test"/>
 
 	<!-- BUNDLE PCAP -->
 	<target name="bundle-jpcap" depends="init,compile">
@@ -133,19 +133,6 @@
             <zipfileset src="${lib.dir}/sip-sdp.jar" prefix=""/>
         	<zipfileset src="${lib.dir}/concurrent.jar" prefix=""/>
         	<zipfileset src="${lib.dir}/jakarta-regexp-1.3.jar" prefix=""/>
-        </jar>
-	</target>
-	
-	<!-- BUNDLE SIPANA-SIP TEST -->
-	<target name="bundle-sipana-sip-test" depends="init,compile">
-        <jar compress="true" 
-        	destfile="${dest.tests}/org.sipana.sip.test-${sipana-sip.version}.jar"
-            manifest="${src.test}/${sipana-sip.package.base}/test/test-sipana-sip-manifest.mf">
-        	
-            <zipfileset 
-            	dir="${dest}/${sipana-sip.package.base}/test"
-                prefix="${sipana-sip.package.base}/test"/>
-        	
         </jar>
 	</target>
 	

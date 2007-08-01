@@ -78,4 +78,13 @@ public class CaptureServiceProviderImpl implements CaptureServiceProvider {
         }
     }
 
+    public void destroyCaptureSessions() throws Exception {
+        synchronized (sessionList) {
+            for (CaptureSession session : sessionList) {
+                session.stop();
+                sessionList.remove(session);
+            }
+        }
+    }
+
 }

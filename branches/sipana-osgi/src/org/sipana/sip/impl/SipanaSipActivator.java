@@ -20,72 +20,74 @@ package org.sipana.sip.impl;
 
 import java.util.Hashtable;
 
-import net.sourceforge.jpcap.capture.PacketListener;
 import net.sourceforge.jpcap.osgi.CaptureServiceProvider;
-import net.sourceforge.jpcap.osgi.CaptureSession;
 
 import org.apache.log4j.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
-import org.sipana.sip.SipanaSipProvider;
+import org.sipana.sip.SIPHandler;
+import org.sipana.sip.SipanaSIPProvider;
 
 public class SipanaSipActivator implements BundleActivator {
     private static BundleContext bc = null;
-    private SipanaSipProviderImpl sipProvider;
+    private SipanaSIPProvider sipProvider;
     private CaptureServiceProvider captureService;
-    private CaptureSession captureSession;
-    private SipanaSipSessionManager sessionManager;
     private Logger logger;
 
     public void start(BundleContext bc) throws Exception {
         SipanaSipActivator.bc = bc;
         logger = Logger.getLogger(SipanaSipActivator.class);
-        
-        // Sipana SIP Session Manager
+
+        // Config parameters
         long sessionManagerInterval = Long.parseLong(SipanaSipActivator.bc.getProperty("org.sipana.sip.sessionmanager.interval"));
-        sessionManager = new SipanaSipSessionManager();
-        sessionManager.setInterval(sessionManagerInterval);
-        sessionManager.setServerUser(SipanaSipActivator.bc.getProperty("org.sipana.server.user"));
-        sessionManager.setServerPassword(SipanaSipActivator.bc.getProperty("org.sipana.server.password"));
-        sessionManager.setServerURL(SipanaSipActivator.bc.getProperty("org.sipana.server.url"));
-        sessionManager.setServerQueue(SipanaSipActivator.bc.getProperty("org.sipana.sip.sessionmanager.queue"));
-        sessionManager.start();
+        String serverUser = SipanaSipActivator.bc.getProperty("org.sipana.server.user");
+        String serverPassword = SipanaSipActivator.bc.getProperty("org.sipana.server.password");
+        String serverURL = SipanaSipActivator.bc.getProperty("org.sipana.server.url");
+        String serverQueueName = SipanaSipActivator.bc.getProperty("org.sipana.sip.sessionmanager.queue");
+        String captureInterface = SipanaSipActivator.bc.getProperty("org.sipana.sip.capture.interface");
+        String captureFilter = SipanaSipActivator.bc.getProperty("org.sipana.sip.capture.filter");
         
         // Sipana SIP Provider
-        sipProvider = new SipanaSipProviderImpl();
-        sipProvider.setSessionListener(sessionManager);
+        sipProvider = new SipanaSIPProviderImpl();
         
-        // SIP packet capturer
-        // CaptureService
+        // Sipana SIP Session Manager
+        SipanaSIPSessionManager sessionManager = sipProvider.getSIPSessionManager();
+        sessionManager.setInterval(sessionManagerInterval);
+        sessionManager.setServerUser(serverUser);
+        sessionManager.setServerPassword(serverPassword);
+        sessionManager.setServerURL(serverURL);
+        sessionManager.setServerQueue(serverQueueName);
+        sessionManager.start();
+        
+        // SIP Handler
+        SIPHandler sipHandler = sipProvider.getSIPHandler();
+        sipHandler.setSessionListener(sessionManager);
+        
+        // CaptureServiceProvider
         ServiceReference refCaptureService = bc.getServiceReference(CaptureServiceProvider.class.getName());
         if (refCaptureService != null) {
             captureService = (CaptureServiceProvider) bc.getService(refCaptureService);
             
             if (captureService != null) {
-                captureSession = captureService.createCaptureSession();
-                captureSession.setDevice("lo");
-                captureSession.setFilter("udp or icmp");
-                captureSession.setPromiscuous(true);
-                captureSession.setListener((PacketListener) sipProvider);
-                captureSession.start();
+                sipProvider.setCaptureServiceProvider(captureService);
+                sipProvider.addCaptureSession(captureInterface, captureFilter);
             } else {
                 throw new Exception("Can't get CaptureService service");
             }
             
         } else {
-            throw new Exception("Can't get CaptureServiceProvider service reference");
+            throw new Exception("Can't get CaptureServiceProvider service reference. Sipana SIP Provider cannot start");
         }
-        
-        logger.info("Registering SipanaSipProvider");
-        bc.registerService(SipanaSipProvider.class.getName(), 
-                sipProvider, new Hashtable());
+
+        // Register service
+        logger.info("Registering SipanaSIPProvider");
+        bc.registerService(SipanaSIPProvider.class.getName(), sipProvider, new Hashtable());
     }
 
     public void stop(BundleContext bc) throws Exception {
-        captureSession.stop();
-        captureService.destroyCaptureSession(captureSession);
-        sessionManager.stopManager();
+        captureService.destroyCaptureSessions();
+        sipProvider.getSIPSessionManager().stopManager();
         SipanaSipActivator.bc = null;
     }
 }
