@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>sipana</artifactId>
+		<groupId>org.sipana</groupId>
+		<version>1.0</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.sipana.server</groupId>
+	<artifactId>sipana-server</artifactId>
+	<packaging>pom</packaging>
+	<name>Sipana Server</name>
+	<version>1.0</version>
+	<description>Sipana Server</description>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-ear-plugin</artifactId>
+					<configuration>
+						<resourcesDir>
+							${project.build.outputDirectory}
+						</resourcesDir>
+						<archive>
+							<addMavenDescriptor>
+								false
+							</addMavenDescriptor>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<addMavenDescriptor>
+								false
+							</addMavenDescriptor>
+						</archive>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	<modules>
+		<module>sipana-server-ejb</module>
+		<module>sipana-server-ear</module>
+		<module>sipana-server-war</module>
+	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>3.2.1.GA</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+</project>
+
