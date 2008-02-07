@@ -100,42 +100,33 @@ public class SipanaServlet extends HttpServlet
 	private SIPSessionManager getSIPSessionManager() throws ServiceLocatorException {
 		return (SIPSessionManager) serviceLocator.getLocalService(Service.SIP_SESSION_MANAGER);
 	}
-	
+
 	private SIPPerformanceMetrics getSIPPerformanceMetrics() throws ServiceLocatorException { 
 		return (SIPPerformanceMetrics) serviceLocator.getLocalService(Service.SIP_PERFORMANCE_METRICS);
 	}
 
-	private String processSIPSession(HttpServletRequest request, long sip_session_id) 
+	private String processSIPSession(HttpServletRequest request, Long sip_session_id) 
 		throws ServiceLocatorException 
 	{
-		// TODO Auto-generated method stub
-        // As described on JBoss EJB3 documentation [1], they have not yet 
+        // TODO Use @EJB annotation to inject SIPSessionManager
+		// 
+		// As described on JBoss EJB3 documentation [1], they have not yet 
         // (version 4.2.1.GA) updated tomcat to support @EJB annotations. 
         // So for now, we must lookup the EJB via its global JNDI name. 
         // Here we are using the class ServiceLocator to do it.
         // 
-        // TODO Use @EJB annotation to inject SIPSessionManager
-        // 
         // [1] http://docs.jboss.org/ejb3/app-server/tutorial/ear/ear.html
         //
-        
-//    	List<SIPMessage> messages = manager.getMessageListBySessionId(sip_session_id);
-//    	
-//    	if (messages != null) {
-//    		request.setAttribute("sip_session_id", sip_session_id);
-//    		String filename = SIPScenario.createSIPScenario(messages, SIP_SCENARIO_FILEPATH);
-//    		request.setAttribute("sip_scenario_filename", filename);
-//    	}
 
-    	SIPSession session = getSIPSessionManager().getSIPSession(sip_session_id);
-    	if (session != null) {
-    		List<SIPMessage> messages = createOrderedMessageList(session);
-    		request.setAttribute("sip_session_id", sip_session_id);
-    		
-    		String filename = SIPScenario.createSIPScenario(messages, SIP_SCENARIO_ROOT_DIR);
-    		request.setAttribute("sip_scenario_filename", getSipScenarioWebFilePath(filename));
-    	}
+		SIPSessionManager manager = getSIPSessionManager();
+    	List<SIPMessage> messages = manager.getMessageListBySessionId(sip_session_id);
     	
+    	if (messages != null) {
+    		request.setAttribute("sip_session_id", sip_session_id);
+    		String filename = SIPScenario.createSIPScenario(messages, getSipScenarioWebFilePath(sip_session_id.toString()));
+    		request.setAttribute("sip_scenario_filename", filename);
+    	}
+
     	return "/jsp/sip_scenario.jsp";
 	}
 
@@ -148,39 +139,4 @@ public class SipanaServlet extends HttpServlet
 		return filepath.toString();
 	}
 
-	private List<SIPMessage> createOrderedMessageList(SIPSession session) {
-		List<SIPRequest> requests = session.getRequests();
-		List<SIPResponse> responses = session.getResponses();
-		
-		ArrayList<SIPMessage> messages = new ArrayList<SIPMessage>();
-		
-		int reqSize = requests.size();
-		int resSize = responses.size();
-		int reqIndex = 0;
-		int resIndex = 0;
-		
-		while (reqIndex < reqSize && resIndex < resSize) {
-			
-			SIPRequest req = requests.get(reqIndex);
-			SIPResponse res = responses.get(resIndex);
-			
-			if (req.getTime() <= res.getTime()) {
-				messages.add(req);
-				reqIndex++;
-			} else {
-				messages.add(res);
-				resIndex++;
-			}
-		}
-		
-		while (reqIndex < reqSize) {
-			messages.add(requests.get(reqIndex++));
-		}
-	
-		while (resIndex < resSize) {
-			messages.add(responses.get(resIndex++));
-		}
-		
-		return messages;
-	}
 }
