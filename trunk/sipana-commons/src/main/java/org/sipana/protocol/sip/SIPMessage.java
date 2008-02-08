@@ -21,4 +21,6 @@ public interface SIPMessage extends Serializable {
     public void setMaxForwards(int maxForwards);
     public String getRequestAddr();
     public void setRequestAddr(String requestAddr);
+    public SIPSession getSipSession();
+    public void setSipSession(SIPSession session);
 }

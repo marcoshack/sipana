@@ -14,4 +14,5 @@ public interface SIPSessionManager {
     public SIPSessionImpl getSIPSession(long id);
     public List<SIPSessionImpl> getSIPSessions(long startTime, long endTime);
     public List<SIPMessage> getMessageListBySessionId(long id);
+    public List<SIPMessage> getMessageListByCallID(String callidList[]);
 }
