@@ -12,32 +12,41 @@
 	<description>Sipana</description>
 
 	<modules>
-		<module>sipana-server</module>
+		<module>sipana-server-ear</module>
+		<module>sipana-server-ejb</module>
+		<module>sipana-server-war</module>
 		<module>sipana-commons</module>
 		<module>sipana-client</module>
 	</modules>
-	
-    	<distributionManagement>
+
+	<distributionManagement>
 		<repository>
 			<id>sipana</id>
 			<name>Sipana Repository</name>
-			<url>scp://shell.sourceforge.net/home/groups/s/si/sipana/htdocs/maven/sipana</url>
+			<url>
+				scp://shell.sourceforge.net/home/groups/s/si/sipana/htdocs/maven/sipana
+			</url>
 		</repository>
 	</distributionManagement>
 
 	<version>1.0</version>
-	
+
 	<dependencies>
 		<dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.4</version>
-            <type>jar</type>
-            <scope>test</scope>
-        </dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.4</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+		</dependency>
 	</dependencies>
 
- 	<build>
+	<build>
 		<defaultGoal>install</defaultGoal>
 		<resources>
 			<resource>
