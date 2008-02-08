@@ -17,13 +17,13 @@
 		<module>sipana-client</module>
 	</modules>
 	
-    <distributionManagement>
-        <repository>
-            <id>sipana</id>
-            <name>Sipana Repository</name>
-            <url>scp://sipana.org/home/projects/sipana.org/maven</url>
-        </repository>
-    </distributionManagement>
+    	<distributionManagement>
+		<repository>
+			<id>sipana</id>
+			<name>Sipana Repository</name>
+			<url>scp://shell.sourceforge.net/home/groups/s/si/sipana/htdocs/maven/sipana</url>
+		</repository>
+	</distributionManagement>
 
 	<version>1.0</version>
 	

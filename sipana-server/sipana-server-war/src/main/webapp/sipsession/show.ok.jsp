@@ -8,7 +8,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <body>
-SIP message list size: ${sipMessages.size}
+${sipMessages}
 </body>
 </html>
 

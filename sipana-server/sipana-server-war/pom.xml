@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-	                    http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<modelVersion>4.0.0</modelVersion>
-
+<project>
 	<parent>
-		<groupId>org.sipana.server</groupId>
 		<artifactId>sipana-server</artifactId>
+		<groupId>org.sipana.server</groupId>
 		<version>1.0</version>
-		<relativePath>../pom.xml</relativePath>
 	</parent>
-
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.sipana.server</groupId>
 	<artifactId>sipana-server-war</artifactId>
-	<name>Sipana Server :: WAR</name>
 	<packaging>war</packaging>
-
+	<name>Sipana Server :: WAR</name>
 	<description>Sipana Server. Web Module</description>
 
 	<dependencies>
@@ -26,31 +17,53 @@
 			<groupId>org.sipana</groupId>
 			<artifactId>sipana-commons</artifactId>
 			<version>1.0</version>
-			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.sipana.server</groupId>
 			<artifactId>sipana-server-ejb</artifactId>
 			<version>1.0</version>
-			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
-		
+
+		<!-- JBoss dependencies	 -->
 		<dependency>
 			<groupId>org.jboss</groupId>
 			<artifactId>jboss-ejb3x</artifactId>
 			<version>4.2.1.GA</version>
 			<scope>provided</scope>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.jboss</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>4.2.1.GA</version>
 			<scope>provided</scope>
 		</dependency>
-		
-	</dependencies>
 
+		<!-- TODO artifacs that needs to be copied to JBoss server lib directory -->
+		<dependency>
+			<groupId>org.picocontainer</groupId>
+			<artifactId>picocontainer</artifactId>
+			<version>1.3</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.vraptor</groupId>
+			<artifactId>vraptor</artifactId>
+			<version>2.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>xpp3</groupId>
+			<artifactId>xpp3</artifactId>
+			<version>1.1.2a_min</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.2.2</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 </project>

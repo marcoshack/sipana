@@ -45,18 +45,35 @@ public class SIPSessionManagerBean implements SIPSessionManager
     }
     
     public List<SIPMessage> getMessageListBySessionId(long id) {
-    	Query query = manager.createNativeQuery("select * from sip_messages"
-    			+ " where id_sip_session = " + id
-    			+ " order by time");
+    	String strQuery = "select m from SIPMessageImpl m, SIPSessionImpl s "
+    		+ "where m.sipSession.id = s.id and s.id = :session_id "
+    		+ "order by m.time";
     	
-//    	String strQuery = "select m from SIPMessageImpl m, SIPSessionImpl s "
-//    		+ "where s.id = :session_id "
-//    		+ "  and m.id_sip_session = s.id "
-//    		+ "order by m.time";
-//    	
-//    	Query query = manager.createQuery(strQuery);
-//    	query.setParameter("session_id", id);
+    	Query query = manager.createQuery(strQuery);
+    	query.setParameter("session_id", id);
     	
+    	return query.getResultList();
+    }
+    
+    public List<SIPMessage> getMessageListByCallID(String callidList[]) {
+    	StringBuilder sbQuery = new StringBuilder("select m from "
+    		+ "SIPMessageImpl m, SIPSessionImpl s "
+    		+ "where m.sipSession.id = s.id and s.id = :session_id "
+    		+ "and (");
+    	
+    	int size = callidList.length;
+    	
+    	for (int i = 0; i < size; i++) {
+			sbQuery.append("s.callId = '").append(callidList[i]).append("'");
+			
+			if (i < (size - 1)) {
+				sbQuery.append(" or ");
+			}
+		}
+    	
+    	sbQuery.append("order by m.time");
+    	
+    	Query query = manager.createQuery(sbQuery.toString());
     	return query.getResultList();
     }
 }

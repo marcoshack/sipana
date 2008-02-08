@@ -31,7 +31,7 @@ public class ServiceLocator {
 	 * @return
 	 * @throws Exception
 	 */
-	public Object getLocalService(String serviceName) throws ServiceLocatorException {
+	public Object getService(String serviceName) throws ServiceLocatorException {
 		String name = serviceName + "/local";
 		logger.debug("Looking for \"" + name + "\"");
 		

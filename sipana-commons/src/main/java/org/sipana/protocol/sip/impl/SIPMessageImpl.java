@@ -3,6 +3,7 @@ package org.sipana.protocol.sip.impl;
 import java.io.Serializable;
 
 import org.sipana.protocol.sip.SIPMessage;
+import org.sipana.protocol.sip.SIPSession;
 
 public abstract class SIPMessageImpl implements SIPMessage, Serializable 
 {
@@ -18,6 +19,7 @@ public abstract class SIPMessageImpl implements SIPMessage, Serializable
     private String toUser;
     private int maxForwards;
     private long msgTime;
+    private SIPSession sipSession;
     
     public SIPMessageImpl() {}
     
@@ -104,4 +106,12 @@ public abstract class SIPMessageImpl implements SIPMessage, Serializable
     public void setRequestAddr(String requestAddr) {
         this.requestAddr = requestAddr;
     }
+
+	public SIPSession getSipSession() {
+		return sipSession;
+	}
+
+	public void setSipSession(SIPSession sipSession) {
+		this.sipSession = sipSession;
+	}
 }
