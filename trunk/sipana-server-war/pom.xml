@@ -32,6 +32,11 @@
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.sipana</groupId>
+			<artifactId>sipana-sipscenario</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- JBoss dependencies	 -->
 		<dependency>

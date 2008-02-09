@@ -1,10 +1,14 @@
 package org.sipana.sip.scenario;
 
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.junit.Test;
 import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPResponse;
@@ -13,31 +17,24 @@ import org.sipana.protocol.sip.impl.SIPResponseImpl;
 
 public class SIPScenarioTest {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
+	@Test
+	public void createSIPFlow() throws Exception {
 		
-		try {
-			FileOutputStream osFile = new FileOutputStream("teste.jpg");
-			
-			SIPScenario.createSIPScenario(createMessageList(), osFile);
-			
-			osFile.flush();
-			osFile.close();
-			
-			System.out.println("ŚIP call flow created");
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		FileOutputStream osFile = new FileOutputStream("sipscenario-test.jpg");
+		
+		SIPScenario.createSIPScenario(createMessageList(), osFile);
+		
+		osFile.flush();
+		osFile.close();
+		
+		File file = new File("sipscenario-test.jpg");
+		assertTrue(file.exists());
 	}
 
 	/**
 	 * Create an example message list
 	 */
-	private static List<SIPMessage> createMessageList() {
+	private List<SIPMessage> createMessageList() {
 		List<SIPMessage> messages = new ArrayList<SIPMessage>();
 		
 		long startTime = GregorianCalendar.getInstance().getTimeInMillis();

@@ -1,8 +1,5 @@
-#Sat Feb 09 02:27:08 BRST 2008
+#Sat Feb 09 01:39:34 BRST 2008
 eclipse.preferences.version=1
-org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.5
-org.eclipse.jdt.core.compiler.compliance=1.5
-org.eclipse.jdt.core.compiler.source=1.5
 org.eclipse.jdt.core.formatter.align_type_members_on_columns=false
 org.eclipse.jdt.core.formatter.alignment_for_arguments_in_allocation_expression=80
 org.eclipse.jdt.core.formatter.alignment_for_arguments_in_enum_constant=16
