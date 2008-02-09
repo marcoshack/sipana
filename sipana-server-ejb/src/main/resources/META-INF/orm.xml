@@ -16,9 +16,9 @@
 	      <id name="id">
 	      	<generated-value strategy="AUTO"/>
 	      </id>
-	      <one-to-many name="sipSession" mapped-by="org.sipana.protocol.sip.impl.SIPSessionImpl">
+	      <many-to-one name="sipSession" target-entity="org.sipana.protocol.sip.impl.SIPSessionImpl">
 	      	<cascade><cascade-all/></cascade>
-	      </one-to-many>
+	      </many-to-one>
 	   </attributes>
 	</entity>
 	<entity class="org.sipana.protocol.sip.impl.SIPRequestImpl" access="PROPERTY">
