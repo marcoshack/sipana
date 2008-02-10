@@ -17,6 +17,7 @@ import org.sipana.protocol.sip.SIPFactory;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPResponse;
 import org.sipana.protocol.sip.SIPSession;
+import org.sipana.protocol.sip.SIPSessionStatus;
 import org.sipana.protocol.sip.impl.SIPFactoryImpl;
 
 public class SIPHandler implements PacketListener {
@@ -115,7 +116,7 @@ public class SIPHandler implements PacketListener {
         if (session != null) {
             session.addRequest(ack);
             
-            if (session.getState() == SIPSession.FAIL) {
+            if (session.getState() == SIPSessionStatus.FAILED) {
                 terminateSession(session);
             }
             
@@ -162,7 +163,7 @@ public class SIPHandler implements PacketListener {
             case Response.OK:
                 if (method.equals(Request.INVITE)) {
                     session.setEstablishedTime(respTime);
-                    session.setState(SIPSession.ESTABLISHED);
+                    session.setState(SIPSessionStatus.ESTABLISHED);
                     return;
                 } else if (!(method.equals(Request.BYE) && method.equals(Request.CANCEL))) {
                     // non-INVITE request setup time is defined with OK
@@ -171,7 +172,7 @@ public class SIPHandler implements PacketListener {
                 
                 // non-INVITE request ends with OK
                 session.setEndTime(respTime);
-                session.setState(SIPSession.COMPLETE);
+                session.setState(SIPSessionStatus.COMPLETED);
                 terminateSession(session);
                 break;
     
@@ -195,7 +196,7 @@ public class SIPHandler implements PacketListener {
         long responseTime = response.getTime();
         session.setEndTime(responseTime);
         session.setSetupTime(responseTime);
-        session.setState(SIPSession.FAIL);
+        session.setState(SIPSessionStatus.FAILED);
         terminateSession(session);
     }
     

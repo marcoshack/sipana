@@ -7,14 +7,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <body>
 <table>
-
-<c:forEach var="sipSession" items="${sipSessions}">
 	<tr>
-		<td><a href="/sipana/sipsession.show.logic?id=${sipSession.id}">${sipSession.method}</a></td>
+		<th>Method</th>
+		<th>Status</th>
+		<th>From</th>
+		<th>To</th>
+		<th>Call-ID</th>
+	</tr>	
+<c:forEach var="sipSession" items="${sipSessionList}">
+	<tr>
+		<td><a href="/sipana/sipscenario.show.logic?session_id=${sipSession.id}">${sipSession.method}</a></td>
+		<td>${sipSession.status}</td>
+		<td>${sipSession.fromAddr}</td>
+		<td>${sipSession.toAddr}</td>
 		<td>${sipSession.callId}</td>
 	</tr>
 </c:forEach>
-
 </table>
 </body>
 </html>

@@ -35,6 +35,7 @@
 		<dependency>
 			<groupId>org.sipana</groupId>
 			<artifactId>sipana-sipscenario</artifactId>
+			<version>0.1</version>
 			<scope>provided</scope>
 		</dependency>
 

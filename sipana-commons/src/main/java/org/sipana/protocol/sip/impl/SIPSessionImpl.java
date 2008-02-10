@@ -21,9 +21,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.annotations.Where;
+import org.sipana.SipanaProperties;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPResponse;
 import org.sipana.protocol.sip.SIPSession;
+import org.sipana.protocol.sip.SIPSessionStatus;
 
 public class SIPSessionImpl implements SIPSession
 {
@@ -55,7 +57,7 @@ public class SIPSessionImpl implements SIPSession
         setMethod(request.getMethod());
         setCallId(request.getCallID());
         setStartTime(request.getTime());
-        setState(SIPSession.OPEN);
+        setState(SIPSessionStatus.INITIATED);
     }
 
     public long getId() {
