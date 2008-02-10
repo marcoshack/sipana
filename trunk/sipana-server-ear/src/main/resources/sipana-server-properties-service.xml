@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id$ -->
+
+<server>
+	<mbean code="org.jboss.varia.property.SystemPropertiesService"
+		name="sipana:type=Service,name=SipanaProperties">
+
+		<!-- 
+			| Load properties from each of the given comma seperated URLs
+			
+			<attribute name="URLList">
+			http://somehost/some-location.properties,
+			./conf/somelocal.properties
+			</attribute>
+			
+		-->
+
+		<attribute name="Properties">
+
+			sipana.sip.status.initiated   = STARTED
+			sipana.sip.status.established = ESTABLISHED
+			sipana.sip.status.completed   = COMPLETED
+			sipana.sip.status.failed      = FAILED
+			sipana.sip.status.timeout     = TIMEOUT
+			sipana.sip.status.unknown     = UNKNOWN
+
+		</attribute>
+	</mbean>
+</server>

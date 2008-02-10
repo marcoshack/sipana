@@ -21,12 +21,6 @@ import java.io.Serializable;
 import java.util.List;
 
 public interface SIPSession extends Serializable {
-    public static final int OPEN        = 1;
-    public static final int ESTABLISHED = 2;
-    public static final int COMPLETE    = 3;
-    public static final int FAIL        = 4;
-    public static final int TIMEOUT     = 5;
-    
     public long getId();
     public void setId(long id);
     public String getCallId();
