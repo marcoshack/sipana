@@ -1,5 +1,6 @@
 package org.sipana.server.sip;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -44,34 +45,40 @@ public class SIPSessionManagerBean implements SIPSessionManager
         manager.merge(session);
     }
     
-    public List<SIPMessage> getMessageListBySessionId(long id) {
-    	String strQuery = "select m from SIPMessageImpl m, SIPSessionImpl s "
-    		+ "where m.sipSession.id = s.id and s.id = :session_id "
-    		+ "order by m.time";
+    public List<SIPMessage> getMessageListBySessionId(List<Long> sessionIdList) {
+    	StringBuilder sbQuery = new StringBuilder("select m "
+    		+ "from SIPMessageImpl m, SIPSessionImpl s "
+    		+ "where m.sipSession.id = s.id and (");
     	
-    	Query query = manager.createQuery(strQuery);
-    	query.setParameter("session_id", id);
+    	for (int i = 0; i < sessionIdList.size(); ) {
+    		sbQuery.append("s.id = ").append(sessionIdList.get(i));
+    		
+    		if (++i < sessionIdList.size()) {
+    			sbQuery.append(" or ");
+    		}
+    	}
     	
+    	sbQuery.append(") order by m.time");
+    		
+    	Query query = manager.createQuery(sbQuery.toString());
     	return query.getResultList();
     }
     
-    public List<SIPMessage> getMessageListByCallID(String callidList[]) {
-    	StringBuilder sbQuery = new StringBuilder("select m from "
-    		+ "SIPMessageImpl m, SIPSessionImpl s "
-    		+ "where m.sipSession.id = s.id and s.id = :session_id "
-    		+ "and (");
+    
+    public List<SIPMessage> getMessageListByCallID(List<String> callIdList) {
+    	StringBuilder sbQuery = new StringBuilder("select m "
+    		+ "from SIPMessageImpl m, SIPSessionImpl s "
+    		+ "where m.sipSession.id = s.id and (");
     	
-    	int size = callidList.length;
+    	for (int i = 0; i < callIdList.size(); ) {
+    		sbQuery.append("s.callId = '").append(callIdList.get(i)).append("'");
+    		
+    		if (++i < callIdList.size()) {
+    			sbQuery.append(" or ");
+    		}
+    	}
     	
-    	for (int i = 0; i < size; i++) {
-			sbQuery.append("s.callId = '").append(callidList[i]).append("'");
-			
-			if (i < (size - 1)) {
-				sbQuery.append(" or ");
-			}
-		}
-    	
-    	sbQuery.append("order by m.time");
+    	sbQuery.append(") order by m.time");
     	
     	Query query = manager.createQuery(sbQuery.toString());
     	return query.getResultList();

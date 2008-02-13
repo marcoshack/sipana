@@ -1,6 +1,7 @@
 package org.sipana.server.web.sip.scenario;
 
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -25,10 +26,10 @@ public class SIPScenarioLogic {
     private List<SIPMessage> messageList;
     
     @Parameter
-    private String call_id_list = null;
+    private String call_id = null;
     
     @Parameter
-    private long session_id = 0;
+    private String session_id = null;
     
     private SIPSessionManager sipSessionManager;
     
@@ -39,16 +40,34 @@ public class SIPScenarioLogic {
     
     @Viewless
     public void show() throws Exception {
-        if (session_id != 0) {
-            messageList = sipSessionManager.getMessageListBySessionId(session_id);
-        } else if (call_id_list != null) {
-            String items[] = call_id_list.split(",");
-            messageList = sipSessionManager.getMessageListByCallID(items);
+        if (session_id != null) {
+            String strItems[] = session_id.split(",");
+            List<Long> items = new ArrayList<Long>();
+            
+            for (String id : strItems) {
+                items.add(Long.parseLong(id));
+            }
+            
+            if (items.size() > 0) {
+                messageList = sipSessionManager.getMessageListBySessionId(items);
+            }
+        } else if (call_id != null) {
+            String strItems[] = call_id.split(",");
+            List<String> items = new ArrayList<String>();
+            
+            for (String callId : strItems) {
+                items.add(callId);
+            }
+
+            if (items.size() > 0) {
+                messageList = sipSessionManager.getMessageListByCallID(items);
+            }
         }
 
         if (messageList != null) {
             OutputStream outputStream = response.getOutputStream();
-            SIPScenario.createSIPScenario(messageList, outputStream);
+            SIPScenario scenario = new SIPScenario(messageList);
+            scenario.create(outputStream);
         }
     }
 }

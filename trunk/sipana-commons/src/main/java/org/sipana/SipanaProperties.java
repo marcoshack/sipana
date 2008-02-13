@@ -1,10 +1,25 @@
 package org.sipana;
 
-public interface SipanaProperties {
-    public static final String SIPSESSION_STATUS_INITIATED   = "sipana.sip.status.initiated";
-    public static final String SIPSESSION_STATUS_ESTABLISHED = "sipana.sip.status.established";
-    public static final String SIPSESSION_STATUS_COMPLETED   = "sipana.sip.status.completed";
-    public static final String SIPSESSION_STATUS_FAILED      = "sipana.sip.status.failed";
-    public static final String SIPSESSION_STATUS_TIMEOUT     = "sipana.sip.status.timeout";
-    public static final String SIPSESSION_STATUS_UNKNOWN     = "sipana.sip.status.unknown";
+public class SipanaProperties {
+    
+    public static String getProperty(SipanaPropertyType p)
+    {
+        return System.getProperty(p.getKey(), p.getDefaultValue());
+    }
+    
+    public static int getPropertyInt(SipanaPropertyType p) {
+        return Integer.parseInt(getProperty(p));
+    }
+    
+    public static float getPropertyFloat(SipanaPropertyType p) {
+        return Float.parseFloat(getProperty(p));
+    }
+    
+    public static double getPropertyDouble(SipanaPropertyType p) {
+        return Double.parseDouble(getProperty(p));
+    }
+    
+    public static void setProperty(SipanaPropertyType p, String value) {
+        System.setProperty(p.getKey(), value);
+    }
 }
