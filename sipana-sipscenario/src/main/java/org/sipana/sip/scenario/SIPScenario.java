@@ -5,12 +5,17 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import org.sipana.SipanaProperties;
+import org.sipana.SipanaPropertyType;
 import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPResponse;
@@ -25,10 +30,19 @@ public class SIPScenario {
 	private static final int HOST_STEP_W  = 150;
 	private static final int HOST_LINE_OFFSET_W = 54;
 	private static final int HOST_LINE_OFFSET_H = 8;
-	private static final int MSG_STEP_H = 20;
+	private static final int MSG_STEP_H = 26;
+	private static final List<Color> colors = createColorList();
+	private int currColor = 0;
+	private int imgWidth;
+	private int imgHeight;
+	private List<SIPMessage> messages;
+	private Map<String, Color> sessionColors;
 	
 	// avoid unnecessary instantiation
-	private SIPScenario() {}
+	public SIPScenario(List<SIPMessage> messages) {
+		this.messages = messages;
+		sessionColors = new HashMap<String, Color>();
+	}
 	
 	/**
 	 * Create SIP Scenario diagram and save it as a JPEG image file.
@@ -37,22 +51,19 @@ public class SIPScenario {
 	 * @param OutputStream to write the encoded JPEG image
 	 * @author mhack
 	 */
-	public static void createSIPScenario(List<SIPMessage> messages, OutputStream outputStream)
-		throws Exception 
-	{
+	public void create(OutputStream outputStream) throws Exception {
 		HashMap<String, Integer> hostList = createHostListWithWeightPosition(messages);
 		
-		int imgWidth = (HOST_STEP_W * hostList.size()) + HOST_INIT_W;
-		int imgHeight = (MSG_STEP_H * messages.size()) + (IMAGE_BORDER * 3); 
+		imgWidth = (HOST_STEP_W * hostList.size()) + HOST_INIT_W;
+		imgHeight = (MSG_STEP_H * messages.size()) + (IMAGE_BORDER * 3); 
 		
 		BufferedImage buffImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
 		Graphics2D graph = buffImage.createGraphics();
 		graph.setBackground(Color.WHITE);
 		graph.clearRect(1, 1, imgWidth-2, imgHeight-2);
 		
-		drawHosts(graph, imgHeight, hostList);
-		
 		drawMessages(graph, messages, hostList);
+		drawHosts(graph, imgHeight, hostList);
 		
 		StringBuilder sbFilename = new StringBuilder("sip_callflow-");
 		sbFilename.append(UUID.randomUUID()).append(".jpg");
@@ -61,7 +72,7 @@ public class SIPScenario {
 		encoder.encode(buffImage);
 	}
 
-	private static void drawMessages(Graphics2D graph,
+	private void drawMessages(Graphics2D graph,
 			List<SIPMessage> messages, HashMap<String, Integer> hostList) 
 	{
 		// stroke for message's continuous line
@@ -78,25 +89,41 @@ public class SIPScenario {
 			String dstAddr = message.getDstAddress();
 			int srcWPos = hostList.get(srcAddr);
 			int dstWPos = hostList.get(dstAddr);
+
+			// draw session's background color
+			Color msgBkgrdColor = getSessionColor(message.getCallID());
+			graph.setColor(msgBkgrdColor);
+			int x1 = IMAGE_BORDER;
+			int y1 = h - (MSG_STEP_H/2);
+			int x2 = imgWidth - IMAGE_BORDER;
+			int y2 = h + (MSG_STEP_H/2);
+			Rectangle msgColorBox = new Rectangle(x1,y1,x2,y2);
+			graph.fill(msgColorBox);
+			graph.draw(msgColorBox);
+			
+			graph.setColor(Color.BLACK);
 			
 			// set start time with first message's time
 			if (startTime == null) {
 				startTime = message.getTime();
 			}
-			long relativeTime = message.getTime() - startTime;
 			
 			// relative time stamp
+			long relativeTime = message.getTime() - startTime;
 			graph.drawString(String.valueOf(relativeTime), IMAGE_BORDER, h+5);
 			
-			// line
+			// arrow line
 			graph.drawLine(srcWPos, h, dstWPos, h);
 			
 			// arrow
+			int arrowWidth = SipanaProperties.getPropertyInt(SipanaPropertyType.SIPSCENARIO_ARROW_WIDTH);
+			int arrowHeight = SipanaProperties.getPropertyInt(SipanaPropertyType.SIPSCENARIO_ARROW_HEIGHT);
 			Polygon arrow = new Polygon();
 			arrow.addPoint(dstWPos, h);
-			int wInc = (dstWPos > srcWPos) ? -8 : 8;
-			arrow.addPoint(dstWPos + wInc, h - 3);
-			arrow.addPoint(dstWPos + wInc, h + 3);
+			int wInc = (dstWPos > srcWPos) ? -arrowWidth : arrowWidth;
+			arrow.addPoint(dstWPos + wInc, h - arrowHeight);
+			arrow.addPoint(dstWPos + wInc, h + arrowHeight);
+			graph.fillPolygon(arrow);
 			graph.drawPolygon(arrow);
 			
 			// text
@@ -116,7 +143,7 @@ public class SIPScenario {
 		}
 	}
 
-	private static void drawHosts(Graphics2D graph, int height,
+	private void drawHosts(Graphics2D graph, int height,
 			HashMap<String, Integer> hostList) 
 	{
 		graph.setColor(Color.BLACK);
@@ -135,7 +162,7 @@ public class SIPScenario {
 		}
 	}
 
-	private static HashMap<String, Integer> createHostListWithWeightPosition(
+	private HashMap<String, Integer> createHostListWithWeightPosition(
 			List<SIPMessage> messages) 
 	{
 		HashMap<String, Integer> hostList = new HashMap<String, Integer>();
@@ -157,5 +184,40 @@ public class SIPScenario {
 		}
 
 		return hostList;
+	}
+	
+	private Color getSessionColor(String callId) {
+		Color color;
+
+		// Get color for session with the specified callId, otherwise get the 
+		// next available color and associate it to this callId.
+		if (sessionColors.containsKey(callId)) {
+			color = sessionColors.get(callId);
+		} else {
+			// Restart current color if all available was used 
+			if (currColor == colors.size()) {
+				currColor = 0;
+			}
+			
+			color = colors.get(currColor++);
+			sessionColors.put(callId, color);
+		}
+		
+		return color;
+	}
+	
+	private static List<Color> createColorList() {
+		String strColorList = SipanaProperties.getProperty(SipanaPropertyType.SIPSCENARIO_COLORS);
+		String colorList[] = strColorList.split(",");
+		
+		List<Color> colors = new ArrayList<Color>();
+		
+		for (String strColor : colorList) {
+			int rgbColor = Integer.parseInt(strColor, 16);
+			Color color = new Color(rgbColor);
+			colors.add(color);
+		}
+		
+		return colors;
 	}
 }
