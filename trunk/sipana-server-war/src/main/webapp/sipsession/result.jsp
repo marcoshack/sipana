@@ -12,7 +12,7 @@
 			<h:selectManyCheckbox layout="pageDirection" value="#{sipSession.sessionId}">
 				<f:selectItems value="#{sipSession.sipSessionList}"/>
 			</h:selectManyCheckbox>
-			<h:commandButton action="#{sipSession.show}" value="OK"/>
+			<h:commandButton action="#{sipSession.show}" value="Draw the Graph"/>
 		</h:form>
 	</f:view>
 </body>

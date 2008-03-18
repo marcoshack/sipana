@@ -10,15 +10,15 @@
 	<f:view>
 	
 		<h:form>
-			<h:outputText value="De: "/>
+			<h:outputText value="Start Date: "/>
          	<h:inputText value="#{sipSession.startTime}">
          		<f:converter  converterId="millisConverter"/>
          	</h:inputText>
-         	<h:outputText value=" ate: "/>
+         	<h:outputText value=" End Date: "/>
          	<h:inputText value="#{sipSession.endTime}">
          		<f:converter  converterId="millisConverter"/>
          	</h:inputText>
-         	<h:commandButton action="#{sipSession.list}" value="OK"/>
+         	<h:commandButton action="#{sipSession.list}" value="Search"/>
 		</h:form>
 		
 	</f:view>
