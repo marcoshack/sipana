@@ -1,6 +1,8 @@
 package org.sipana.server.web.sip.session;
 
-public class SIPSessionItem {
+import javax.faces.model.SelectItem;
+
+public class SIPSessionItem{
     private long id;
     private String method;
     private String callId;

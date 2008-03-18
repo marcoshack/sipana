@@ -5,22 +5,36 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-	<display-name>vraptor2</display-name>
-
+	<display-name>SipanaJSF</display-name>
+	
 	<context-param>
-		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext </param-name>
-		<param-value>messages</param-value>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
 	</context-param>
-
+                                                                                               51
+	<context-param>
+		<param-name>javax.faces.CONFIG_FILES</param-name>
+		<param-value>/WEB-INF/faces-config.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+	</listener>
+	
+	<!-- Faces Servlet -->
 	<servlet>
-		<servlet-name>vraptor2</servlet-name>
-		<servlet-class>org.vraptor.VRaptorServlet</servlet-class>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-
+        
+	<!-- Faces Servlet Mapping -->
 	<servlet-mapping>
-		<servlet-name>vraptor2</servlet-name>
-		<url-pattern>*.logic</url-pattern>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
 
 </web-app>
