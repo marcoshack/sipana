@@ -15,8 +15,6 @@ import org.sipana.sip.scenario.SIPScenario;
 
 public class SIPScenarioLogic {
 
-    private HttpServletResponse response;
-
     private List<SIPMessage> messageList;
     
     private String call_id = null;
