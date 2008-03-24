@@ -21,6 +21,12 @@
          	<h:commandButton action="#{sipSession.list}" value="Search"/>
 		</h:form>
 		
+		<h:form>
+			<h:selectManyCheckbox layout="pageDirection" value="#{sipScenario.sessionId}">
+				<f:selectItems value="#{sipSession.sipSessionList}"/>
+			</h:selectManyCheckbox>
+			<h:commandButton action="#{sipScenario.show}" value="Draw the Graph"/>
+		</h:form>
 	</f:view>
 </body>
 </html>
