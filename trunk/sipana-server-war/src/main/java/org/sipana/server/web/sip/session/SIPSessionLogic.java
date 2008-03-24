@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import javax.annotation.PreDestroy;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletResponse;
@@ -21,11 +20,7 @@ import org.sipana.sip.scenario.SIPScenario;
 
 public class SIPSessionLogic {
 
-    private String call_id = null;
-
     private List<SelectItem> sipSessionList = null;
-
-    private List<SIPMessage> messageList;
 
     // List all SIP sessions
 
