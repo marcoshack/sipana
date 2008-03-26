@@ -17,7 +17,7 @@ public class SIPScenarioLogic {
 
     private List<SIPMessage> messageList;
     
-    private String call_id = null;
+    private String[] callId = null;
     
     private String[] sessionId = null;
     
@@ -29,7 +29,7 @@ public class SIPScenarioLogic {
     }
     
     public void show() throws Exception {
-        if (sessionId.length > 0) {
+        if (sessionId != null) {
 
             List<Long> items = new ArrayList<Long>();
 
@@ -40,12 +40,12 @@ public class SIPScenarioLogic {
             if (items.size() > 0) {
                 messageList = sipSessionManager.getMessageListBySessionId(items);
             }
-        } else if (call_id != null) {
-            String strItems[] = call_id.split(",");
+        } else if (callId != null) {
+            
             List<String> items = new ArrayList<String>();
 
-            for (String callId : strItems) {
-                items.add(callId);
+            for (String id : callId) {
+                items.add(id);
             }
 
             if (items.size() > 0) {
@@ -74,5 +74,13 @@ public class SIPScenarioLogic {
 
     public String[] getSessionId() {
         return sessionId;
+    }
+    
+    public void setcallId(String[] callId) {
+        this.callId = callId;
+    }
+
+    public String[] getcallId() {
+        return callId;
     }
 }
