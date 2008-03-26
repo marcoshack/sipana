@@ -46,15 +46,14 @@ public class SIPSessionLogic {
 
         for (SIPSessionImpl session : sipSessions) {
 
-            String item = "id:" + session.getId() + ", method:"
+            String item = "CallId: "+ session.getCallId() + ", method: "
                     + session.getMethod();
             SIPRequest firstRequest = session.getRequests().get(0);
-            item += ", From:" + firstRequest.getFromUser() + ", To:"
-                    + firstRequest.getToUser() + ", CallId:"
-                    + session.getCallId() + ", Status:"
+            item += ", From: " + firstRequest.getFromUser() + ", To: "
+                    + firstRequest.getToUser() + ", Status: "
                     + SIPSessionStatus.getStateString(session.getState());
 
-            sipSessionList.add(new SelectItem(session.getId(), item));
+            sipSessionList.add(new SelectItem(session.getCallId(), item));
         }
 
         return "list";
