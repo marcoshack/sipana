@@ -35,7 +35,7 @@ public class SIPSessionLogic {
         sipSessionManager = (SIPSessionManager) serviceLocator.getService(Service.SIP_SESSION_MANAGER);
     }
 
-    public String list() {
+    public void list() {
         
         if(endTime==0)
             endTime=Calendar.getInstance().getTimeInMillis();
@@ -55,8 +55,14 @@ public class SIPSessionLogic {
 
             sipSessionList.add(new SelectItem(session.getCallId(), item));
         }
+    }
+    
+    public void reset() {
+        
+        startTime = 0;
+        endTime = 0;
+        sipSessionList = new ArrayList<SelectItem>();
 
-        return "list";
     }
 
     public long getStartTime() {
