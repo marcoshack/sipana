@@ -4,12 +4,12 @@ BODY{
 
 FIELDSET {
 	background-color: f5f5f5;
-	width:800px;
-	border-top:1px solid #666666;
-	border-left:10px solid #000000;
-	border-bottom:5px outset #000000;
-	border-right: 1px outset #666666;
-	margin-top:10px;
+	width:590pt;
+	border-top:1pt solid #666666;
+	border-left:10pt solid #000000;
+	border-bottom:5pt outset #000000;
+	border-right: 1pt outset #666666;
+	margin-top:10pt;
 }
 
 FIELDSET LEGEND{
@@ -25,15 +25,15 @@ LABEL {
 
 IMG {
 	cursor: pointer; 
-	border-bottom: 1px solid #000000;
-	border-left: 1px solid #000000;
+	border-bottom: 1pt solid #000000;
+	border-left: 1pt solid #000000;
 }
 
 .date {
 	background-color: #FFFFFF;
 	font-family: sans-serif;
 	font-size: 8pt;
-	width: 300px;
+	width: 200pt;
 }
 
 .alert{
@@ -44,6 +44,6 @@ IMG {
 }
 
 .session{
-	width: 900px;	
+	width: 690pt;	
 }
 

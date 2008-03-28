@@ -2,6 +2,8 @@ package org.sipana.server.web.sip.converter;
 
 import static java.lang.Integer.parseInt;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.faces.component.UIComponent;
@@ -16,10 +18,18 @@ public class MillisConverter implements Converter {
         try {
             if (param != "") {
                 Calendar calendar = Calendar.getInstance();
-                String[] date = param.split("/");
-                calendar.set(parseInt(date[2]),
-                        (parseInt(date[1]) - 1),
+                String[] date = param.split("/| |:");
+                
+                if(date.length==3){
+                calendar.set(parseInt(date[2]), (parseInt(date[1]) - 1),
                         parseInt(date[0]));
+                }
+                else{
+                calendar.set(parseInt(date[2]), (parseInt(date[1]) - 1),
+                        parseInt(date[0]),parseInt(date[3]),
+                        parseInt(date[4]));
+                }
+                
                 Long millis = calendar.getTimeInMillis();
                 return millis;
             } else
@@ -34,13 +44,14 @@ public class MillisConverter implements Converter {
             UIComponent uiComponent, Object obj) {
         try {
             Long millis = (Long) obj;
+            
             if (millis != 0) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(millis);
-                return "" + calendar.get(Calendar.DAY_OF_MONTH) + "/"
-                        + (calendar.get(Calendar.MONTH)+1) + "/"
-                        + calendar.get(Calendar.YEAR);
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                return df.format(calendar.getTime());
             }
+            
             return "";
         } catch (Exception exception) {
             throw new ConverterException(exception);

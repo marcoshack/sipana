@@ -14,7 +14,7 @@
 		<h:form>
 			<fieldset>
 				<legend> :: Date for search</legend>
-				<h:outputText styleClass="alert" value="*Start and end date format - dd/mm/yyyy."/><br/>
+				<h:outputText styleClass="alert" value="*Start and end date format - dd/MM/yyyy hh:mm."/><br/>
 				<h:outputText value="Start Date: "/>
          		<h:inputText styleClass="date" value="#{sipSession.startTime}">
          			<f:converter  converterId="millisConverter"/>
