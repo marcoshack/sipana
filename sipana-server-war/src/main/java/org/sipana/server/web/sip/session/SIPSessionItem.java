@@ -1,8 +1,7 @@
 package org.sipana.server.web.sip.session;
 
-import javax.faces.model.SelectItem;
-
 public class SIPSessionItem{
+    
     private long id;
     private String method;
     private String callId;
@@ -16,30 +15,35 @@ public class SIPSessionItem{
     public void setId(long id) {
         this.id = id;
     }
+    
     public String getMethod() {
         return method;
     }
     public void setMethod(String method) {
         this.method = method;
     }
+    
     public String getCallId() {
         return callId;
     }
     public void setCallId(String callId) {
         this.callId = callId;
     }
+    
     public String getFromAddr() {
         return fromAddr;
     }
     public void setFromAddr(String fromAddr) {
         this.fromAddr = fromAddr;
     }
+    
     public String getToAddr() {
         return toAddr;
     }
     public void setToAddr(String toAddr) {
         this.toAddr = toAddr;
     }
+    
     public String getStatus() {
         return status;
     }

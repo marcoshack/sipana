@@ -16,18 +16,17 @@ import org.sipana.sip.scenario.SIPScenario;
 public class SIPScenarioLogic {
 
     private List<SIPMessage> messageList;
-    
+
     private String[] callId = null;
-    
     private String[] sessionId = null;
-    
+
     private SIPSessionManager sipSessionManager;
-    
+
     public SIPScenarioLogic() {
         ServiceLocator serviceLocator = ServiceLocator.getInstance();
         sipSessionManager = (SIPSessionManager) serviceLocator.getService(Service.SIP_SESSION_MANAGER);
     }
-    
+
     public void show() throws Exception {
         if (sessionId != null) {
 
@@ -41,7 +40,7 @@ public class SIPScenarioLogic {
                 messageList = sipSessionManager.getMessageListBySessionId(items);
             }
         } else if (callId != null) {
-            
+
             List<String> items = new ArrayList<String>();
 
             for (String id : callId) {
@@ -55,9 +54,9 @@ public class SIPScenarioLogic {
 
         if (messageList != null) {
 
-            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance()
-                                                                            .getExternalContext()
-                                                                            .getResponse();
+            HttpServletResponse response = 
+                (HttpServletResponse) FacesContext.getCurrentInstance()
+                                            .getExternalContext().getResponse();
 
             OutputStream outputStream = response.getOutputStream();
             SIPScenario scenario = new SIPScenario(messageList);
@@ -67,7 +66,7 @@ public class SIPScenarioLogic {
         }
 
     }
-    
+
     public void setSessionId(String[] sessionId) {
         this.sessionId = sessionId;
     }
@@ -75,7 +74,7 @@ public class SIPScenarioLogic {
     public String[] getSessionId() {
         return sessionId;
     }
-    
+
     public void setcallId(String[] callId) {
         this.callId = callId;
     }
