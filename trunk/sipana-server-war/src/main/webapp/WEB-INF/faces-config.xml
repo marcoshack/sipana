@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<faces-config>
-    
-    
+<faces-config> 
 	
 	<managed-bean>
 		<managed-bean-name>sipSession</managed-bean-name>
-		<managed-bean-class>org.sipana.server.web.sip.session.SIPSessionLogic</managed-bean-class>
+		<managed-bean-class>
+			org.sipana.server.web.sip.session.SIPSessionLogic
+		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	
 	<managed-bean>
 		<managed-bean-name>sipScenario</managed-bean-name>
-		<managed-bean-class>org.sipana.server.web.sip.scenario.SIPScenarioLogic</managed-bean-class>
+		<managed-bean-class>
+			org.sipana.server.web.sip.scenario.SIPScenarioLogic
+		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	
 	<converter>
 		<converter-id>millisConverter</converter-id>
-		<converter-class>org.sipana.server.web.sip.converter.MillisConverter</converter-class>
+		<converter-class>
+			org.sipana.server.web.sip.converter.MillisConverter
+		</converter-class>
 	</converter>
 	
 </faces-config>
