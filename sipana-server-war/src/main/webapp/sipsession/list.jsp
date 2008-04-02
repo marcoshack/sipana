@@ -15,41 +15,41 @@
 	<f:view>
 		
 		<h:form>
-			<fieldset>
+			<fieldset class="date">
 				<legend> :: Date for search</legend>
 				
 				<h:outputText styleClass="alert" value="*Start and end date format - dd/MM/yyyy hh:mm."/><br/>
 				
 				<h:outputText value="Start Date: "/>
-         		<h:inputText id="start" styleClass="date" value="#{sipSession.startTime}">
+         		<h:inputText id="start" value="#{sipSession.startTime}">
          			<f:converter  converterId="millisConverter"/>
          		</h:inputText>
          		<img id="trigger_start" src="/sipana/sipsession/resources/images/date.gif"/>
          		
          		<h:outputText value=" End Date: "/>
-         		<h:inputText id="end" styleClass="date" value="#{sipSession.endTime}">
+         		<h:inputText id="end" value="#{sipSession.endTime}">
          			<f:converter  converterId="millisConverter"/>
          		</h:inputText>
          		<img id="trigger_end" src="/sipana/sipsession/resources/images/date.gif"/><br/>       		
          		
-         		<h:message styleClass="alert" for="start" style="position: absolute; margin-left:60pt;"/>
-         		<h:message styleClass="alert" for="end" style="position: absolute; margin-left:330pt;"/><br/>
+         		<h:message styleClass="alert alert1" for="start"/>
+         		<h:message styleClass="alert alert2" for="end"/><br/>
          		
-         		<h:commandButton styleClass="date" action="#{sipSession.list}" value="Search"/>
-         		<h:commandButton styleClass="date" action="#{sipSession.reset}" value="Reset"/>
+         		<h:commandButton action="#{sipSession.list}" value="Search"/>
+         		<h:commandButton action="#{sipSession.reset}" value="Reset"/>
          		
          	</fieldset>
 		</h:form>
 		
 		<h:form>
-			<fieldset class="session">
+			<fieldset>
 				<legend> :: SipSessions</legend>
 				
-				<h:selectManyCheckbox layout="pageDirection" value="#{sipScenario.callId}">
+				<h:selectManyCheckbox styleClass="check" layout="pageDirection" value="#{sipScenario.callId}">
 					<f:selectItems value="#{sipSession.sipSessionList}"/>
 				</h:selectManyCheckbox><br/>
 				
-				<h:commandButton styleClass="date" action="#{sipScenario.show}" value="Draw the Graph"/>
+				<h:commandButton styleClass="btn" action="#{sipScenario.show}" value="Draw the Graph"/>
 				
 			</fieldset>
 		</h:form>

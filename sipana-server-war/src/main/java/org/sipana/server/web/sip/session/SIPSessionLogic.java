@@ -15,7 +15,7 @@ import org.sipana.server.sip.SIPSessionManager;
 
 public class SIPSessionLogic {
 
-    private List<SelectItem> sipSessionList = null;
+    private List<SelectItem> sipSessionList = new ArrayList<SelectItem>();
 
     private long startTime;
     private long endTime;
@@ -23,7 +23,6 @@ public class SIPSessionLogic {
     private SIPSessionManager sipSessionManager;
 
     public SIPSessionLogic() {
-        sipSessionList = new ArrayList<SelectItem>();
         ServiceLocator serviceLocator = ServiceLocator.getInstance();
         sipSessionManager = (SIPSessionManager) serviceLocator.getService(Service.SIP_SESSION_MANAGER);
     }
@@ -33,8 +32,7 @@ public class SIPSessionLogic {
         if(endTime==0)
             endTime=Calendar.getInstance().getTimeInMillis();
 
-        List<SIPSessionImpl> sipSessions = sipSessionManager.getSIPSessions(startTime,
-                endTime);
+        List<SIPSessionImpl> sipSessions = sipSessionManager.getSIPSessions(startTime,endTime);
         sipSessionList = new ArrayList<SelectItem>();
 
         for (SIPSessionImpl session : sipSessions) {
@@ -72,7 +70,7 @@ public class SIPSessionLogic {
         this.endTime = endTime;
     }
 
-    public List getSipSessionList() {
+    public List<SelectItem> getSipSessionList() {
         return sipSessionList;
     }
     
