@@ -17,6 +17,7 @@ public class SIPScenarioLogic {
 
     private List<SIPMessage> messageList;
 
+    //list all SIP sessions
     private String[] callId = null;
     private String[] sessionId = null;
 
