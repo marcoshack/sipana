@@ -76,11 +76,11 @@ public class SIPScenarioLogic {
         return sessionId;
     }
 
-    public void setcallId(String[] callId) {
+    public void setCallId(String[] callId) {
         this.callId = callId;
     }
 
-    public String[] getcallId() {
+    public String[] getCallId() {
         return callId;
     }
 }
