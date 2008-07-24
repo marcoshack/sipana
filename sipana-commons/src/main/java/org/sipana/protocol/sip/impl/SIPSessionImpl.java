@@ -21,7 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.annotations.Where;
-import org.sipana.SipanaProperties;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPResponse;
 import org.sipana.protocol.sip.SIPSession;
@@ -41,6 +40,8 @@ public class SIPSessionImpl implements SIPSession
     private int state;
     private String callID;
     private String method;
+    private String fromUser;
+    private String toUser;
     private List<SIPRequest> requests;
     private List<SIPResponse> responses;
 
@@ -58,6 +59,8 @@ public class SIPSessionImpl implements SIPSession
         setCallId(request.getCallID());
         setStartTime(request.getTime());
         setState(SIPSessionStatus.INITIATED);
+        setFromUser(request.getFromUser());
+        setToUser(request.getToUser());
     }
 
     public long getId() {
@@ -211,5 +214,21 @@ public class SIPSessionImpl implements SIPSession
         }
 
         return sb.toString();
+    }
+
+    public String getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(String from) {
+        this.fromUser = from;
+    }
+
+    public String getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(String to) {
+        this.toUser = to;
     }
 }

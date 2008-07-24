@@ -95,7 +95,7 @@ public class SIPScenario {
 			graph.setColor(msgBkgrdColor);
 			int x1 = IMAGE_BORDER;
 			int y1 = h - (MSG_STEP_H/2);
-			int x2 = imgWidth - IMAGE_BORDER;
+			int x2 = imgWidth - (IMAGE_BORDER * 2); // pull out both borders
 			int y2 = h + (MSG_STEP_H/2);
 			Rectangle msgColorBox = new Rectangle(x1,y1,x2,y2);
 			graph.fill(msgColorBox);

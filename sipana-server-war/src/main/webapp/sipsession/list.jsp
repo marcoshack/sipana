@@ -16,7 +16,7 @@
 		
 		<h:form>
 			<fieldset class="date">
-				<legend> :: Date for search</legend>
+				<legend> :: Search</legend>
 				
 				<h:outputText styleClass="alert" value="*Start and end date format - dd/MM/yyyy hh:mm."/><br/>
 				
@@ -30,8 +30,19 @@
          		<h:inputText id="end" value="#{sipSession.endTime}">
          			<f:converter  converterId="millisConverter"/>
          		</h:inputText>
-         		<img id="trigger_end" src="/sipana/sipsession/resources/images/date.gif"/><br/>       		
+         		<img id="trigger_end" src="/sipana/sipsession/resources/images/date.gif"/>
+         		<br>
          		
+         		<h:outputText value="Method: "/>
+         		<h:inputText id="method" value="#{sipSession.method}"/>
+         		<br>
+         		
+         		<h:outputText value=" From user: "/>
+         		<h:inputText id="from" value="#{sipSession.fromUser}"/>
+         		<h:outputText value="To user: "/>
+         		<h:inputText id="to" value="#{sipSession.toUser}"/>
+         		<br>
+
          		<h:message styleClass="alert alert1" for="start"/>
          		<h:message styleClass="alert alert2" for="end"/><br/>
          		
@@ -43,13 +54,14 @@
 		
 		<h:form>
 			<fieldset>
-				<legend> :: SipSessions</legend>
+				<legend> :: SIP Sessions</legend>
 				
-				<h:selectManyCheckbox styleClass="check" layout="pageDirection" value="#{sipScenario.callId}">
+				<h:selectManyCheckbox styleClass="list" layout="pageDirection" value="#{sipScenario.callId}">
 					<f:selectItems value="#{sipSession.sipSessionList}"/>
 				</h:selectManyCheckbox><br/>
 				
-				<h:commandButton styleClass="btn" action="#{sipScenario.show}" value="Draw the Graph"/>
+				<h:commandButton styleClass="btn" action="#{sipScenario.show}" value="Draw the Graph" /><br>
+				<h:commandButton styleClass="btn" action="#{sipSession.details}" value="Details" />
 				
 			</fieldset>
 		</h:form>

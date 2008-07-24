@@ -10,7 +10,7 @@
 	<persistence-unit name="sipana">
 		<jta-data-source>java:/MySQLDB</jta-data-source>
 		<properties>
-			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+			<!--property name="hibernate.hbm2ddl.auto" value="create-drop"/-->
 			<property name="dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
 		</properties>
 	</persistence-unit>

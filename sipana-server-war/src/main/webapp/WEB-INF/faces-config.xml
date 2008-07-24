@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<faces-config> 
-	
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+							http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd" 
+							version="1.2"> 
+
+	<navigation-rule>
+		<from-view-id>/sipsession/list.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>details</from-outcome>
+			<to-view-id>/sipsession/details.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>	
+
 	<managed-bean>
 		<managed-bean-name>sipSession</managed-bean-name>
 		<managed-bean-class>
@@ -24,6 +36,5 @@
 			org.sipana.server.web.sip.converter.MillisConverter
 		</converter-class>
 	</converter>
-	
 </faces-config>
 

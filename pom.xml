@@ -17,6 +17,7 @@
 		<module>sipana-server-war</module>
 		<module>sipana-commons</module>
 		<module>sipana-client</module>
+		<module>sipana-sipscenario</module>
 	</modules>
 
 	<distributionManagement>
@@ -43,6 +44,7 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.14</version>
+                        <scope>provided</scope>
 		</dependency>
 	</dependencies>
 
