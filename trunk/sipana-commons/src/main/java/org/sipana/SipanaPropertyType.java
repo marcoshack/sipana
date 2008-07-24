@@ -18,7 +18,9 @@ public enum SipanaPropertyType {
     
     SIPSCENARIO_ARROW_HEIGHT("sipana.sip.scenario.arrowsize", "3"),
     
-    SIPSCENARIO_COLORS("sipana.sip.scenario.colors", "64ff64,79b8ff,fbff93,ff9a56,b0ff63,fc8bf0,ff8d8d");
+    SIPSCENARIO_COLORS("sipana.sip.scenario.colors", "64ff64,79b8ff,fbff93,ff9a56,b0ff63,fc8bf0,ff8d8d"),
+    
+    SIPANA_DATE_FORMAT("sipana.date.format", "");
     
     private String key;
     private String defaultValue;

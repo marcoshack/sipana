@@ -34,9 +34,16 @@ public class SipanaClient {
             String filter = configManager.getCaptureFilter();
             String device = configManager.getCaptureInterface();
 			CaptureSession capSession = captureManager.createCaptureSession(filter, device, handler);
-			
-			sender.start();
 			capSession.start();
+
+			logger.debug("Waiting for CaptureSession...");
+			Thread.sleep(3000);
+			
+			if (capSession.getState() == CaptureSession.RUNINNG) {
+			    sender.start();
+			} else {
+			    logger.error("Couldn't start capture session");
+			}
             
 		} catch (ConfigException e) {
 			logger.error("Fail configuring client", e);

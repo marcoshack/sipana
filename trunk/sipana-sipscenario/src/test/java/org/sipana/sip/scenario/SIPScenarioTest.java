@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPRequest;
@@ -16,33 +17,21 @@ import org.sipana.protocol.sip.impl.SIPRequestImpl;
 import org.sipana.protocol.sip.impl.SIPResponseImpl;
 
 public class SIPScenarioTest {
-
-	@Test
-	public void createSIPFlow() throws Exception {
-
-		FileOutputStream osFile = new FileOutputStream("sipscenario-test.jpg");
-
-		SIPScenario scenario = new SIPScenario(createMessageList());
-		scenario.create(osFile);
-
-		osFile.flush();
-		osFile.close();
-
-		File file = new File("sipscenario-test.jpg");
-		assertTrue(file.exists());
-	}
+	
+	private List<SIPMessage> messages; 
 
 	/**
-	 * Create an example message list
+	 * Create a sample message list
 	 */
-	private List<SIPMessage> createMessageList() {
-		List<SIPMessage> messages = new ArrayList<SIPMessage>();
+	@Before
+	public void createMessageList() {
+		 messages = new ArrayList<SIPMessage>();
 
 		long startTime = GregorianCalendar.getInstance().getTimeInMillis();
 
 		List<String> callIdList = new ArrayList<String>();
 		callIdList.add("AAA");
-		callIdList.add("BBB");
+		//callIdList.add("BBB");
 
 		for (String callId : callIdList) {
 			SIPRequest reqInvite = new SIPRequestImpl();
@@ -88,7 +77,20 @@ public class SIPScenarioTest {
 			res200Bye.setCallID(callId);
 			messages.add(res200Bye);
 		}
+	}
+	
+	@Test
+	public void createSIPFlow() throws Exception {
 
-		return messages;
+		FileOutputStream osFile = new FileOutputStream("sipscenario-test.jpg");
+
+		SIPScenario scenario = new SIPScenario(messages);
+		scenario.create(osFile);
+
+		osFile.flush();
+		osFile.close();
+
+		File file = new File("sipscenario-test.jpg");
+		assertTrue(file.exists());
 	}
 }

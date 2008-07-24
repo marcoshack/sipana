@@ -75,7 +75,7 @@ public class CaptureSessionImpl implements CaptureSession, Runnable {
         capturer.capture(CaptureSession.DEFAULT_COUNT);
     }
 
-    private void stopCapture() throws Exception {
+    private void stopCapture() {
         capturer.endCapture();
     }
     
@@ -90,7 +90,7 @@ public class CaptureSessionImpl implements CaptureSession, Runnable {
         logger.info("Capture Session Id=" + getId() + " started");
     }
     
-    public synchronized void stop() throws Exception {
+    public synchronized void stop() {
         logger.info("Stopping Capture Session Id=" + getId());
         stopCapture();
         state = CaptureSession.IDLE;
@@ -105,6 +105,7 @@ public class CaptureSessionImpl implements CaptureSession, Runnable {
             } 
             catch (Exception e) {
                 logger.error("Fail running Capture Session: " + e.getMessage(), e);
+                stop();
             }
             finally {
                 capturer.close();
