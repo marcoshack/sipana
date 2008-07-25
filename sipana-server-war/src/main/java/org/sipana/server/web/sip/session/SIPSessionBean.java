@@ -15,19 +15,21 @@ import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
 import org.sipana.server.sip.SIPSessionManager;
 
-public class SIPSessionLogic {
+public class SIPSessionBean {
     private SIPSessionManager sipSessionManager;
-    private Logger logger = Logger.getLogger(SIPSessionLogic.class);
+    private Logger logger = Logger.getLogger(SIPSessionBean.class);
 
     // Logic parameters
     private List<SelectItem> sipSessionList = new ArrayList<SelectItem>();
+    private int listSize;
     private long startTime;
     private long endTime;
     private String method;
     private String fromUser;
     private String toUser;
+    private String callId;
     
-    public SIPSessionLogic() {
+    public SIPSessionBean() {
         ServiceLocator serviceLocator = ServiceLocator.getInstance();
         sipSessionManager = (SIPSessionManager) serviceLocator.getService(Service.SIP_SESSION_MANAGER);
     }
@@ -48,10 +50,13 @@ public class SIPSessionLogic {
             sbDebug.append(", method: ").append(method);
             sbDebug.append(", fromUser: ").append(fromUser);
             sbDebug.append(", toUser: ").append(toUser);
+            sbDebug.append(", callId: ").append(callId);
             logger.debug(sbDebug);
         }
         
-        List<SIPSessionImpl> sipSessions = sipSessionManager.getSIPSessions(startTime, endTimeFinal, method, fromUser, toUser);
+        List<SIPSessionImpl> sipSessions = sipSessionManager.getSIPSessions(
+                startTime, endTimeFinal, method, fromUser, toUser, callId);
+        
         sipSessionList = new ArrayList<SelectItem>();
 
         for (SIPSessionImpl session : sipSessions) {
@@ -67,12 +72,15 @@ public class SIPSessionLogic {
             
             sipSessionList.add(new SelectItem(session.getCallId(), item.toString()));
         }
+        
+        listSize = sipSessionList.size();
     }
     
     public void reset() {       
         startTime = 0;
         endTime = 0;
         sipSessionList.clear();
+        listSize = 0;
     }
     
     public String details() {
@@ -138,5 +146,17 @@ public class SIPSessionLogic {
 
     public void setToUser(String to) {
         this.toUser = to;
+    }
+
+    public int getListSize() {
+        return listSize;
+    }
+
+    public String getCallId() {
+        return callId;
+    }
+
+    public void setCallId(String callId) {
+        this.callId = callId;
     }
 }

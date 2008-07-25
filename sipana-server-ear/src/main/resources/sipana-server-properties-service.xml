@@ -19,6 +19,7 @@
 		<attribute name="Properties">
 
 			sipana.sip.status.initiated   = STARTED
+			sipana.sip.status.initiated   = PROVISIONED
 			sipana.sip.status.established = ESTABLISHED
 			sipana.sip.status.completed   = COMPLETED
 			sipana.sip.status.failed      = FAILED

@@ -12,7 +12,7 @@ public interface SIPSessionManager {
     public void saveSIPSession(SIPSessionImpl session);
     public long getSIPSessionCount();
     public SIPSessionImpl getSIPSession(long id);
-    public List<SIPSessionImpl> getSIPSessions(long startTime, long endTime, String method, String fromUser, String toUser);
+    public List<SIPSessionImpl> getSIPSessions(long startTime, long endTime, String method, String fromUser, String toUser, String callId);
     public List<SIPMessage> getMessageListBySessionId(List<Long> sessionIdList);
     public List<SIPMessage> getMessageListByCallID(List<String> callIdList);
 }

@@ -100,13 +100,13 @@ public class SIPHandler implements PacketListener {
     }
     
     private void processInvite(SIPRequest invite) {
-        if (!currentSessions.containsKey(invite.getCallID())) {
+        String callId = invite.getCallID();
+        
+        if (!currentSessions.containsKey(callId)) {
             SIPSession newSession = messageFactory.createSession(invite);
             addSession(newSession);
         } else {
-            String callId = invite.getCallID();
-            SIPSession sessionInfo = getSession(callId);
-            sessionInfo.addRequest(invite);
+            getSession(callId).addRequest(invite);
         }
     }
 
@@ -131,6 +131,7 @@ public class SIPHandler implements PacketListener {
         if (session != null) {
             session.addRequest(request);
             session.setDisconnectionStart(request.getTime());
+            session.setState(SIPSessionStatus.DISCONNECTING);
         } else {
             if (logger.isDebugEnabled()) {
                 StringBuilder sb = new StringBuilder("Session not found for request ");
@@ -143,10 +144,14 @@ public class SIPHandler implements PacketListener {
     private void processProvisionalResponse(SIPSession session, SIPResponse response) {
         long responseTime = response.getTime();
         int statusCode = response.getStatusCode();
-        
+
         switch (statusCode) {
         case Response.RINGING: case Response.SESSION_PROGRESS:
-            session.setSetupTime(responseTime);
+            // Only the first provisional response defines the setup time
+            if (session.getState() == SIPSessionStatus.INITIATED) {
+                session.setSetupTime(responseTime);
+                session.setState(SIPSessionStatus.PROVISIONED);
+            }
             break;
         default:
             // Do nothing
@@ -155,25 +160,32 @@ public class SIPHandler implements PacketListener {
     }
     
     private void processSucessfulResponse(SIPSession session, SIPResponse response) {
-        long respTime = response.getTime();
         int statusCode = response.getStatusCode();
         String method = response.getRelatedRequestMethod();
         
         switch (statusCode) {
             case Response.OK:
                 if (method.equals(Request.INVITE)) {
-                    session.setEstablishedTime(respTime);
-                    session.setState(SIPSessionStatus.ESTABLISHED);
-                    return;
-                } else if (!(method.equals(Request.BYE) && method.equals(Request.CANCEL))) {
-                    // non-INVITE request setup time is defined with OK
+                    processInviteOK(session, response);
+                    
+                } else if (method.equals(Request.CANCEL)) {
+                    processCancelOK(session, response);
+                    
+                } else if (method.equals(Request.BYE)) {
+                    processByeOK(session, response);
+                    
+                } else {
+                    long respTime = response.getTime();
+                    
+                    // non-INVITE related request has its setup time defined with OK
                     session.setSetupTime(respTime);
+                              
+                    // non-INVITE request ends with OK
+                    session.setEndTime(respTime);
+                    session.setState(SIPSessionStatus.COMPLETED);
+                    terminateSession(session);
                 }
                 
-                // non-INVITE request ends with OK
-                session.setEndTime(respTime);
-                session.setState(SIPSessionStatus.COMPLETED);
-                terminateSession(session);
                 break;
     
             default:
@@ -188,6 +200,39 @@ public class SIPHandler implements PacketListener {
         }
     }
     
+    private void processByeOK(SIPSession session, SIPResponse response) {
+        long respTime = response.getTime();
+        session.setEndTime(respTime);
+        session.setState(SIPSessionStatus.COMPLETED);
+        terminateSession(session);
+    }
+
+    private void processCancelOK(SIPSession session, SIPResponse response) {
+        long respTime = response.getTime();
+        session.setEndTime(respTime);
+        session.setState(SIPSessionStatus.CANCELED);
+        terminateSession(session);
+    }
+
+    private void processInviteOK(SIPSession session, SIPResponse response) {
+        long respTime = response.getTime();
+        
+        // Whether the session wasn't provisioned than setup time is 
+        // also defined with OK
+        if (session.getState() == SIPSessionStatus.INITIATED) {
+            session.setSetupTime(respTime);
+        } 
+        
+        if (session.getState() == SIPSessionStatus.PROVISIONED ||
+            session.getState() == SIPSessionStatus.INITIATED) 
+        {
+            session.setEstablishedTime(respTime);
+            session.setState(SIPSessionStatus.ESTABLISHED);
+        }
+        
+        // No action for Re-INVITE OK
+    }
+
     private void processRedirectionResponse(SIPSession session, SIPResponse response) {
         // Do nothing
     }
@@ -195,8 +240,12 @@ public class SIPHandler implements PacketListener {
     private void processFailureResponse(SIPSession session, SIPResponse response) {
         long responseTime = response.getTime();
         session.setEndTime(responseTime);
-        session.setSetupTime(responseTime);
         session.setState(SIPSessionStatus.FAILED);
+        
+        if (session.getState() != SIPSessionStatus.ESTABLISHED) {
+            session.setSetupTime(responseTime);
+        }
+        
         terminateSession(session);
     }
     
