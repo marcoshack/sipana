@@ -13,7 +13,7 @@ import org.sipana.server.service.ServiceLocator;
 import org.sipana.server.sip.SIPSessionManager;
 import org.sipana.sip.scenario.SIPScenario;
 
-public class SIPScenarioLogic {
+public class SIPScenarioBean {
 
     private List<SIPMessage> messageList;
 
@@ -23,7 +23,7 @@ public class SIPScenarioLogic {
 
     private SIPSessionManager sipSessionManager;
 
-    public SIPScenarioLogic() {
+    public SIPScenarioBean() {
         ServiceLocator serviceLocator = ServiceLocator.getInstance();
         sipSessionManager = (SIPSessionManager) serviceLocator.getService(Service.SIP_SESSION_MANAGER);
     }

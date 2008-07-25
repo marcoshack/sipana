@@ -29,7 +29,7 @@ public class SIPSessionManagerBean implements SIPSessionManager
         return (Long)manager.createQuery(strQuery).getSingleResult();
     }
     
-    public List<SIPSessionImpl> getSIPSessions(long startTime, long endTime, String method, String fromUser, String toUser) {
+    public List<SIPSessionImpl> getSIPSessions(long startTime, long endTime, String method, String fromUser, String toUser, String callId) {
         StringBuilder sbQuery = new StringBuilder("SELECT s FROM SIPSessionImpl s ");
         sbQuery.append("WHERE s.startTime >= :start AND s.startTime <= :end ");
         
@@ -43,6 +43,10 @@ public class SIPSessionManagerBean implements SIPSessionManager
         
         if (toUser != null && !toUser.equals("")) {
         	sbQuery.append("AND s.toUser LIKE '%").append(toUser).append("%' ");
+        }
+        
+        if (callId != null && !callId.equals("")) {
+        	sbQuery.append("AND s.callId LIKE '%").append(callId).append("%' ");
         }
         
         sbQuery.append("ORDER BY s.startTime DESC");

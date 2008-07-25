@@ -17,7 +17,7 @@
 	<managed-bean>
 		<managed-bean-name>sipSession</managed-bean-name>
 		<managed-bean-class>
-			org.sipana.server.web.sip.session.SIPSessionLogic
+			org.sipana.server.web.sip.session.SIPSessionBean
 		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
@@ -25,7 +25,7 @@
 	<managed-bean>
 		<managed-bean-name>sipScenario</managed-bean-name>
 		<managed-bean-class>
-			org.sipana.server.web.sip.scenario.SIPScenarioLogic
+			org.sipana.server.web.sip.scenario.SIPScenarioBean
 		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
@@ -36,5 +36,16 @@
 			org.sipana.server.web.sip.converter.MillisConverter
 		</converter-class>
 	</converter>
+	
+	<application>
+		<locale-config>
+			<default-locale>en-us</default-locale>
+			<supported-locale>pt-br</supported-locale>
+		</locale-config>
+	
+		<resource-bundle>
+			<base-name>org.sipana.server.web.bundles.sipsession</base-name>
+			<var>sipsession_msgs</var>
+		</resource-bundle>
+	</application>
 </faces-config>
-

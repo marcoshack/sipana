@@ -4,6 +4,8 @@ public enum SipanaPropertyType {
 
     SIPSESSION_STATUS_INITIATED("sipana.sip.status.initiated", "INITIATED"),
     
+    SIPSESSION_STATUS_PROVISIONED("sipana.sip.status.initiated", "PROVISIONED"),
+    
     SIPSESSION_STATUS_ESTABLISHED("sipana.sip.status.established", "ESTABLISHED"),
     
     SIPSESSION_STATUS_COMPLETED("sipana.sip.status.completed", "COMPLETED"),
@@ -11,6 +13,10 @@ public enum SipanaPropertyType {
     SIPSESSION_STATUS_FAILED("sipana.sip.status.failed", "FAILED"),
     
     SIPSESSION_STATUS_TIMEOUT("sipana.sip.status.timeout", "TIMEOUT"),
+    
+    SIPSESSION_STATUS_DISCONNECTING("sipana.sip.status.timeout", "DISCONNECTING"),
+    
+    SIPSESSION_STATUS_CANCELED("sipana.sip.status.timeout", "CANCELED"),
     
     SIPSESSION_STATUS_UNKNOWN("sipana.sip.status.unknown", "UNKNOWN"),
     
