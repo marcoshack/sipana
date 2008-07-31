@@ -31,7 +31,13 @@ function get_log4j_options {
 
 function get_sipana_options {
     SIPANA_HOME=$1
-    OPTIONS="-Dsipana.client.properties=$SIPANA_HOME/conf/client.properties"
+    OPTIONS="-Dsipana.client.properties=$SIPANA_HOME/conf/sipana-client.properties"
+    echo $OPTIONS
+}
+
+function get_jvm_options {
+    SIPANA_HOME=$1
+    OPTIONS="-Dcom.sun.management.config.file=$SIPANA_HOME/conf/jvm/management.properties"
     echo $OPTIONS
 }
 

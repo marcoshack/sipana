@@ -8,7 +8,7 @@
 		<version>1.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.sipana.client</groupId>
+	<groupId>org.sipana</groupId>
 	<artifactId>sipana-client</artifactId>
 	<name>Sipana Client</name>
 	<version>1.0</version>

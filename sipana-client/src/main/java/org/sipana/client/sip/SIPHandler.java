@@ -298,10 +298,14 @@ public class SIPHandler implements PacketListener {
             String callId = message.getCallID();
             NDC.push(new StringBuilder("callId=").append(callId).toString());
             
-            String srcAddr = new StringBuilder(udpPacket.getSourceAddress()).append(":").append(udpPacket.getSourcePort()).toString();
-            String dstAddr = new StringBuilder(udpPacket.getDestinationAddress()).append(":").append(udpPacket.getDestinationPort()).toString();
+            String srcAddr = udpPacket.getSourceAddress();
+            int srcPort    = udpPacket.getSourcePort();
+            String dstAddr = udpPacket.getDestinationAddress();
+            int dstPort    = udpPacket.getDestinationPort();
             message.setSrcAddress(srcAddr);
+            message.setSrcPort(srcPort);
             message.setDstAddress(dstAddr);
+            message.setDstPort(dstPort);
             message.setTime(udpPacket.getTimeval().getDate().getTime());
             
             if (logger.isDebugEnabled()) {

@@ -31,22 +31,26 @@ public class SIPScenarioTest {
 
 		List<String> callIdList = new ArrayList<String>();
 		callIdList.add("AAA");
-		//callIdList.add("BBB");
+		callIdList.add("BBB");
 
 		for (String callId : callIdList) {
 			SIPRequest reqInvite = new SIPRequestImpl();
 			reqInvite.setMethod("INVITE");
-			reqInvite.setSrcAddress("127.0.0.1:5060");
-			reqInvite.setDstAddress("127.0.0.1:5061");
+			reqInvite.setSrcAddress("127.0.0.1");
+			reqInvite.setSrcPort(5060);
+			reqInvite.setDstAddress("127.0.0.1");
+			reqInvite.setDstPort(5061);
 			reqInvite.setTime(startTime += 10);
 			reqInvite.setCallID(callId);
 			messages.add(reqInvite);
-
+			
 			SIPResponse res180 = new SIPResponseImpl();
 			res180.setReasonPhrase("Ringing");
 			res180.setStatusCode(180);
-			res180.setSrcAddress("127.0.0.1:5061");
-			res180.setDstAddress("127.0.0.1:5060");
+			res180.setSrcAddress("127.0.0.1");
+			res180.setSrcPort(5061);
+			res180.setDstAddress("127.0.0.1");
+			res180.setDstPort(5060);
 			res180.setTime(startTime += 10);
 			res180.setCallID(callId);
 			messages.add(res180);
@@ -54,16 +58,20 @@ public class SIPScenarioTest {
 			SIPResponse res200 = new SIPResponseImpl();
 			res200.setReasonPhrase("OK");
 			res200.setStatusCode(200);
-			res200.setSrcAddress("127.0.0.1:5061");
-			res200.setDstAddress("127.0.0.1:5060");
+			res200.setSrcAddress("127.0.0.1");
+			res200.setSrcPort(5061);
+			res200.setDstAddress("127.0.0.1");
+			res200.setDstPort(5060);
 			res200.setTime(startTime += 10);
 			res200.setCallID(callId);
 			messages.add(res200);
 
 			SIPRequest reqBye = new SIPRequestImpl();
 			reqBye.setMethod("BYE");
-			reqBye.setSrcAddress("127.0.0.1:5060");
-			reqBye.setDstAddress("127.0.0.1:5061");
+			reqBye.setSrcAddress("127.0.0.1");
+			reqBye.setSrcPort(5060);
+			reqBye.setDstAddress("127.0.0.1");
+			reqBye.setDstPort(5061);
 			reqBye.setTime(startTime += 100);
 			reqBye.setCallID(callId);
 			messages.add(reqBye);
@@ -71,8 +79,10 @@ public class SIPScenarioTest {
 			SIPResponse res200Bye = new SIPResponseImpl();
 			res200Bye.setReasonPhrase("OK");
 			res200Bye.setStatusCode(200);
-			res200Bye.setSrcAddress("127.0.0.1:5061");
-			res200Bye.setDstAddress("127.0.0.1:5060");
+			res200Bye.setSrcAddress("127.0.0.1");
+			res200Bye.setSrcPort(5061);
+			res200Bye.setDstAddress("127.0.0.1");
+			res200Bye.setDstPort(5060);
 			res200Bye.setTime(startTime += 10);
 			res200Bye.setCallID(callId);
 			messages.add(res200Bye);

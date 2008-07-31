@@ -2,12 +2,15 @@ package org.sipana.server.sip;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.StringTokenizer;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.commons.lang.StringUtils;
 import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.impl.SIPSessionImpl;
 
@@ -29,8 +32,21 @@ public class SIPSessionManagerBean implements SIPSessionManager
         return (Long)manager.createQuery(strQuery).getSingleResult();
     }
     
-    public List<SIPSessionImpl> getSIPSessions(long startTime, long endTime, String method, String fromUser, String toUser, String callId) {
-        StringBuilder sbQuery = new StringBuilder("SELECT s FROM SIPSessionImpl s ");
+    public List<SIPSessionImpl> getSIPSessions(
+    		long startTime, 
+    		long endTime, 
+    		String method, 
+    		String fromUser, 
+    		String toUser,    
+    		String callId,
+    		List<String> ipAddrList)
+    {
+        StringBuilder sbQuery = new StringBuilder("SELECT DISTINCT s FROM SIPSessionImpl s ");
+
+        if (ipAddrList != null && ipAddrList.size() > 0) {
+        	sbQuery.append("INNER JOIN s.requests AS r ");
+        }
+        
         sbQuery.append("WHERE s.startTime >= :start AND s.startTime <= :end ");
         
         if (method != null && !method.equals("")) {
@@ -47,6 +63,12 @@ public class SIPSessionManagerBean implements SIPSessionManager
         
         if (callId != null && !callId.equals("")) {
         	sbQuery.append("AND s.callId LIKE '%").append(callId).append("%' ");
+        }
+        
+        if (ipAddrList != null && ipAddrList.size() > 0) {
+            String ipAddrInList = new StringBuilder("'").append(StringUtils.join(ipAddrList, "','")).append("'").toString();
+        	sbQuery.append("AND (r.srcAddress IN (").append(ipAddrInList);
+        	sbQuery.append(") OR r.dstAddress IN (").append(ipAddrInList).append(")) ");
         }
         
         sbQuery.append("ORDER BY s.startTime DESC");
