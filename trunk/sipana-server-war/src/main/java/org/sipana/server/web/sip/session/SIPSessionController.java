@@ -3,7 +3,9 @@ package org.sipana.server.web.sip.session;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.faces.model.SelectItem;
 
@@ -15,34 +17,28 @@ import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
 import org.sipana.server.sip.SIPSessionManager;
 
-public class SIPSessionBean {
+public class SIPSessionController {
     private SIPSessionManager sipSessionManager;
-    private Logger logger = Logger.getLogger(SIPSessionBean.class);
+    private Logger logger = Logger.getLogger(SIPSessionController.class);
 
     // Logic parameters
     private List<SelectItem> sipSessionList = new ArrayList<SelectItem>();
-    private int listSize;
     private long startTime;
     private long endTime;
     private String method;
     private String fromUser;
     private String toUser;
     private String callId;
+    private String ipAddrList;
     
-    public SIPSessionBean() {
+    public SIPSessionController() {
         ServiceLocator serviceLocator = ServiceLocator.getInstance();
         sipSessionManager = (SIPSessionManager) serviceLocator.getService(Service.SIP_SESSION_MANAGER);
     }
 
-    public void list() {
+    public void search() {
+        long endTimeFinal = endTime == 0 ? Calendar.getInstance().getTimeInMillis() : endTime;
 
-        long endTimeFinal;
-        if (endTime == 0) {
-            endTimeFinal = Calendar.getInstance().getTimeInMillis();
-        } else {
-            endTimeFinal = endTime;
-        }
-        
         if (logger.isDebugEnabled()) {
             StringBuilder sbDebug = new StringBuilder("Processing SIPSession list request: ");
             sbDebug.append("startTime: ").append(startTime);
@@ -51,11 +47,18 @@ public class SIPSessionBean {
             sbDebug.append(", fromUser: ").append(fromUser);
             sbDebug.append(", toUser: ").append(toUser);
             sbDebug.append(", callId: ").append(callId);
+            sbDebug.append(", ipAddr: ").append(ipAddrList);
             logger.debug(sbDebug);
         }
         
         List<SIPSessionImpl> sipSessions = sipSessionManager.getSIPSessions(
-                startTime, endTimeFinal, method, fromUser, toUser, callId);
+                startTime, 
+                endTimeFinal, 
+                method, 
+                fromUser, 
+                toUser, 
+                callId, 
+                createIpAddrList(ipAddrList));
         
         sipSessionList = new ArrayList<SelectItem>();
 
@@ -72,38 +75,23 @@ public class SIPSessionBean {
             
             sipSessionList.add(new SelectItem(session.getCallId(), item.toString()));
         }
-        
-        listSize = sipSessionList.size();
     }
-    
-    public void reset() {       
-        startTime = 0;
-        endTime = 0;
+
+    public void reset() {
+        startTime  = 0;
+        endTime    = 0;
+        method     = null;
+        fromUser   = null;
+        toUser     = null;
+        callId     = null;
+        ipAddrList = null;
         sipSessionList.clear();
-        listSize = 0;
     }
     
     public String details() {
         return "details";
     }
 
-    
-    // TODO [mhack] move to an appropriate utility class
-    private String getDateString(long dateInMillis) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat();
-        Calendar now = Calendar.getInstance();
-        Calendar date = Calendar.getInstance();
-        date.setTimeInMillis(dateInMillis);
-        
-        if (now.get(Calendar.DAY_OF_MONTH) == date.get(Calendar.DAY_OF_MONTH)) {
-            dateFormat.applyPattern("HH:mm:ss,S");
-            return dateFormat.format(date.getTime());
-        } else {
-            dateFormat.applyPattern("yyyy-MM-dd HH:mm:ss,S");
-            return dateFormat.format(date.getTime());
-        }
-    }
-    
     public long getStartTime() {
         return startTime;
     }
@@ -149,7 +137,7 @@ public class SIPSessionBean {
     }
 
     public int getListSize() {
-        return listSize;
+        return sipSessionList.size();
     }
 
     public String getCallId() {
@@ -158,5 +146,42 @@ public class SIPSessionBean {
 
     public void setCallId(String callId) {
         this.callId = callId;
+    }
+
+    public String getIpAddrList() {
+        return ipAddrList;
+    }
+
+    public void setIpAddrList(String ipAddr) {
+        this.ipAddrList = ipAddr;
+    }
+    
+    
+    private List<String> createIpAddrList(String strIPAddrList) {
+        String csv = strIPAddrList.replaceAll(" +", ",");
+        StringTokenizer tokenizer = new StringTokenizer(csv, ",");
+        List<String> addrList = new LinkedList<String>();
+        
+        while (tokenizer.hasMoreTokens()) {
+            addrList.add(tokenizer.nextToken());
+        }
+        
+        return addrList;
+    }
+
+    // TODO [mhack] move to an appropriate utility class (date string)
+    private String getDateString(long dateInMillis) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat();
+        Calendar now = Calendar.getInstance();
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(dateInMillis);
+        
+        if (now.get(Calendar.DAY_OF_MONTH) == date.get(Calendar.DAY_OF_MONTH)) {
+            dateFormat.applyPattern("HH:mm:ss,S");
+            return dateFormat.format(date.getTime());
+        } else {
+            dateFormat.applyPattern("yyyy-MM-dd HH:mm:ss,S");
+            return dateFormat.format(date.getTime());
+        }
     }
 }

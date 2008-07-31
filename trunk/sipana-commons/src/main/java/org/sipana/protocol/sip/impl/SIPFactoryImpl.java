@@ -29,8 +29,7 @@ public class SIPFactoryImpl implements SIPFactory, ParseExceptionListener {
         return createMessage(sipMessage);
     }
 
-    public SIPMessage createMessage(
-            gov.nist.javax.sip.message.SIPMessage sipMessage) {
+    public SIPMessage createMessage(gov.nist.javax.sip.message.SIPMessage sipMessage) {
         SIPMessage message = null;
 
         if (sipMessage instanceof gov.nist.javax.sip.message.SIPRequest) {
@@ -61,14 +60,20 @@ public class SIPFactoryImpl implements SIPFactory, ParseExceptionListener {
             message.setCallID(sipMessage.getCallId().getCallId());
 
             // From user@domain
-            SipURI fromURI = (SipURI) sipMessage.getFrom()
-                    .getAddress()
-                    .getURI();
+            SipURI fromURI = (SipURI) sipMessage.getFrom().getAddress().getURI();
             message.setFromUser(getUser(fromURI));
+
+            // From display
+            String fromDisplay = sipMessage.getFrom().getAddress().getDisplayName();
+            message.setFromDisplay(fromDisplay);
 
             // To user@domain
             SipURI toURI = (SipURI) sipMessage.getTo().getAddress().getURI();
             message.setToUser(getUser(toURI));
+            
+            // To display
+            String toDisplay = sipMessage.getTo().getAddress().getDisplayName();
+            message.setToDisplay(toDisplay);
 
         } else {
             logger.warn("Message info is null");

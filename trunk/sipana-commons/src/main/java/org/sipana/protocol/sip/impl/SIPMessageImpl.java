@@ -13,10 +13,14 @@ public abstract class SIPMessageImpl implements SIPMessage, Serializable
     private long id;
     private String callID;
     private String srcAddr;
+    private int srcPort;
     private String dstAddr;
+    private int dstPort;
     private String requestAddr;
     private String fromUser;
     private String toUser;
+    private String fromDisplay;
+    private String toDisplay;
     private int maxForwards;
     private long msgTime;
     private SIPSession sipSession;
@@ -25,12 +29,11 @@ public abstract class SIPMessageImpl implements SIPMessage, Serializable
     
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("callId=");
-        sb.append(getCallID());
-        sb.append(", srcIP=").append(getSrcAddress());
-        sb.append(", dstIP=").append(getDstAddress());
-        sb.append(", fromUser=").append(getFromUser());
-        sb.append(", toUser=").append(getToUser());
+        StringBuilder sb = new StringBuilder("callId=").append(getCallID());
+        sb.append(", srcAddr=").append(getSrcAddress()).append(":").append(getSrcPort());
+        sb.append(", dstAddr=").append(getDstAddress()).append(":").append(getDstPort());
+        sb.append(", From=").append("\"").append(getFromDisplay()).append("\" <").append(getFromUser()).append(">");
+        sb.append(", To=").append("\"").append(getToDisplay()).append("\" <").append(getToUser()).append(">");
         sb.append(", time=").append(getTime());
         return sb.toString();
     }
@@ -114,4 +117,36 @@ public abstract class SIPMessageImpl implements SIPMessage, Serializable
 	public void setSipSession(SIPSession sipSession) {
 		this.sipSession = sipSession;
 	}
+	
+    public String getFromDisplay() {
+        return fromDisplay;
+    }
+
+    public void setFromDisplay(String fromDisplay) {
+        this.fromDisplay = fromDisplay;
+    }
+
+    public String getToDisplay() {
+        return toDisplay;
+    }
+
+    public void setToDisplay(String toDisplay) {
+        this.toDisplay = toDisplay;
+    }
+
+    public int getSrcPort() {
+        return srcPort;
+    }
+
+    public void setSrcPort(int srcPort) {
+        this.srcPort = srcPort;
+    }
+
+    public int getDstPort() {
+        return dstPort;
+    }
+
+    public void setDstPort(int dstPort) {
+        this.dstPort = dstPort;
+    }
 }

@@ -19,14 +19,14 @@
 				
 				<!-- START TIME -->
 				<h:outputText value="#{sipsession_msgs.fld_start_date}"/>
-         		<h:inputText id="start" value="#{sipSession.startTime}">
+         		<h:inputText id="start_date" value="#{sipSession.startTime}">
          			<f:converter  converterId="millisConverter"/>
          		</h:inputText>
          		<img id="trigger_start" src="/sipana/sipsession/resources/images/date.gif"/>
 
 				<!-- END TIME -->         		
          		<h:outputText value="#{sipsession_msgs.fld_end_date}"/>
-         		<h:inputText id="end" value="#{sipSession.endTime}">
+         		<h:inputText id="end_date" value="#{sipSession.endTime}">
          			<f:converter  converterId="millisConverter"/>
          		</h:inputText>
          		<img id="trigger_end" src="/sipana/sipsession/resources/images/date.gif"/>
@@ -39,28 +39,34 @@
          		
          		<!-- FROM USER -->
          		<h:outputText value="#{sipsession_msgs.fld_from_user}"/>
-         		<h:inputText id="from" value="#{sipSession.fromUser}"/>
+         		<h:inputText id="from_user" value="#{sipSession.fromUser}"/>
          		
          		<!-- TO USER -->
          		<h:outputText value="#{sipsession_msgs.fld_to_user}"/>
-         		<h:inputText id="to" value="#{sipSession.toUser}"/>
+         		<h:inputText id="to_user" value="#{sipSession.toUser}"/>
          		<br>
          		
          		<!-- CALL-ID -->
          		<h:outputText value="#{sipsession_msgs.fld_callid}" />
-         		<h:inputText id="callid" value="#{sipSession.callId}" size="150"/>
+         		<h:inputText id="call_id" value="#{sipSession.callId}" size="200"/>
+         		<br>
+         		
+         		<!-- IP ADDRESS-->
+         		<h:outputText value="#{sipsession_msgs.fld_ip_address}" />
+         		<h:inputText id="ip_addr_list" value="#{sipSession.ipAddrList}" size="200"/>
+				<h:outputText styleClass="alert" value="#{sipsession_msgs.fld_ip_format}"/>
          		<br>
 
-         		<h:message styleClass="alert alert1" for="start"/>
-         		<h:message styleClass="alert alert2" for="end"/><br/>
+         		<h:message styleClass="alert alert1" for="start_date"/>
+         		<h:message styleClass="alert alert2" for="end_date"/><br/>
          		
-         		<h:commandButton action="#{sipSession.list}" value="#{sipsession_msgs.btn_search}"/>
+         		<h:commandButton action="#{sipSession.search}" value="#{sipsession_msgs.btn_search}"/>
          		<h:commandButton action="#{sipSession.reset}" value="#{sipsession_msgs.btn_reset}"/>
          		
          	</fieldset>
 		</h:form>
 		
-		<h:form style="width: 100%">
+		<h:form>
 			<fieldset>
 			
 				<legend><h:outputText value="#{sipsession_msgs.ttl_result}"/></legend>
@@ -72,8 +78,8 @@
 				<h:selectManyCheckbox styleClass="list" layout="pageDirection" value="#{sipScenario.callId}">
 					<f:selectItems value="#{sipSession.sipSessionList}"/>
 				</h:selectManyCheckbox>
+
 				<br/>
-				
 				<h:commandButton styleClass="btn" action="#{sipScenario.show}" value="#{sipsession_msgs.btn_draw_graph}" /><br>
 				<h:commandButton styleClass="btn" action="#{sipSession.details}" value="#{sipsession_msgs.btn_details}" />
 				
