@@ -92,7 +92,7 @@ public class ConfigManager {
         String size = configProperties.getProperty(PROPERTY_BUFFER_SIZE, DEFAULT_BUFFER_SIZE);
         return Integer.parseInt(size);
     }
-
+    
 	public String getSenderDestination() {
 		String destination = configProperties.getProperty(PROPERTY_SENDER_DESTINATION_NAME, DEFAULT_SENDER_DESTINATION_NAME);
 		return destination;

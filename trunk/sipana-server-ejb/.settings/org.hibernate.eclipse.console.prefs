@@ -1,0 +1,4 @@
+#Wed Jul 30 13:59:49 BRT 2008
+default.configuration=sipana-server-ejb
+eclipse.preferences.version=1
+hibernate3.enabled=true

@@ -11,6 +11,13 @@ mvn install:install-file \
     -Dfile=jbossall-client-4.2.1.GA.jar
 
 mvn install:install-file \
+    -DgroupId=org.jboss \
+    -DartifactId=jboss-annotations-ejb3 \
+    -Dversion=4.2.1.GA \
+    -Dpackaging=jar \
+    -Dfile=jboss-annotations-ejb3.jar
+
+mvn install:install-file \
     -DgroupId=net.sourceforge \
     -DartifactId=jpcap-core \
     -Dversion=0.01.16 \

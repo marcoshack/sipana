@@ -21,10 +21,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.annotations.Where;
+import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPResponse;
 import org.sipana.protocol.sip.SIPSession;
-import org.sipana.protocol.sip.SIPSessionStatus;
+import org.sipana.protocol.sip.SIPSessionState;
 
 public class SIPSessionImpl implements SIPSession
 {
@@ -38,7 +39,7 @@ public class SIPSessionImpl implements SIPSession
     private long establishedTime;
     private long setupTime;
     private int state;
-    private String callID;
+    private String callId;
     private String method;
     private String fromUser;
     private String toUser;
@@ -58,7 +59,7 @@ public class SIPSessionImpl implements SIPSession
         setMethod(request.getMethod());
         setCallId(request.getCallID());
         setStartTime(request.getTime());
-        setState(SIPSessionStatus.INITIATED);
+        setState(SIPSessionState.INITIATED);
         setFromUser(request.getFromUser());
         setToUser(request.getToUser());
     }
@@ -72,11 +73,11 @@ public class SIPSessionImpl implements SIPSession
     }
 
     public String getCallId() {
-        return callID;
+        return callId;
     }
 
     public void setCallId(String callId) {
-        this.callID = callId;
+        this.callId = callId;
     }
     
     public long getDisconnectionStart() {
@@ -164,6 +165,22 @@ public class SIPSessionImpl implements SIPSession
             this.responses = responses;
         }
     }
+
+    public String getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(String from) {
+        this.fromUser = from;
+    }
+
+    public String getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(String to) {
+        this.toUser = to;
+    }
     
     public void addRequest(SIPRequest request) {
         synchronized (requests) {
@@ -177,9 +194,17 @@ public class SIPSessionImpl implements SIPSession
         }
     }
     
+    public void addMessage(SIPMessage message) {
+        if (message instanceof SIPRequest) {
+            addRequest((SIPRequest) message);
+        } else if (message instanceof SIPRequest) {
+            addResponse((SIPResponse) message);
+        }
+    }
+    
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("SIPSessionInfo: ");
+        StringBuilder sb = new StringBuilder("SIPSession: ");
         sb.append("Initial request method=").append(getMethod());
         sb.append(", id=").append(getId());
         sb.append(", startTime=").append(getStartTime());
@@ -215,20 +240,23 @@ public class SIPSessionImpl implements SIPSession
 
         return sb.toString();
     }
-
-    public String getFromUser() {
-        return fromUser;
-    }
-
-    public void setFromUser(String from) {
-        this.fromUser = from;
-    }
-
-    public String getToUser() {
-        return toUser;
-    }
-
-    public void setToUser(String to) {
-        this.toUser = to;
+    
+    public void merge(SIPSession session) {
+        requests.addAll(session.getRequests());
+        responses.addAll(session.getResponses());
+        
+        // TODO [mhack] Think better in the session merge scenarios 
+        if (session.getEndTime() > endTime) {
+            endTime            = session.getEndTime();
+            establishedTime    = session.getEstablishedTime();
+            setupTime          = session.getSetupTime();
+            disconnectionStart = session.getDisconnectionStart();
+            state              = session.getState();
+        }
+        
+        if (session.getStartTime() < startTime) {
+            startTime          = session.getStartTime();
+            firstResponseTime  = session.getFirstResponseTime();
+        }
     }
 }

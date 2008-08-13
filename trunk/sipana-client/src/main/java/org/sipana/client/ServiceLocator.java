@@ -1,19 +1,15 @@
 package org.sipana.client;
 
-import org.apache.log4j.Logger;
 import org.sipana.client.capture.CaptureManager;
-import org.sipana.client.capture.CaptureSession;
 import org.sipana.client.capture.impl.CaptureManagerImpl;
-import org.sipana.client.capture.impl.CaptureSessionImpl;
 import org.sipana.client.config.ConfigManager;
+import org.sipana.client.sender.MessageSender;
 import org.sipana.client.sip.SIPHandler;
-import org.sipana.client.sip.SIPSessionSender;
 import org.sipana.protocol.sip.SIPFactory;
 import org.sipana.protocol.sip.impl.SIPFactoryImpl;
 
 public class ServiceLocator {
     private static ServiceLocator instance;
-    private static Logger logger = Logger.getLogger(ServiceLocator.class);
     
     private ServiceLocator() {
     }
@@ -26,11 +22,11 @@ public class ServiceLocator {
         return instance;
     }
     
-    public SIPSessionSender getSIPSessionSender() throws Exception {
-        return new SIPSessionSender();
+    public MessageSender getSIPSessionSender() throws Exception {
+        return new MessageSender();
     }
     
-    public SIPHandler getSIPHandler(SIPSessionSender sender) {
+    public SIPHandler getSIPHandler(MessageSender sender) {
         return new SIPHandler(sender);
     }
     

@@ -24,6 +24,18 @@
     </dependency>
     <dependency>
       <groupId>org.jboss</groupId>
+      <artifactId>jboss-annotations-ejb3</artifactId>
+      <version>4.2.1.GA</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss</groupId>
+      <artifactId>jboss-ejb3</artifactId>
+      <version>4.2.1.GA</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss</groupId>
       <artifactId>jboss-j2ee</artifactId>
       <version>4.2.1.GA</version>
       <scope>provided</scope>

@@ -75,7 +75,7 @@
 					<f:param value="#{sipSession.listSize}" />
 				</h:outputFormat>
 				
-				<h:selectManyCheckbox styleClass="list" layout="pageDirection" value="#{sipScenario.callId}">
+				<h:selectManyCheckbox styleClass="list" layout="pageDirection" value="#{sipScenario.sessionId}">
 					<f:selectItems value="#{sipSession.sipSessionList}"/>
 				</h:selectManyCheckbox>
 

@@ -43,7 +43,7 @@
 		</locale-config>
 	
 		<resource-bundle>
-			<base-name>org.sipana.server.web.bundles.sipsession</base-name>
+			<base-name>bundles.sipsession</base-name>
 			<var>sipsession_msgs</var>
 		</resource-bundle>
 	</application>
