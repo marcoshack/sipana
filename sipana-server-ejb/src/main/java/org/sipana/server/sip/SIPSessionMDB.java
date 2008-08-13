@@ -10,22 +10,22 @@ import javax.jms.TextMessage;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
+import org.sipana.protocol.sip.impl.SIPMessageImpl;
 import org.sipana.protocol.sip.impl.SIPSessionImpl;
 
 @MessageDriven(activationConfig = {
-        @ActivationConfigProperty(propertyName  = "destinationType", 
-                                  propertyValue = "javax.jms.Queue"),
-        @ActivationConfigProperty(propertyName  = "destination", 
-                                  propertyValue = "queue/org.sipana.sip") })
+        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"     ),
+        @ActivationConfigProperty(propertyName = "destination"    , propertyValue = "queue/org.sipana.sip"),
+})
                                   
-public class SIPSessionListener implements MessageListener {
+public class SIPSessionMDB implements MessageListener {
     private Logger logger;
 
     @EJB
     private SIPSessionManager manager;
 
-    public SIPSessionListener() {
-        logger = Logger.getLogger(SIPSessionListener.class);
+    public SIPSessionMDB() {
+        logger = Logger.getLogger(SIPSessionMDB.class);
         manager = new SIPSessionManagerBean();
     }
 
@@ -46,21 +46,20 @@ public class SIPSessionListener implements MessageListener {
         }
     }
 
-    private void processObjectMessage(ObjectMessage message) {
-        logger.debug("Processing Object message");
-
+    private void processObjectMessage(ObjectMessage objMessage) {
+        logger.debug("Processing Object Message");
+        
         try {
-            Object object = ((ObjectMessage) message).getObject();
-
+            Object object = ((ObjectMessage) objMessage).getObject();
+            
             if (object instanceof SIPSessionImpl) {
                 SIPSessionImpl session = (SIPSessionImpl) object;
-
-                if (logger.isDebugEnabled()) {
-                    logger.debug(session);
-                }
-
                 addSIPSession(session);
-
+            
+            } else if (object instanceof SIPMessageImpl) {
+                 SIPMessageImpl message = (SIPMessageImpl) object;
+                 addSIPMessage(message);
+                
             } else {
                 logger.error("Unknow object message: " + object);
             }
@@ -83,29 +82,29 @@ public class SIPSessionListener implements MessageListener {
     }
 
     private void addSIPSession(SIPSessionImpl session) {
-        SIPSessionImpl oldSession = manager.getSIPSession(session.getId());
+        if (logger.isDebugEnabled()) {
+            StringBuilder sb = new StringBuilder("Adding SIP session: ");
+            sb.append(session);
+            logger.debug(sb);
+        }
 
-        if (oldSession != null) {
-            if (logger.isDebugEnabled()) {
-                StringBuilder sb = new StringBuilder("SIP session with Call-ID ");
-                sb.append(session.getCallId());
-                sb.append(" already exist, merging messages to this one");
-                logger.debug(sb);
-            }
-            
-            oldSession.getRequests().addAll(session.getRequests());
-            oldSession.getResponses().addAll(session.getResponses());
-            manager.saveSIPSession(oldSession);
+        manager.createSIPSession(session);
+    }
+    
+    private void addSIPMessage(SIPMessageImpl message) {
+        if (logger.isDebugEnabled()) {
+            StringBuilder sbDebug = new StringBuilder("Adding standalone message: ");
+            sbDebug.append(message);
+            logger.debug(sbDebug);
+        }
+        
+        SIPSessionImpl session = manager.getSIPSessionByCallID(message.getCallID());
+        
+        if (session != null) {
+            session.addMessage(message);
             
         } else {
-            if (logger.isDebugEnabled()) {
-                StringBuilder sb = new StringBuilder("There are no SIP session with Call-ID ");
-                sb.append(session.getCallId());
-                sb.append(". Creating a new SIP session");
-                logger.debug(sb);
-            }
-
-            manager.createSIPSession(session);
+            logger.warn("Message SIP session not found. Message discarted");
         }
     }
 }

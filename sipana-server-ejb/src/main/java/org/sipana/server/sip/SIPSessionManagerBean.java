@@ -1,12 +1,10 @@
 package org.sipana.server.sip;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.StringTokenizer;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -25,6 +23,18 @@ public class SIPSessionManagerBean implements SIPSessionManager
 
     public SIPSessionImpl getSIPSession(long id) {
         return manager.find(SIPSessionImpl.class, id);
+    }
+    
+    public SIPSessionImpl getSIPSessionByCallID(String callID) {
+        String strQuery = "SELECT s FROM SIPSessionImpl s WHERE s.callId = :callid";
+        Query query = manager.createQuery(strQuery);
+        query.setParameter("callid", callID);
+        
+        try {
+            return (SIPSessionImpl) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
     
     public long getSIPSessionCount() {
@@ -85,39 +95,18 @@ public class SIPSessionManagerBean implements SIPSessionManager
     }
     
     public List<SIPMessage> getMessageListBySessionId(List<Long> sessionIdList) {
-    	StringBuilder sbQuery = new StringBuilder("select m "
-    		+ "from SIPMessageImpl m, SIPSessionImpl s "
-    		+ "where m.sipSession.id = s.id and (");
+    	StringBuilder sbQuery = new StringBuilder("SELECT m FROM SIPMessageImpl m INNER JOIN m.sipSession AS s WHERE s.id IN (");
+    	sbQuery.append("'").append(StringUtils.join(sessionIdList, "','"));
+    	sbQuery.append("') ORDER BY m.time");
     	
-    	for (int i = 0; i < sessionIdList.size(); ) {
-    		sbQuery.append("s.id = ").append(sessionIdList.get(i));
-    		
-    		if (++i < sessionIdList.size()) {
-    			sbQuery.append(" or ");
-    		}
-    	}
-    	
-    	sbQuery.append(") order by m.time");
-    		
     	Query query = manager.createQuery(sbQuery.toString());
     	return query.getResultList();
     }
     
     
     public List<SIPMessage> getMessageListByCallID(List<String> callIdList) {
-    	StringBuilder sbQuery = new StringBuilder("select m "
-    		+ "from SIPMessageImpl m, SIPSessionImpl s "
-    		+ "where m.sipSession.id = s.id and (");
-    	
-    	for (int i = 0; i < callIdList.size(); ) {
-    		sbQuery.append("s.callId = '").append(callIdList.get(i)).append("'");
-    		
-    		if (++i < callIdList.size()) {
-    			sbQuery.append(" or ");
-    		}
-    	}
-    	
-    	sbQuery.append(") order by m.time");
+    	StringBuilder sbQuery = new StringBuilder("SELECT m FROM SIPMessageImpl m WHERE m.callId IN (");
+    	sbQuery.append("'").append(StringUtils.join(callIdList, "','")).append("') ORDER BY m.time");
     	
     	Query query = manager.createQuery(sbQuery.toString());
     	return query.getResultList();

@@ -36,7 +36,7 @@ public class SIPResponseImpl extends SIPMessageImpl implements SIPResponse
     
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("statusCode=").append(getStatusCode());
+        StringBuilder sb = new StringBuilder("SIP Response, statusCode=").append(getStatusCode());
         sb.append(", reasonPhrase=").append(getReasonPhrase());
         sb.append(", relatedRequestMethod=").append(getRelatedRequestMethod());
         sb.append(", ").append(super.toString());

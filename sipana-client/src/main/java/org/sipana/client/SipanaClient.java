@@ -5,8 +5,8 @@ import org.sipana.client.capture.CaptureManager;
 import org.sipana.client.capture.CaptureSession;
 import org.sipana.client.config.ConfigException;
 import org.sipana.client.config.ConfigManager;
+import org.sipana.client.sender.MessageSender;
 import org.sipana.client.sip.SIPHandler;
-import org.sipana.client.sip.SIPSessionSender;
 
 public class SipanaClient {
 	public static final int EXIT_STATUS_UNKNOWN_ERROR = -1;
@@ -19,7 +19,7 @@ public class SipanaClient {
         Thread.currentThread().setName("SipanaClient");
         
         ConfigManager configManager = null;
-		SIPSessionSender sender = null;
+		MessageSender sender = null;
 		SIPHandler handler = null;
 		CaptureManager captureManager = null;
         

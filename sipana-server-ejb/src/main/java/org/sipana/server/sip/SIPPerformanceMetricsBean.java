@@ -4,7 +4,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.sip.message.Request;
 import org.sipana.protocol.sip.SIPRequest;
-import org.sipana.protocol.sip.SIPSessionStatus;
+import org.sipana.protocol.sip.SIPSessionState;
 import org.sipana.protocol.sip.impl.SIPSessionImpl;
 
 @Stateless
@@ -91,7 +91,7 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         long nFail = 0;
         
         for (SIPSessionImpl session : sessionList) {
-            if (session.getState() == SIPSessionStatus.FAILED) {
+            if (session.getState() == SIPSessionState.FAILED) {
                 nFail++;
             }
         }
@@ -108,7 +108,7 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         int nComplete = 0;
         
         for (SIPSessionImpl session : sessionList) {
-            if (session.getState() == SIPSessionStatus.COMPLETED) {
+            if (session.getState() == SIPSessionState.COMPLETED) {
                 nComplete++;
             }
         }

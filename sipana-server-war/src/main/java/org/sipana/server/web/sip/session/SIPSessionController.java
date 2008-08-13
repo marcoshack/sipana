@@ -11,7 +11,7 @@ import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 import org.sipana.protocol.sip.SIPRequest;
-import org.sipana.protocol.sip.SIPSessionStatus;
+import org.sipana.protocol.sip.SIPSessionState;
 import org.sipana.protocol.sip.impl.SIPSessionImpl;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
@@ -70,10 +70,10 @@ public class SIPSessionController {
             item.append(", From: ").append(firstRequest.getFromUser());
             item.append(", To: ").append(firstRequest.getToUser());
             
-            String state = SIPSessionStatus.getStateString(session.getState());
+            String state = SIPSessionState.getStateString(session.getState());
             item.append(", status: ").append(state);
             
-            sipSessionList.add(new SelectItem(session.getCallId(), item.toString()));
+            sipSessionList.add(new SelectItem(session.getId(), item.toString()));
         }
     }
 

@@ -40,6 +40,7 @@ public class SIPScenarioController {
             if (items.size() > 0) {
                 messageList = sipSessionManager.getMessageListBySessionId(items);
             }
+            
         } else if (callId != null) {
 
             List<String> items = new ArrayList<String>();

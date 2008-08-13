@@ -29,7 +29,8 @@ public abstract class SIPMessageImpl implements SIPMessage, Serializable
     
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("callId=").append(getCallID());
+        StringBuilder sb = new StringBuilder(SIPMessageImpl.class.getName());
+        sb.append("callId=").append(getCallID());
         sb.append(", srcAddr=").append(getSrcAddress()).append(":").append(getSrcPort());
         sb.append(", dstAddr=").append(getDstAddress()).append(":").append(getDstPort());
         sb.append(", From=").append("\"").append(getFromDisplay()).append("\" <").append(getFromUser()).append(">");

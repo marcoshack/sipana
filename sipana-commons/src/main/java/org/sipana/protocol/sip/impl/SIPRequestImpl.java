@@ -35,7 +35,7 @@ public class SIPRequestImpl extends SIPMessageImpl implements SIPRequest
     
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("method=").append(getMethod());
+        StringBuilder sb = new StringBuilder("SIP Request, method=").append(getMethod());
         sb.append(", ").append(super.toString());
         return sb.toString();
     }

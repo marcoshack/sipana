@@ -47,6 +47,7 @@ public interface SIPSession extends Serializable {
     public void setResponses(List<SIPResponse> responses);
     public void addRequest(SIPRequest request);
     public void addResponse(SIPResponse response);
+    public void addMessage(SIPMessage message);
     public String getFromUser();
     public void setFromUser(String from);
     public String getToUser();

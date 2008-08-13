@@ -1,5 +1,6 @@
-package org.sipana.client.sip;
+package org.sipana.client.sender;
 
+import java.io.Serializable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,14 +15,14 @@ import javax.jms.Message;
 import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 import javax.naming.InitialContext;
 
 import org.apache.log4j.Logger;
 import org.sipana.client.config.ConfigManager;
+import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPSession;
 
-public class SIPSessionSender implements ExceptionListener {
+public class MessageSender implements ExceptionListener {
     public static final int STATE_STOPED  = 0;
     public static final int STATE_RUNNING = 1;
     public static final int STATE_FAILED =  2;
@@ -37,61 +38,80 @@ public class SIPSessionSender implements ExceptionListener {
     private DelayedSender delayedSender;
     private SenderReconnector reconnector;
     private ConcurrentLinkedQueue<SIPSession> sessions;
+    private ConcurrentLinkedQueue<SIPMessage> messages;
     private AtomicInteger state;
     private AtomicInteger discardedSessions;
     private int bufferSize;
     private String destinationName;
     
     
-    public SIPSessionSender() throws Exception {
+    public MessageSender() throws Exception {
         state = new AtomicInteger();
         sessions = new ConcurrentLinkedQueue<SIPSession>();
+        messages = new ConcurrentLinkedQueue<SIPMessage>();
         discardedSessions = new AtomicInteger(0);
 
-        logger = Logger.getLogger(SIPSessionSender.class);
+        logger = Logger.getLogger(MessageSender.class);
         configManager = ConfigManager.getInstance();
         bufferSize = configManager.getBufferSize();
         isDelayed  = configManager.isSenderModeDelayed();
         destinationName = configManager.getSenderDestination();
 
-        setState(SIPSessionSender.STATE_STOPED);
+        setState(MessageSender.STATE_STOPED);
     }
 
     public void send(SIPSession session) throws Exception {
         if (isDelayed) {
-            if ((sessions.size() < bufferSize)) {
+            logger.debug("Storing SIP session for delayed sending");
+            
+            if (!isBufferOverflowed()) {
                 sessions.add(session);
             } else {
+                logger.warn("Buffer overflowed, discarding the oldest SIP session stored");
                 discardedSessions.incrementAndGet();
                 sessions.poll();
                 sessions.add(session);
             }
-        } else {
+            
+        } else if (isRunning()){
             sendNow(session);
+            
+        } else {
+            StringBuilder sbWarn = new StringBuilder("Sender is not running and not using a delayed sender. Discarding SIP session: ");
+            sbWarn.append(session);
+            logger.warn(sbWarn);
         }
     }
     
-    private void sendNow(SIPSession sipSession) throws Exception {
+    public void send(SIPMessage message) throws Exception {
+        logger.debug("Sending standalone message immediately");
+        
+        if (isRunning()) {
+            sendNow(message);
+        } else if (isDelayed) {
+            logger.warn("Sender is not running, cannot send the message now. Storing it for delayed sending");
+            messages.add(message);
+        } else {
+            StringBuilder sbWarn = new StringBuilder("Sender is not running and not using a delayed sender. Discarding SIP message: ");
+            sbWarn.append(message);
+            logger.warn(sbWarn);
+        }
+    }
+    
+    private void sendNow(Serializable object) throws Exception {
         if (logger.isDebugEnabled()) {
-            logger.debug(new StringBuilder("Sending session: ").append(sipSession));
+            logger.debug(new StringBuilder("Sending message: ").append(object));
         }
         
-        //Message message = createTextMessage(sipSession);
-        Message message = createObjectMessage(sipSession);
+        Message message = createObjectMessage(object);
         producer.send(message);
         
         logger.debug("Session sent");
     }
 
-    private TextMessage createTextMessage(SIPSession sipSession) throws Exception {
-        TextMessage message = session.createTextMessage();
-        message.setText(sipSession.toString());
-        return message;
-    }
-    
-    private ObjectMessage createObjectMessage (SIPSession sipSession) throws Exception {
+    private ObjectMessage createObjectMessage (Serializable object) throws Exception {
         ObjectMessage message = session.createObjectMessage();
-        message.setObject(sipSession);
+        message.setObject(object);
         return message;
     }
     
@@ -106,9 +126,9 @@ public class SIPSessionSender implements ExceptionListener {
     
     public boolean start() {
         try {
-            logger.debug("Starting SIPSession sender");
+            logger.debug("Starting message Sender");
             
-            if (getState() == SIPSessionSender.STATE_RUNNING) {
+            if (getState() == MessageSender.STATE_RUNNING) {
                 logger.debug("Sender already running");
                 return false;
             }
@@ -133,18 +153,18 @@ public class SIPSessionSender implements ExceptionListener {
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             producer = session.createProducer(destination);
             
-            setState(SIPSessionSender.STATE_RUNNING);
+            setState(MessageSender.STATE_RUNNING);
             
             if (isDelayed) {
                 startDelayedSender();
             }
             
-            logger.info("SIPSession sender sucessful started");
+            logger.info("Sender sucessful started");
             return true;
             
         } catch (Exception e) {
             logger.error("Fail starting SIPSession sender", e);
-            setState(SIPSessionSender.STATE_FAILED);
+            setState(MessageSender.STATE_FAILED);
             
             if (reconnector == null || !(reconnector.isRunning())) {
                 startSenderReconnector();
@@ -155,7 +175,7 @@ public class SIPSessionSender implements ExceptionListener {
     }
 
     public void stop() {
-        logger.debug("Stoping SIPSession sender");
+        logger.debug("Stoping message Sender");
 		try {
             // Stop Delayed sender thread if it's running
             if (delayedSender != null) {
@@ -163,7 +183,7 @@ public class SIPSessionSender implements ExceptionListener {
             }
             
             // Close connection if it's running
-            if (getState() == SIPSessionSender.STATE_RUNNING) {
+            if (getState() == MessageSender.STATE_RUNNING) {
                 logger.debug("Closing sender connection");
                 connection.close();
             }
@@ -174,13 +194,13 @@ public class SIPSessionSender implements ExceptionListener {
 	}
     
     private void startDelayedSender() {
-        logger.debug("Starting Delayed sender");
+        logger.debug("Starting Delayed Sender");
         long delay_period = configManager.getDelayedSenderInterval();
         delayedSender = new DelayedSender(delay_period);
         Thread thread = new Thread(delayedSender);
         thread.setName("DelayedSender");
         thread.start();
-        logger.debug("Delayed sender started");
+        logger.debug("Delayed Sender started");
     }
     
     private void startSenderReconnector() {
@@ -197,8 +217,8 @@ public class SIPSessionSender implements ExceptionListener {
     public void onException(JMSException e) {
         logger.error("Sender connection fail", e);
         
-        if (getState() == SIPSessionSender.STATE_RUNNING) {
-            setState(SIPSessionSender.STATE_FAILED);
+        if (isRunning()) {
+            setState(MessageSender.STATE_FAILED);
             
             if (delayedSender != null && delayedSender.isRunning()) {
                 delayedSender.stop();
@@ -211,6 +231,14 @@ public class SIPSessionSender implements ExceptionListener {
 
     public int getDiscardedSessions() {
         return discardedSessions.get();
+    }
+    
+    private boolean isBufferOverflowed() {
+        return ((sessions.size() + messages.size()) > bufferSize);
+    }
+    
+    private boolean isRunning() {
+        return (getState() == MessageSender.STATE_RUNNING);
     }
     
     private class DelayedSender implements Runnable {
@@ -238,10 +266,21 @@ public class SIPSessionSender implements ExceptionListener {
                         wait(sendInterval.get() * 1000);
                     }
                     
-                    while (sessions.size() > 0 && getState() == SIPSessionSender.STATE_RUNNING) {
-                        SIPSession session = sessions.poll();
-                        sendNow(session);
-                        sessions.remove(session);
+                    if (isRunning()) {
+                    
+                        while (sessions.size() > 0 && isRunning()) {
+                            SIPSession session = sessions.peek();
+                            sendNow(session);
+                            sessions.remove(session);
+                        }
+                        
+                        while (messages.size() > 0 && isRunning()) {
+                            SIPSession session = sessions.peek();
+                            sendNow(session);
+                            sessions.remove(session);
+                        }
+                    } else {
+                        logger.warn("Sender isn't running, cannot send message");
                     }
                 
                 } catch (Throwable t) {
@@ -282,7 +321,7 @@ public class SIPSessionSender implements ExceptionListener {
         public void run() {
             running.set(true);
             
-            while (getState() == SIPSessionSender.STATE_FAILED && running.get()) {
+            while (getState() == MessageSender.STATE_FAILED && running.get()) {
                 
                 try {
                     logger.info("Waiting " + retryInterval + " seconds to retry");
