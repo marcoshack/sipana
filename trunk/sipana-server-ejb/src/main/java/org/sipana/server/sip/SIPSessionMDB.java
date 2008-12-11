@@ -15,9 +15,9 @@ import org.sipana.protocol.sip.impl.SIPSessionImpl;
 
 @MessageDriven(activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"     ),
-        @ActivationConfigProperty(propertyName = "destination"    , propertyValue = "queue/org.sipana.sip"),
+        @ActivationConfigProperty(propertyName = "destination"    , propertyValue = "queue/org.sipana.sip")
 })
-                                  
+
 public class SIPSessionMDB implements MessageListener {
     private Logger logger;
 
