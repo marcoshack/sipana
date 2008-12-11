@@ -15,6 +15,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
+# check if current user has root privileges
+if [[ $UID != 0 ]]; then
+  echo -e "\nSipana Agent needs root privileges to run.\n";
+  exit 1;
+fi
+
 # startup script debug
 SIPANA_DEBUG=1
 

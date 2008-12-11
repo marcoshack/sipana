@@ -6,12 +6,10 @@ import java.util.concurrent.ConcurrentMap;
 import javax.sip.message.Request;
 import javax.sip.message.Response;
 
-import net.sourceforge.jpcap.capture.PacketListener;
-import net.sourceforge.jpcap.net.Packet;
-import net.sourceforge.jpcap.net.UDPPacket;
-
 import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
+import org.sipana.client.capture.CaptureListener;
+import org.sipana.client.capture.Packet;
 import org.sipana.client.sender.MessageSender;
 import org.sipana.protocol.sip.SIPFactory;
 import org.sipana.protocol.sip.SIPMessage;
@@ -21,7 +19,7 @@ import org.sipana.protocol.sip.SIPSession;
 import org.sipana.protocol.sip.SIPSessionState;
 import org.sipana.protocol.sip.impl.SIPFactoryImpl;
 
-public class SIPHandler implements PacketListener {
+public class SIPHandler implements CaptureListener {
     private Logger logger;
     private ConcurrentMap<String, SIPSession> sessionList;
     private SIPFactory messageFactory;
@@ -297,23 +295,22 @@ public class SIPHandler implements PacketListener {
         return sessionList.size();
     }
 
-    public void packetArrived(Packet packet) {
+    public void onPacket(Packet packet) {
         try {
-            UDPPacket udpPacket = (UDPPacket)packet;
-            SIPMessage message = messageFactory.createMessage(udpPacket.getData());
+            SIPMessage message = messageFactory.createMessage(packet.getData());
             
             String callId = message.getCallID();
             NDC.push(new StringBuilder("callId=").append(callId).toString());
             
-            String srcAddr = udpPacket.getSourceAddress();
-            int srcPort    = udpPacket.getSourcePort();
-            String dstAddr = udpPacket.getDestinationAddress();
-            int dstPort    = udpPacket.getDestinationPort();
+            String srcAddr = packet.getSrcIPAddr();
+            int srcPort    = packet.getSrcIPPort();
+            String dstAddr = packet.getDstIPAddr();
+            int dstPort    = packet.getDstIPPort();
             message.setSrcAddress(srcAddr);
             message.setSrcPort(srcPort);
             message.setDstAddress(dstAddr);
             message.setDstPort(dstPort);
-            message.setTime(udpPacket.getTimeval().getDate().getTime());
+            message.setTime(packet.getDate().getTime());
             
             if (logger.isDebugEnabled()) {
                 StringBuilder sb = new StringBuilder("Processing new message: ");
@@ -323,15 +320,17 @@ public class SIPHandler implements PacketListener {
             
             if (message instanceof SIPRequest) {
                 processRequest((SIPRequest) message);
+                
             } else if (message instanceof SIPResponse) {
                 processResponse((SIPResponse) message);
             }
             
         } catch (Throwable t) {
             logger.error("Fail processing packet", t);
+            
         } finally {
             NDC.pop();
         }
+        
     }
-
 }

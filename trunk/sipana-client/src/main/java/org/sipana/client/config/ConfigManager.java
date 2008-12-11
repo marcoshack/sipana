@@ -19,7 +19,7 @@ public class ConfigManager {
     // Config constants
     private static final String CONFIG_SENDER_MODE_DELAYED = "delayed";
     private static final String CONFIG_SENDER_MODE_IMMEDIATELY = "immediately";
-    private static final String CONFIG_BUFFER_OVERFLOW_ACTION_DISCARD = "discard";
+//    private static final String CONFIG_BUFFER_OVERFLOW_ACTION_DISCARD = "discard";
     
     // Config default values
     private static final String DEFAULT_SENDER_PERIOD = "60";

@@ -3,10 +3,9 @@ package org.sipana.client.capture.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sourceforge.jpcap.capture.PacketListener;
-
 import org.apache.log4j.Logger;
 import org.sipana.client.capture.CaptureException;
+import org.sipana.client.capture.CaptureListener;
 import org.sipana.client.capture.CaptureManager;
 import org.sipana.client.capture.CaptureSession;
 
@@ -29,7 +28,7 @@ public class CaptureManagerImpl implements CaptureManager {
 	}
 
 	public CaptureSession createCaptureSession(String filter, String device,
-			PacketListener listener) throws CaptureException
+			CaptureListener listener) throws CaptureException
 	{
 		if (logger.isDebugEnabled()) {
 			StringBuilder sb = new StringBuilder("Creating capture session: ");
@@ -44,17 +43,19 @@ public class CaptureManagerImpl implements CaptureManager {
 					+ "listener cannot be null");
 		}
 		
-		CaptureSession session = new CaptureSessionImpl(filter, device,listener);
+		//CaptureSession session = new CaptureSessionSFjpcap(filter, device,listener);
+		CaptureSession session = new CaptureSessionKFujii(filter, device,listener);
 		addSession(session);
 		
 		return session;
 	}
 
 	public void destroyCaptureSession(CaptureSession session) {
+	    // TODO implement destroyCaptureSession(CaptureSession session)
 	}
 	
 	public void destroyCaptureSession(String sessionId) {
-		
+	    // TODO implement destroyCaptureSession(String sessionId)
 	}
 
 	private void addSession(CaptureSession session) {
@@ -63,10 +64,10 @@ public class CaptureManagerImpl implements CaptureManager {
 		}
 	}
 	
-	private void removeSession(CaptureSession session) {
-		synchronized (sessionList) {
-			sessionList.remove(session.getId());
-		}
-	}
+//	private void removeSession(CaptureSession session) {
+//		synchronized (sessionList) {
+//			sessionList.remove(session.getId());
+//		}
+//	}
 
 }
