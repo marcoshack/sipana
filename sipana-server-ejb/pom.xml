@@ -1,19 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?><project>
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
   <parent>
     <artifactId>sipana</artifactId>
     <groupId>org.sipana</groupId>
-    <version>1.0</version>
+    <version>0.2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.sipana</groupId>
   <artifactId>sipana-server-ejb</artifactId>
-  <name>Sipana Server :: EJB</name>
+  <name>Sipana Server EJB</name>
   <description>Sipana Server. EJB Module</description>
+  <version>0.2</version>
   <dependencies>
     <dependency>
       <groupId>org.sipana</groupId>
       <artifactId>sipana-commons</artifactId>
-      <version>1.0</version>
+      <version>0.2</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
