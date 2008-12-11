@@ -18,23 +18,22 @@
 
 package org.sipana.client.capture;
 
-import net.sourceforge.jpcap.capture.PacketListener;
 
 public interface CaptureSession {
     public static int DEFAULT_SNAPLEN = 1500;
     public static int DEFAULT_TIMEOUT = -1;
     public static int DEFAULT_COUNT = -1; // Infinite
     
-    public static int RUNINNG = 1;
-    public static int IDLE = 2;
-    public static int FAIL = 3;
+    public static int STATE_RUNINNG = 1;
+    public static int STATE_IDLE = 2;
+    public static int STATE_ERROR = 3;
     
-    public void setListener(PacketListener listener);
+    public void setListener(CaptureListener listener);
     public void setFilter(String filter);
     public void setDevice(String device);
     public void setPromiscuous(boolean promiscuous);
     
-    public PacketListener getListener();
+    public CaptureListener getListener();
     public String getFilter();
     public String getDevice();
     public int getState();
