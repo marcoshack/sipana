@@ -6,6 +6,18 @@
 	<title>Sipana</title>
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="/sipana/sipsession/resources/style/style.css"/>
+
+	<!-- JavaScript -->
+    <script type="text/javascript" src="/sipana/sipsession/resources/script/script.js"></script>
+
+	<!-- Pop-up Calendar -->
+	<style type="text/css">
+		@import url(/sipana/sipsession/resources/calendar/calendar-system.css);
+	</style>
+	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/calendar.js"></script>
+	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/lang/calendar-en.js"></script>
+	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/calendar-setup.js"></script>
+
 </head>
 <body onload="selectDate()">
 
@@ -66,7 +78,7 @@
          	</fieldset>
 		</h:form>
 		
-		<h:form>
+		<h:form style="width: 100%">
 			<fieldset>
 			
 				<legend><h:outputText value="#{sipsession_msgs.ttl_result}"/></legend>
@@ -89,16 +101,4 @@
 	</f:view>
 	
 </body>
-
-	<!-- JavaScript -->
-	<script type="text/javascript" src="/sipana/sipsession/resources/script/script.js"/></script>
-
-	<!-- Pop-up Calendar -->
-	<style type="text/css"> 
-		@import url(/sipana/sipsession/resources/calendar/calendar-brown.css);
-	</style>
-	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/calendar.js"></script>
-	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/lang/calendar-en.js"></script>
-	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/calendar-setup.js"></script>
-
 </html>
