@@ -39,11 +39,11 @@ public class CaptureSessionSFjpcap extends AbstractCaptureSession implements
     @Override
     protected void startCapture() throws CaptureException {
         try {
-            capturer.open(getDevice(), CaptureSessionSFjpcap.DEFAULT_SNAPLEN, isPromiscuous(), CaptureSession.DEFAULT_TIMEOUT);
+            capturer.open(getDevice(), CaptureSessionSFjpcap.DEFAULT_SNAPLEN, isPromiscuous(), CaptureSessionSFjpcap.DEFAULT_TIMEOUT);
 
             capturer.setFilter(getFilter(), true);
             capturer.addPacketListener(this);
-            capturer.capture(CaptureSession.DEFAULT_COUNT);
+            capturer.capture(CaptureSessionSFjpcap.DEFAULT_COUNT);
 
         } catch (Exception e) {
             throw new CaptureException("Fail starting capture session", e);

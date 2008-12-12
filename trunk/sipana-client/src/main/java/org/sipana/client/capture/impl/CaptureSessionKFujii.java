@@ -12,7 +12,9 @@ import jpcap.packet.UDPPacket;
 import org.sipana.client.capture.AbstractCaptureSession;
 import org.sipana.client.capture.CaptureException;
 import org.sipana.client.capture.CaptureListener;
+import org.sipana.client.capture.NetworkInterfaceNotFoundException;
 import org.sipana.client.capture.Packet;
+import org.sipana.client.config.ConfigManager;
 
 public class CaptureSessionKFujii extends AbstractCaptureSession implements
         PacketReceiver {
@@ -20,7 +22,6 @@ public class CaptureSessionKFujii extends AbstractCaptureSession implements
     private static int DEFAULT_SNAPLEN = 1500;
     private static int DEFAULT_TIMEOUT = 0;
     private static int DEFAULT_COUNT = -1; // Infinite
-
     private JpcapCaptor captor;
 
     public CaptureSessionKFujii(String filter, String deviceName,
@@ -29,20 +30,20 @@ public class CaptureSessionKFujii extends AbstractCaptureSession implements
     }
 
     @Override
-    protected void startCapture() throws CaptureException {
-        try {
-            NetworkInterface[] interfaces = JpcapCaptor.getDeviceList();
-            NetworkInterface selectedIface = null;
-            StringBuilder sbIfList = new StringBuilder("Available network interfaces: ");
+    protected void startCapture() throws Exception {
+        NetworkInterface[] interfaces = JpcapCaptor.getDeviceList();
+        NetworkInterface selectedIface = null;
+        StringBuilder sbIfList = new StringBuilder("Available network interfaces: ");
 
-            for (NetworkInterface iface : interfaces) {
-                sbIfList.append(iface.name).append(", ");
+        for (NetworkInterface iface : interfaces) {
+            sbIfList.append(iface.name).append(", ");
 
-                if (iface.name.equals(getDevice())) {
-                    selectedIface = iface;
-                }
+            if (iface.name.equals(getDevice())) {
+                selectedIface = iface;
             }
+        }
 
+        if (selectedIface != null) {
             if (logger.isDebugEnabled()) {
                 logger.debug(sbIfList);
                 StringBuilder sb = new StringBuilder("Selected network interface: ");
@@ -54,13 +55,13 @@ public class CaptureSessionKFujii extends AbstractCaptureSession implements
             captor.setFilter(getFilter(), true);
             captor.loopPacket(CaptureSessionKFujii.DEFAULT_COUNT, this);
 
-        } catch (Exception e) {
-            throw new CaptureException("Failed starting capture session", e);
+        } else {
+            throw new NetworkInterfaceNotFoundException("Couldn't open interface " + getDevice() + ". Please check the property \"" + ConfigManager.PROPERTY_CAPTURE_INTERFACE + "\" in the file \"" + ConfigManager.getInstance().getConfigFileName() + "\"");
         }
     }
 
     @Override
-    protected void stopCapture() throws CaptureException {
+    protected void stopCapture() throws Exception {
         if (captor != null) {
             captor.breakLoop();
             captor.close();
@@ -78,11 +79,11 @@ public class CaptureSessionKFujii extends AbstractCaptureSession implements
                 IPPacket ipPacket = (IPPacket) jpcapPacket;
                 packet.setSrcIPAddr(ipPacket.src_ip.getHostAddress());
                 packet.setDstIPAddr(ipPacket.dst_ip.getHostAddress());
-                long seconds  = ipPacket.sec;
+                long seconds = ipPacket.sec;
                 long microSec = ipPacket.usec;
                 long milliSec = (seconds * 1000) + (microSec / 1000);
                 packet.setDate(new Date(milliSec));
-                
+
                 if (jpcapPacket instanceof UDPPacket) {
                     UDPPacket udpPacket = (UDPPacket) jpcapPacket;
                     packet.setData(new String(udpPacket.data));
@@ -96,8 +97,7 @@ public class CaptureSessionKFujii extends AbstractCaptureSession implements
                     packet.setDstIPPort(tcpPacket.dst_port);
 
                 } else {
-                    throw new CaptureException("Unknown packet transport type:\n"
-                            + jpcapPacket);
+                    throw new CaptureException("Unknown packet transport type:\n" + jpcapPacket);
                 }
             } else {
                 throw new CaptureException("Unknown packet: \n" + jpcapPacket);

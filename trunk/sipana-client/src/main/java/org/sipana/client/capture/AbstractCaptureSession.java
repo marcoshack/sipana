@@ -31,9 +31,9 @@ public abstract class AbstractCaptureSession implements CaptureSession,
         setState(CaptureSession.STATE_IDLE);
     }
 
-    protected abstract void startCapture() throws CaptureException;
+    protected abstract void startCapture() throws Exception;
 
-    protected abstract void stopCapture() throws CaptureException;
+    protected abstract void stopCapture() throws Exception;
 
     public String getFilter() {
         return filter;
@@ -94,7 +94,7 @@ public abstract class AbstractCaptureSession implements CaptureSession,
         }
     }
 
-    public synchronized void stop() throws CaptureException {
+    public synchronized void stop() throws Exception {
         logger.info("Stopping Capture Session Id=" + getId());
         stopCapture();
         logger.info("Capture Session Id=" + getId() + " stoped");
@@ -105,15 +105,18 @@ public abstract class AbstractCaptureSession implements CaptureSession,
             setState(CaptureSession.STATE_RUNINNG);
             startCapture();
 
+        } catch (NetworkInterfaceNotFoundException ne) {
+            logger.error(ne.getMessage());
+            setState(CaptureSession.STATE_ERROR);
+            
         } catch (Exception e1) {
-            logger.error("Fail running Capture Session", e1);
+            logger.error("Unknown error running capture session", e1);
             setState(CaptureSession.STATE_ERROR);
 
         } finally {
             try {
-                stop();
-                
                 if (getState() == CaptureSession.STATE_RUNINNG) {
+                    stop();
                     setState(CaptureSession.STATE_IDLE);
                 }
 

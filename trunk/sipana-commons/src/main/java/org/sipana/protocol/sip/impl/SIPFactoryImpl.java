@@ -30,7 +30,7 @@ public class SIPFactoryImpl implements SIPFactory, ParseExceptionListener {
             sb.append(data);
             logger.trace(sb);
         }
-        
+
         gov.nist.javax.sip.message.SIPMessage sipMessage = parser.parseSIPMessage(data);
         return createMessage(sipMessage);
     }
@@ -94,8 +94,15 @@ public class SIPFactoryImpl implements SIPFactory, ParseExceptionListener {
     }
 
     private String getUser(SipURI uri) {
-        StringBuilder sbUser = new StringBuilder(uri.getUser());
-        sbUser.append("@").append(uri.getHost());
+        String user = uri.getUser();
+        String host = uri.getHost();
+        StringBuilder sbUser = new StringBuilder();
+        
+        if (user != null) {
+            sbUser.append(user).append("@");
+        }
+
+        sbUser.append(host);
         return sbUser.toString();
     }
 
@@ -126,8 +133,7 @@ public class SIPFactoryImpl implements SIPFactory, ParseExceptionListener {
                 logger.warn(sb, ex);
             }
         } catch (Throwable t) {
-            logger.error("Fail handling NIST JAIN-SIP exception: "
-                    + t.getMessage(), t);
+            logger.error("Fail handling NIST JAIN-SIP parse exception", t);
         }
     }
 
