@@ -19,11 +19,7 @@
 package org.sipana.client.capture;
 
 
-public interface CaptureSession {
-    public static int DEFAULT_SNAPLEN = 1500;
-    public static int DEFAULT_TIMEOUT = -1;
-    public static int DEFAULT_COUNT = -1; // Infinite
-    
+public interface CaptureSession {   
     public static int STATE_RUNINNG = 1;
     public static int STATE_IDLE = 2;
     public static int STATE_ERROR = 3;

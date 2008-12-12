@@ -8,13 +8,13 @@ import org.apache.log4j.Logger;
 
 public class ConfigManager {
     // Config properties
-    private static final String PROPERTY_SENDER_MODE = "org.sipana.client.sender.mode";
-    private static final String PROPERTY_SENDER_INTERVAL = "org.sipana.client.sender.interval";
-    private static final String PROPERTY_SENDER_RECONNECTION_INTERVAL = "org.sipana.client.sender.reconnection_interval";
-    private static final String PROPERTY_SENDER_DESTINATION_NAME = "org.sipana.client.sender.destination";
-    private static final String PROPERTY_BUFFER_SIZE = "org.sipana.client.buffer.size";
-    private static final String PROPERTY_CAPTURE_INTERFACE = "org.sipana.client.capture.interface";
-    private static final String PROPERTY_CAPTURE_FILTER = "org.sipana.client.capture.filter";
+    public static final String PROPERTY_SENDER_MODE = "org.sipana.client.sender.mode";
+    public static final String PROPERTY_SENDER_INTERVAL = "org.sipana.client.sender.interval";
+    public static final String PROPERTY_SENDER_RECONNECTION_INTERVAL = "org.sipana.client.sender.reconnection_interval";
+    public static final String PROPERTY_SENDER_DESTINATION_NAME = "org.sipana.client.sender.destination";
+    public static final String PROPERTY_BUFFER_SIZE = "org.sipana.client.buffer.size";
+    public static final String PROPERTY_CAPTURE_INTERFACE = "org.sipana.client.capture.interface";
+    public static final String PROPERTY_CAPTURE_FILTER = "org.sipana.client.capture.filter";
     
     // Config constants
     private static final String CONFIG_SENDER_MODE_DELAYED = "delayed";
@@ -107,4 +107,8 @@ public class ConfigManager {
 		String filter = configProperties.getProperty(PROPERTY_CAPTURE_FILTER, null);
 		return filter;
 	}
+
+    public String getConfigFileName() {
+        return ConfigManager.CONFIG_FILE;
+    }
 }

@@ -36,11 +36,12 @@ public class SipanaClient {
 			CaptureSession capSession = captureManager.createCaptureSession(filter, device, handler);
 			capSession.start();
 
-			logger.debug("Waiting for CaptureSession...");
+			logger.debug("Waiting capture session to start...");
 			Thread.sleep(3000);
 			
 			if (capSession.getState() == CaptureSession.STATE_RUNINNG) {
 			    sender.start();
+                
 			} else {
 			    logger.error("Couldn't start capture session");
 			}
