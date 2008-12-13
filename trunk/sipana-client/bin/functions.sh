@@ -1,48 +1,41 @@
 #!/bin/bash
 
+if [[ "${SIPANA_HOME}x" == "x" ]]; then
+    echo "WARNING: \$SIPANA_HOME isn't set, paths will be wrong configured."
+fi
+
 function get_classpath {
-    SIPANA_HOME=$1
-    CP=""
-    for i in `find ${SIPANA_HOME} -name '*.jar'`; do
-        if [[ "${CP}x" == "x" ]]; then
-            CP=$i
+    # Search .jar files in "lib" and "jar" directories
+    for i in `find {"${SIPANA_HOME}/lib","${SIPANA_HOME}/jar"} -name "*.jar"`; do
+        if [[ $CP ]]; then
+            CP="${CP}:$i"
         else
-            CP=${CP}:$i
+            CP="$i"
         fi
     done
    
-    # Add conf/ folder to configure JNDI (jndi.properties)
+    # Add "conf" directory to load JNDI properties (jndi.properties)
     CP="${CP}:${SIPANA_HOME}/conf"
     echo $CP
 }
 
-function get_sipana_home {
-    SIPANA_BIN=$1 
-    cd $SIPANA_BIN
-    cd ..
-    pwd
-}
-
 function get_log4j_options {
-    SIPANA_HOME=$1
     OPTIONS="-Dlog4j.configuration=file:${SIPANA_HOME}/conf/log4j.properties"
     echo $OPTIONS
 }
 
 function get_sipana_options {
-    SIPANA_HOME=$1
-    OPTIONS="-Dsipana.client.properties=$SIPANA_HOME/conf/sipana-client.properties"
+    OPTIONS="-Dsipana.client.properties=${SIPANA_HOME}/conf/sipana-client.properties"
     echo $OPTIONS
 }
 
 function get_jvm_options {
-    SIPANA_HOME=$1
-    OPTIONS="-Dcom.sun.management.config.file=$SIPANA_HOME/conf/jvm/management.properties"
+    OPTIONS="-Dcom.sun.management.config.file=${SIPANA_HOME}/conf/jvm/management.properties"
     echo $OPTIONS
 }
 
 function get_java_command {
-    if [[ "${JAVA_HOME}x" != "x" ]]; then
+    if [[ ${JAVA_HOME} ]]; then
         JAVA="${JAVA_HOME}/bin/java"
     else
         JAVA="java"
@@ -52,12 +45,11 @@ function get_java_command {
 }
 
 function get_library_path {
-    SIPANA_HOME=$1
-    SIPANA_NATIVE_LIB="$SIPANA_HOME/lib/native-linux"
-    if [[ "${LD_LIBRARY_PATH}x" != "x" ]]; then
-        PATH="${LD_LIBRARY_PATH}:$SIPANA_NATIVE_LIB"
+    PATH="/lib:/usr/lib:/usr/local/lib"
+    if [[ ${LD_LIBRARY_PATH} ]]; then
+        PATH="${PATH}:${LD_LIBRARY_PATH}"
     else
-        PATH=$SIPANA_NATIVE_LIB
+        PATH="${PATH}"
     fi
     echo $PATH
 }

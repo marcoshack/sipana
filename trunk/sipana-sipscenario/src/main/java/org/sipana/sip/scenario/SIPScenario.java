@@ -168,25 +168,25 @@ public class SIPScenario {
 
     private HashMap<String, Integer> createHostListWithWeightPosition(
             List<SIPMessage> messages) {
-        HashMap<String, Integer> hostList = new HashMap<String, Integer>();
+        HashMap<String, Integer> resHostList = new HashMap<String, Integer>();
         int lineWeigh = HOST_INIT_W + HOST_LINE_OFFSET_W;
 
         for (SIPMessage message : messages) {
             String srcAddr = new StringBuilder(message.getSrcAddress()).append(":").append(message.getSrcPort()).toString();
             String dstAddr = new StringBuilder(message.getDstAddress()).append(":").append(message.getDstPort()).toString();
 
-            if (hostList.get(srcAddr) == null) {
-                hostList.put(srcAddr, lineWeigh);
+            if (resHostList.get(srcAddr) == null) {
+                resHostList.put(srcAddr, lineWeigh);
                 lineWeigh += HOST_STEP_W;
             }
 
-            if (hostList.get(dstAddr) == null) {
-                hostList.put(dstAddr, lineWeigh);
+            if (resHostList.get(dstAddr) == null) {
+                resHostList.put(dstAddr, lineWeigh);
                 lineWeigh += HOST_STEP_W;
             }
         }
 
-        return hostList;
+        return resHostList;
     }
 
     private Color getSessionColor(String callId) {
@@ -213,14 +213,14 @@ public class SIPScenario {
         String strColorList = SipanaProperties.getProperty(SipanaPropertyType.SIPSCENARIO_COLORS);
         String colorList[] = strColorList.split(",");
 
-        List<Color> colors = new ArrayList<Color>();
+        List<Color> resultColors = new ArrayList<Color>();
 
         for (String strColor : colorList) {
             int rgbColor = Integer.parseInt(strColor, 16);
             Color color = new Color(rgbColor);
-            colors.add(color);
+            resultColors.add(color);
         }
 
-        return colors;
+        return resultColors;
     }
 }
