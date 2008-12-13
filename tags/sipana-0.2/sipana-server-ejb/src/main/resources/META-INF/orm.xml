@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm 
+                           http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+	version="1.0">
+
+	<!-- SIPMessage, SIPRequest, SIPResponse -->
+	<entity class="org.sipana.protocol.sip.impl.SIPMessageImpl"
+		access="PROPERTY">
+		<table name="sip_messages" />
+		<inheritance strategy="SINGLE_TABLE" />
+		<discriminator-column name="sip_message_type"
+			discriminator-type="INTEGER" />
+		<attributes>
+			<id name="id">
+				<generated-value strategy="AUTO" />
+			</id>
+			<many-to-one name="sipSession"
+				target-entity="org.sipana.protocol.sip.impl.SIPSessionImpl">
+				<join-column name="id_sip_session" />
+				<cascade>
+					<cascade-all />
+				</cascade>
+			</many-to-one>
+		</attributes>
+	</entity>
+	<entity class="org.sipana.protocol.sip.impl.SIPRequestImpl"
+		access="PROPERTY">
+		<!-- Value of org.sipana.protocol.sip.SIPMessage.REQUEST -->
+		<discriminator-value>1</discriminator-value>
+	</entity>
+	<entity class="org.sipana.protocol.sip.impl.SIPResponseImpl"
+		access="PROPERTY">
+		<!-- Value of org.sipana.protocol.sip.SIPMessage.RESPONSE -->
+		<discriminator-value>2</discriminator-value>
+	</entity>
+
+	<!-- SIPSession -->
+	<entity class="org.sipana.protocol.sip.impl.SIPSessionImpl"
+		access="PROPERTY">
+		<table name="sip_sessions" />
+		<attributes>
+			<id name="id">
+				<generated-value strategy="AUTO" />
+			</id>
+			<one-to-many name="requests"
+				target-entity="org.sipana.protocol.sip.impl.SIPRequestImpl"
+				fetch="EAGER">
+				<join-column name="id_sip_session" />
+				<cascade>
+					<cascade-all />
+				</cascade>
+			</one-to-many>
+			<one-to-many name="responses"
+				target-entity="org.sipana.protocol.sip.impl.SIPResponseImpl"
+				fetch="EAGER">
+				<join-column name="id_sip_session" />
+				<cascade>
+					<cascade-all />
+				</cascade>
+			</one-to-many>
+		</attributes>
+	</entity>
+</entity-mappings>
