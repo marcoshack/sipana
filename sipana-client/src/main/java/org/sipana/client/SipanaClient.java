@@ -40,6 +40,7 @@ public class SipanaClient {
 			Thread.sleep(3000);
 			
 			if (capSession.getState() == CaptureSession.STATE_RUNINNG) {
+                logger.info("Capture session sucessful started");
 			    sender.start();
                 
 			} else {

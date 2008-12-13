@@ -15,34 +15,36 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-# check if current user has root privileges
+# Check if current user has root privileges
 if [[ $UID != 0 ]]; then
   echo -e "\nSipana Agent needs root privileges to run.\n";
   exit 1;
 fi
 
-# startup script debug
+# Startup script debug output
 SIPANA_DEBUG=1
 
-# init
+# Set SIPANA_HOME
 SIPANA_BIN=`dirname $0`
+cd ${SIPANA_BIN}/../
+export SIPANA_HOME=`pwd`
+
+# Load auxiliar functions
 . ${SIPANA_BIN}/functions.sh
 
-# path and environment variables
-export SIPANA_HOME=`get_sipana_home $SIPANA_BIN`
+# Path and environment variables
 export SIPANA_MAIN="org.sipana.client.SipanaClient"
-export SIPANA_OPTIONS=`get_sipana_options $SIPANA_HOME`
-export JAVA_OPTIONS="`get_log4j_options $SIPANA_HOME` `get_jvm_options $SIPANA_HOME`"
-export JAVA_CLASSPATH=`get_classpath $SIPANA_HOME`
+export SIPANA_OPTIONS=`get_sipana_options`
+export JAVA_OPTIONS="`get_log4j_options` `get_jvm_options`"
+export JAVA_CLASSPATH=`get_classpath`
 export JAVA=`get_java_command`
-export LD_LIBRARY_PATH=`get_library_path $SIPANA_HOME`
+export LD_LIBRARY_PATH=`get_library_path`
 
 # startup command line
-START_CMD="$JAVA -cp $JAVA_CLASSPATH $JAVA_OPTIONS \
-    $SIPANA_OPTIONS $SIPANA_MAIN"
+START_CMD="$JAVA -cp $JAVA_CLASSPATH $JAVA_OPTIONS $SIPANA_OPTIONS $SIPANA_MAIN"
 
 # debug
-if [[ "${SIPANA_DEBUG}x" != "x" ]]; then
+if [[ ${SIPANA_DEBUG} ]]; then
     echo "====================================================================="
     echo -e "\n\tCLASSPATH = $JAVA_CLASSPATH"
     echo -e "\n\tOPTIONS = $JAVA_OPTIONS"
@@ -59,4 +61,3 @@ $START_CMD
 
 # end
 echo -e "\nShutdown complete.\n"
-
