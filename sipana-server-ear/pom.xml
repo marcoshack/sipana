@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.sipana</groupId>
 		<artifactId>sipana</artifactId>
-		<version>0.2</version>
+		<version>0.3</version>
 	</parent>
 
     <groupId>org.sipana</groupId>
@@ -14,27 +14,27 @@
 	<name>Sipana Server EAR</name>
 	<description>Sipana Server. EAR module</description>
 	<packaging>ear</packaging>
-	<version>0.2</version>
+	<version>0.3</version>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.sipana</groupId>
 			<artifactId>sipana-commons</artifactId>
-			<version>0.2</version>
+			<version>${project.version}</version>
 			<type>jar</type>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.sipana</groupId>
 			<artifactId>sipana-server-ejb</artifactId>
-			<version>0.2</version>
+			<version>${project.version}</version>
 			<type>ejb</type>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.sipana</groupId>
 			<artifactId>sipana-server-war</artifactId>
-			<version>0.2</version>
+			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
 	</dependencies>

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.sipana</groupId>
 		<artifactId>sipana</artifactId>
-		<version>0.2</version>
+		<version>0.3</version>
 	</parent>
 
 	<groupId>org.sipana</groupId>
@@ -14,35 +14,29 @@
 	<packaging>war</packaging>
 	<name>Sipana Server WAR</name>
 	<description>Sipana Server. Web Module</description>
-	<version>0.2</version>
+	<version>0.3</version>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.sipana</groupId>
 			<artifactId>sipana-commons</artifactId>
-			<version>0.2</version>
+			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.sipana</groupId>
 			<artifactId>sipana-server-ejb</artifactId>
-			<version>0.2</version>
+			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.sipana</groupId>
 			<artifactId>sipana-sipscenario</artifactId>
-			<version>0.2</version>
+			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<!-- JBoss dependencies	 -->
-		<dependency>
-			<groupId>org.jboss</groupId>
-			<artifactId>jboss-ejb3x</artifactId>
-			<version>4.2.1.GA</version>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.jboss</groupId>
 			<artifactId>servlet-api</artifactId>

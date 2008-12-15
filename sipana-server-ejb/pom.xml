@@ -1,58 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <parent>
-    <artifactId>sipana</artifactId>
+    <parent>
+        <artifactId>sipana</artifactId>
+        <groupId>org.sipana</groupId>
+        <version>0.3</version>
+    </parent>
+    
+    <modelVersion>4.0.0</modelVersion>
     <groupId>org.sipana</groupId>
-    <version>0.2</version>
-  </parent>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.sipana</groupId>
-  <artifactId>sipana-server-ejb</artifactId>
-  <name>Sipana Server EJB</name>
-  <description>Sipana Server. EJB Module</description>
-  <version>0.2</version>
-  <dependencies>
-    <dependency>
-      <groupId>org.sipana</groupId>
-      <artifactId>sipana-commons</artifactId>
-      <version>0.2</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss</groupId>
-      <artifactId>jbossall-client</artifactId>
-      <version>4.2.1.GA</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss</groupId>
-      <artifactId>jboss-annotations-ejb3</artifactId>
-      <version>4.2.1.GA</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss</groupId>
-      <artifactId>jboss-ejb3</artifactId>
-      <version>4.2.1.GA</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss</groupId>
-      <artifactId>jboss-j2ee</artifactId>
-      <version>4.2.1.GA</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss</groupId>
-      <artifactId>ejb3-persistence</artifactId>
-      <version>4.2.1.GA</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss</groupId>
-      <artifactId>jboss-ejb3x</artifactId>
-      <version>4.2.1.GA</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
+    <artifactId>sipana-server-ejb</artifactId>
+    <name>Sipana Server EJB</name>
+    <description>Sipana Server. EJB Module</description>
+    <version>0.3</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.sipana</groupId>
+            <artifactId>sipana-commons</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-ejb3</artifactId>
+            <version>4.2.2.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-j2ee</artifactId>
+            <version>4.2.1.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>ejb3-persistence</artifactId>
+            <version>4.2.1.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-ejb3x</artifactId>
+            <version>4.2.1.GA</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>
