@@ -3,13 +3,13 @@
     <parent>
         <artifactId>sipana</artifactId>
         <groupId>org.sipana</groupId>
-        <version>0.2</version>
+        <version>0.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.sipana</groupId>
     <artifactId>sipana-client</artifactId>
     <name>Sipana Client</name>
-    <version>0.2</version>
+    <version>0.3</version>
     <packaging>jar</packaging>
     <url>http://sipana.org/</url>
 	
@@ -17,7 +17,7 @@
         <dependency>
             <groupId>org.sipana</groupId>
             <artifactId>sipana-commons</artifactId>
-            <version>0.2</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge</groupId>
