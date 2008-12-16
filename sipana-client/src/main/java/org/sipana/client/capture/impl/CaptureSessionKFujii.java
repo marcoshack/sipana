@@ -16,6 +16,13 @@ import org.sipana.client.capture.NetworkInterfaceNotFoundException;
 import org.sipana.client.capture.Packet;
 import org.sipana.client.config.ConfigManager;
 
+/**
+ * Capture Session implementation using Keita Fujii jpcap implementation [1].
+ *
+ * [1] http://netresearch.ics.uci.edu/kfujii/jpcap/doc/
+ *
+ * @author mhack
+ */
 public class CaptureSessionKFujii extends AbstractCaptureSession implements
         PacketReceiver {
 

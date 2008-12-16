@@ -24,11 +24,19 @@
         <repository>
             <id>sipana</id>
             <name>Sipana Repository</name>
-            <url>scp://shell.sourceforge.net/home/groups/s/si/sipana/htdocs/maven/sipana</url>
+            <url>scp://sipana.org/home/projects/sipana.org/maven2</url>
         </repository>
     </distributionManagement>
 
     <repositories>
+        <repository>
+            <id>sipana</id>
+            <url>http://sipana.org/maven2</url>
+        </repository>
+        <repository>
+            <id>sipana_external</id>
+            <url>http://sipana.org/maven2/external</url>
+        </repository>
         <repository>
             <id>jboss</id>
             <url>http://repository.jboss.org/maven2</url>
