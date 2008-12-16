@@ -21,28 +21,19 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>jboss</groupId>
-            <artifactId>jboss-ejb3</artifactId>
-            <version>4.2.2.GA</version>
-            <scope>provided</scope>
+            <groupId>javax.ejb</groupId>
+            <artifactId>ejb-api</artifactId>
+            <version>3.0</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-j2ee</artifactId>
-            <version>4.2.1.GA</version>
-            <scope>provided</scope>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>ejb3-persistence</artifactId>
-            <version>4.2.1.GA</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-ejb3x</artifactId>
-            <version>4.2.1.GA</version>
-            <scope>provided</scope>
+            <groupId>javax.jms</groupId>
+            <artifactId>jms</artifactId>
+            <version>1.1</version>
         </dependency>
     </dependencies>
 </project>

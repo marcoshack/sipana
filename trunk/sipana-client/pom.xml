@@ -20,11 +20,6 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jbossall-client</artifactId>
-            <version>4.2.1.GA</version>
-        </dependency>
-        <dependency>
             <groupId>jakarta-regexp</groupId>
             <artifactId>jakarta-regexp</artifactId>
             <version>1.4</version>
@@ -43,6 +38,11 @@
             <groupId>gov.nist</groupId>
             <artifactId>jain-sip</artifactId>
             <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.jms</groupId>
+            <artifactId>jms</artifactId>
+            <version>1.1</version>
         </dependency>
     </dependencies>
 
