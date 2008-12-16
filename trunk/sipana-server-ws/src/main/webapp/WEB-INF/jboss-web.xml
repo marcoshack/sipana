@@ -8,5 +8,5 @@
   <!-- 
   <security-domain>java:/jaas/sipana</security-domain>
    -->
-  <context-root>sipana</context-root>
+  <context-root>sipana-ws</context-root>
 </jboss-web>
