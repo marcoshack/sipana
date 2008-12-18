@@ -32,12 +32,13 @@ public class ServiceLocator {
 	 * @throws Exception
 	 */
 	public Object getService(String serviceName) throws ServiceLocatorException {
-		String name = serviceName + "/local";
-		logger.debug("Looking for \"" + name + "\"");
+        StringBuilder sbName = new StringBuilder("sipana/").append(serviceName);
+        sbName.append("/local");
+		logger.debug("Looking for \"" + sbName + "\"");
 		
 		try {
 			InitialContext context = new InitialContext();
-			return context.lookup(name);
+			return context.lookup(sbName.toString());
 			
 		} catch (Exception e) {
 			throw new ServiceLocatorException("Fail getting service " + serviceName, e);
