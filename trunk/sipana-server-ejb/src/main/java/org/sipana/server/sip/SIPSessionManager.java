@@ -13,7 +13,7 @@ public interface SIPSessionManager {
     public long getSIPSessionCount();
     public SIPSessionImpl getSIPSession(long id);
     public SIPSessionImpl getSIPSessionByCallID(String callID);
-    public List<SIPSessionImpl> getSIPSessions(long startTime, long endTime, String method, String fromUser, String toUser, String callId, List<String> ipAddrList);
+    public List<SIPSessionImpl> getSIPSessions(Long startTime, Long endTime, String method, String fromUser, String toUser, String callId, List<String> ipAddrList);
     public List<SIPMessage> getMessageListBySessionId(List<Long> sessionIdList);
     public List<SIPMessage> getMessageListByCallID(List<String> callIdList);
 }
