@@ -35,6 +35,7 @@
             <groupId>hibernate-annotations</groupId>
             <artifactId>hibernate-annotations</artifactId>
             <version>3.3.0.GA</version>
+            <scope>provided</scope>
         </dependency>
 	</dependencies>
 	

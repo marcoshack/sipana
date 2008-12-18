@@ -1,121 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0        http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.sipana</groupId>
-		<artifactId>sipana</artifactId>
-		<version>0.3</version>
-	</parent>
+    <parent>
+        <groupId>org.sipana</groupId>
+        <artifactId>sipana</artifactId>
+        <version>0.3</version>
+    </parent>
 
     <groupId>org.sipana</groupId>
-	<artifactId>sipana-server-ear</artifactId>
-	<name>Sipana Server EAR</name>
-	<description>Sipana Server. EAR module</description>
-	<packaging>ear</packaging>
-	<version>0.3</version>
+    <artifactId>sipana-server-ear</artifactId>
+    <name>Sipana Server EAR</name>
+    <description>Sipana Server. EAR module</description>
+    <packaging>ear</packaging>
+    <version>0.3</version>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.sipana</groupId>
-			<artifactId>sipana-commons</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.sipana</groupId>
+            <artifactId>sipana-commons</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
 
         <dependency>
-			<groupId>org.sipana</groupId>
-			<artifactId>sipana-sipscenario</artifactId>
-			<version>${project.version}</version>
-			<type>jar</type>
-		</dependency>
+            <groupId>org.sipana</groupId>
+            <artifactId>sipana-sipscenario</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
 		
-		<dependency>
-			<groupId>org.sipana</groupId>
-			<artifactId>sipana-server-ejb</artifactId>
-			<version>${project.version}</version>
-			<type>ejb</type>
-		</dependency>
+        <dependency>
+            <groupId>org.sipana</groupId>
+            <artifactId>sipana-server-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
 		
-		<dependency>
-			<groupId>org.sipana</groupId>
-			<artifactId>sipana-server-war</artifactId>
-			<version>${project.version}</version>
-			<type>war</type>
-		</dependency>
+        <dependency>
+            <groupId>org.sipana</groupId>
+            <artifactId>sipana-server-war</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
 
         <dependency>
-			<groupId>org.sipana</groupId>
-			<artifactId>sipana-server-ws</artifactId>
-			<version>${project.version}</version>
-			<type>war</type>
-		</dependency>
-	</dependencies>
+            <groupId>org.sipana</groupId>
+            <artifactId>sipana-server-ws</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-ear-plugin</artifactId>
-				<configuration>
-					<displayName>Sipana Server EAR</displayName>
-					<description>Sipana Server EAR</description>
-					<version>5</version>
-					<defaultLibBundleDir>lib</defaultLibBundleDir>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <displayName>Sipana Server EAR</displayName>
+                    <description>Sipana Server EAR</description>
+                    <version>5</version>
+                    <defaultLibBundleDir>lib/3rd</defaultLibBundleDir>
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <resourcesDir>src/main/resources</resourcesDir>
 
-					<modules>
-						<jarModule>
-							<groupId>org.sipana</groupId>
-							<artifactId>sipana-commons</artifactId>
-							<includeInApplicationXml>true</includeInApplicationXml>
-						</jarModule>
+                    <modules>
                         <jarModule>
-							<groupId>org.sipana</groupId>
-							<artifactId>sipana-sipscenario</artifactId>
-							<includeInApplicationXml>true</includeInApplicationXml>
-						</jarModule>
-						<ejbModule>
-							<groupId>org.sipana</groupId>
-							<artifactId>sipana-server-ejb</artifactId>
-						</ejbModule>
-						<webModule>
-							<groupId>org.sipana</groupId>
-							<artifactId>sipana-server-war</artifactId>
-							<contextRoot>/sipana-web</contextRoot>
-						</webModule>
+                            <groupId>org.sipana</groupId>
+                            <artifactId>sipana-commons</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                            <bundleDir>lib</bundleDir>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.sipana</groupId>
+                            <artifactId>sipana-sipscenario</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                            <bundleDir>lib</bundleDir>
+                        </jarModule>
+                        <ejbModule>
+                            <groupId>org.sipana</groupId>
+                            <artifactId>sipana-server-ejb</artifactId>
+                        </ejbModule>
                         <webModule>
-							<groupId>org.sipana</groupId>
-							<artifactId>sipana-server-ws</artifactId>
-							<contextRoot>/sipana</contextRoot>
-						</webModule>
-					</modules>
-					
-				</configuration>
-			</plugin>
-
-			<!-- 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<id>copy-parent-target</id>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<tasks>
-								<echo>Copying ${pom.build.finalName}.ear file to parent</echo>
-								<copy file="${project.build.directory}/${artifactId}-${version}.ear" todir="${pom.basedir}/../.." failonerror="false" overwrite="true" />
-							</tasks>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			-->
-		</plugins>
-		
-	</build>
-
+                            <groupId>org.sipana</groupId>
+                            <artifactId>sipana-server-war</artifactId>
+                            <contextRoot>/sipana</contextRoot>
+                        </webModule>
+                        <webModule>
+                            <groupId>org.sipana</groupId>
+                            <artifactId>sipana-server-ws</artifactId>
+                            <contextRoot>/sipana-ws</contextRoot>
+                        </webModule>
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

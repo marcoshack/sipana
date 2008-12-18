@@ -10,8 +10,9 @@ import javax.ws.rs.Produces;
  * @author mhack
  */
 
-@Path("/sessions")
-public interface SIPSession {
+@Path("/sipsessions")
+public interface SIPSessionWS {
+
     @GET
     @Path("list")
     @Produces("text/plain")

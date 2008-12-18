@@ -1,5 +1,6 @@
 package org.sipana.server.sip;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -43,8 +44,8 @@ public class SIPSessionManagerBean implements SIPSessionManager
     }
     
     public List<SIPSessionImpl> getSIPSessions(
-    		long startTime, 
-    		long endTime, 
+    		Long startTime,
+    		Long endTime,
     		String method, 
     		String fromUser, 
     		String toUser,    
@@ -79,6 +80,14 @@ public class SIPSessionManagerBean implements SIPSessionManager
             String ipAddrInList = new StringBuilder("'").append(StringUtils.join(ipAddrList, "','")).append("'").toString();
         	sbQuery.append("AND (r.srcAddress IN (").append(ipAddrInList);
         	sbQuery.append(") OR r.dstAddress IN (").append(ipAddrInList).append(")) ");
+        }
+
+        // If startTime/endTime is null set it to min/max values
+        if (startTime == null) {
+            startTime = 0L;
+        }
+        if (endTime == null) {
+            endTime = Calendar.getInstance().getTimeInMillis();
         }
         
         sbQuery.append("ORDER BY s.startTime DESC");
