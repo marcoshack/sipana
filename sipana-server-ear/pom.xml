@@ -62,7 +62,7 @@
                     <description>Sipana Server EAR</description>
                     <version>5</version>
                     <defaultLibBundleDir>lib/3rd</defaultLibBundleDir>
-                    <generateApplicationXml>true</generateApplicationXml>
+                    <generateApplicationXml>false</generateApplicationXml>
                     <resourcesDir>src/main/resources</resourcesDir>
 
                     <modules>
