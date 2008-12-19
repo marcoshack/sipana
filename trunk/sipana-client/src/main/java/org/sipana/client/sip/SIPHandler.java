@@ -11,13 +11,12 @@ import org.apache.log4j.NDC;
 import org.sipana.client.capture.CaptureListener;
 import org.sipana.client.capture.Packet;
 import org.sipana.client.sender.MessageSender;
+import org.sipana.protocol.sip.SIPSessionState;
 import org.sipana.protocol.sip.SIPFactory;
 import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPResponse;
 import org.sipana.protocol.sip.SIPSession;
-import org.sipana.protocol.sip.SIPSessionState;
-import org.sipana.protocol.sip.impl.SIPFactoryImpl;
 
 public class SIPHandler implements CaptureListener {
     private Logger logger;
@@ -28,7 +27,7 @@ public class SIPHandler implements CaptureListener {
     public SIPHandler(MessageSender sender) {
         logger = Logger.getLogger(SIPHandler.class);
         sessionList = new ConcurrentHashMap<String, SIPSession>();
-        messageFactory = SIPFactoryImpl.getInstance();
+        messageFactory = SIPFactory.getInstance();
         messageSender = sender;
     }
     
@@ -288,7 +287,7 @@ public class SIPHandler implements CaptureListener {
     }
 
     public SIPFactory getMessageFactory() {
-        return SIPFactoryImpl.getInstance();
+        return SIPFactory.getInstance();
     }
 
     public int getCurrentSessionNumber() {

@@ -5,19 +5,19 @@ import javax.ejb.Stateless;
 import javax.sip.message.Request;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPSessionState;
-import org.sipana.protocol.sip.impl.SIPSessionImpl;
+import org.sipana.protocol.sip.SIPSession;
 
 @Stateless
 public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
 {
-    public long getAvgHopsPerRequest(List<SIPSessionImpl> sessionList) {
+    public long getAvgHopsPerRequest(List<SIPSession> sessionList) {
         long result = 0;
 
         if (sessionList.size() == 0) {
             return 0;
         }
 
-        for (SIPSessionImpl session : sessionList) {
+        for (SIPSession session : sessionList) {
             String initialMethod = session.getMethod();
             List<SIPRequest> requestList = session.getRequests();
             SIPRequest first = requestList.get(0);
@@ -40,11 +40,11 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         return listSize > 0 ? result / listSize : 0;
     }
 
-    public long getAvgRegistrationRequestDelay(List<SIPSessionImpl> sessionList) {
+    public long getAvgRegistrationRequestDelay(List<SIPSession> sessionList) {
         long result = 0L;
         int nRegister = 0;
 
-        for (SIPSessionImpl session : sessionList) {
+        for (SIPSession session : sessionList) {
             if (session.getMethod().equals(Request.REGISTER)) {
                 result =+ getRegistrationRequestDelay(session);
                 nRegister++;
@@ -54,10 +54,10 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         return nRegister > 0 ? result / nRegister : 0;
     }
 
-    public long getAvgSessionDisconnectDelay(List<SIPSessionImpl> sessionList) {
+    public long getAvgSessionDisconnectDelay(List<SIPSession> sessionList) {
         long result = 0;
 
-        for (SIPSessionImpl session : sessionList) {
+        for (SIPSession session : sessionList) {
             result = +getSessionDisconnectDelay(session);
         }
 
@@ -65,10 +65,10 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         return listSize > 0 ? result / listSize : 0;
     }
 
-    public long getAvgSessionDurationTime(List<SIPSessionImpl> sessionList) {
+    public long getAvgSessionDurationTime(List<SIPSession> sessionList) {
         long result = 0;
 
-        for (SIPSessionImpl session : sessionList) {
+        for (SIPSession session : sessionList) {
             result = +getSessionDurationTime(session);
         }
 
@@ -76,10 +76,10 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         return listSize > 0 ? result / listSize : 0;
     }
 
-    public long getAvgSessionRequestDelay(List<SIPSessionImpl> sessionList) {
+    public long getAvgSessionRequestDelay(List<SIPSession> sessionList) {
         long result = 0;
 
-        for (SIPSessionImpl session : sessionList) {
+        for (SIPSession session : sessionList) {
             result =+ getSessionRequestDelay(session);
         }
 
@@ -87,10 +87,10 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         return listSize > 0 ? result / listSize : 0;
     }
 
-    public double getIneffectiveSessionAttempts(List<SIPSessionImpl> sessionList) {
+    public double getIneffectiveSessionAttempts(List<SIPSession> sessionList) {
         long nFail = 0;
         
-        for (SIPSessionImpl session : sessionList) {
+        for (SIPSession session : sessionList) {
             if (session.getState() == SIPSessionState.FAILED) {
                 nFail++;
             }
@@ -100,14 +100,14 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         return (double) (listSize > 0 ? nFail / listSize : 0);
     }
 
-    public long getRegistrationRequestDelay(SIPSessionImpl session) {
+    public long getRegistrationRequestDelay(SIPSession session) {
         return (session.getEndTime() - session.getStartTime());
     }
 
-    public double getSessionCompletionRate(List<SIPSessionImpl> sessionList) {
+    public double getSessionCompletionRate(List<SIPSession> sessionList) {
         int nComplete = 0;
         
-        for (SIPSessionImpl session : sessionList) {
+        for (SIPSession session : sessionList) {
             if (session.getState() == SIPSessionState.COMPLETED) {
                 nComplete++;
             }
@@ -117,40 +117,40 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         return (double) (listSize > 0 ? nComplete / listSize : 0);
     }
 
-    public long getSessionDefects(List<SIPSessionImpl> sessionList) {
+    public long getSessionDefects(List<SIPSession> sessionList) {
         // TODO getSessionDefects()
         return 0;
     }
 
-    public long getSessionDisconnectDelay(SIPSessionImpl session) {
+    public long getSessionDisconnectDelay(SIPSession session) {
         return (session.getEndTime() - session.getDisconnectionStart());
     }
 
-    public long getSessionDisconnectFailures(List<SIPSessionImpl> sessionList) {
+    public long getSessionDisconnectFailures(List<SIPSession> sessionList) {
         // TODO getSessionDisconnectFailures()
         return 0;
     }
 
-    public long getSessionDurationTime(SIPSessionImpl session) {
+    public long getSessionDurationTime(SIPSession session) {
         return (session.getDisconnectionStart() - session.getEstablishedTime());
     }
 
     public long getSessionEstablishmentEfficiencyRate(
-            List<SIPSessionImpl> sessionList) {
+            List<SIPSession> sessionList) {
         // TODO getSessionEstablishmentEfficiencyRate()
         return 0;
     }
 
-    public long getSessionEstablishmentRate(List<SIPSessionImpl> sessionList) {
+    public long getSessionEstablishmentRate(List<SIPSession> sessionList) {
         // TODO getSessionEstablishmentRate()
         return 0;
     }
 
-    public long getSessionRequestDelay(SIPSessionImpl session) {
+    public long getSessionRequestDelay(SIPSession session) {
         return (session.getSetupTime() - session.getStartTime());
     }
 
-    public double getSessionSuccessRate(List<SIPSessionImpl> sessionList) {
+    public double getSessionSuccessRate(List<SIPSession> sessionList) {
         // TODO getSessionSuccessRate()
         return 0;
     }

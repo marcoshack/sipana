@@ -17,8 +17,28 @@
 
 package org.sipana.protocol.sip;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public interface SIPRequest extends SIPMessage {
-    public String getMethod();
-    public void setMethod(String method);
+@XmlRootElement(name = "siprequest")
+public class SIPRequest extends SIPMessage
+{
+    private static final long serialVersionUID = 6595857043893213159L;
+    private String method;
+
+    @XmlElement
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("SIP Request, method=").append(getMethod());
+        sb.append(", ").append(super.toString());
+        return sb.toString();
+    }
 }

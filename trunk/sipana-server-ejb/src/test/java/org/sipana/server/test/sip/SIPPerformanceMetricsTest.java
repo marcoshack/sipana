@@ -7,8 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.sipana.protocol.sip.SIPRequest;
-import org.sipana.protocol.sip.impl.SIPRequestImpl;
-import org.sipana.protocol.sip.impl.SIPSessionImpl;
+import org.sipana.protocol.sip.SIPRequest;
+import org.sipana.protocol.sip.SIPSession;
 import org.sipana.server.sip.SIPPerformanceMetrics;
 import org.sipana.server.sip.SIPPerformanceMetricsBean;
 
@@ -22,18 +22,18 @@ public class SIPPerformanceMetricsTest {
     
     @Test
     public void avgHopsPerRequest() {
-        List<SIPSessionImpl> sessionList = new ArrayList<SIPSessionImpl>();
+        List<SIPSession> sessionList = new ArrayList<SIPSession>();
         int nSessions = 10;
         int nHosts    = 5;
         
         // 10 sessions
         for (int i = 1; i <= nSessions; i++) {
-            SIPSessionImpl session = new SIPSessionImpl();
+            SIPSession session = new SIPSession();
             session.setMethod(Request.INVITE);
             
             // 5 hosts = 4 hops ser session
             for (int j = 1; j <= nHosts; j++) {
-                SIPRequest request = new SIPRequestImpl();
+                SIPRequest request = new SIPRequest();
                 request.setMethod(Request.INVITE);
                 request.setMaxForwards(70 - j);
                 session.addRequest(request);
