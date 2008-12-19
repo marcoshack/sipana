@@ -10,8 +10,8 @@ import javax.jms.TextMessage;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
-import org.sipana.protocol.sip.impl.SIPMessageImpl;
-import org.sipana.protocol.sip.impl.SIPSessionImpl;
+import org.sipana.protocol.sip.SIPMessage;
+import org.sipana.protocol.sip.SIPSession;
 
 @MessageDriven(activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"     ),
@@ -52,12 +52,12 @@ public class SIPSessionMDB implements MessageListener {
         try {
             Object object = ((ObjectMessage) objMessage).getObject();
             
-            if (object instanceof SIPSessionImpl) {
-                SIPSessionImpl session = (SIPSessionImpl) object;
+            if (object instanceof SIPSession) {
+                SIPSession session = (SIPSession) object;
                 addSIPSession(session);
             
-            } else if (object instanceof SIPMessageImpl) {
-                 SIPMessageImpl message = (SIPMessageImpl) object;
+            } else if (object instanceof SIPMessage) {
+                 SIPMessage message = (SIPMessage) object;
                  addSIPMessage(message);
                 
             } else {
@@ -81,7 +81,7 @@ public class SIPSessionMDB implements MessageListener {
         }
     }
 
-    private void addSIPSession(SIPSessionImpl session) {
+    private void addSIPSession(SIPSession session) {
         if (logger.isDebugEnabled()) {
             StringBuilder sb = new StringBuilder("Adding SIP session: ");
             sb.append(session);
@@ -91,14 +91,14 @@ public class SIPSessionMDB implements MessageListener {
         manager.createSIPSession(session);
     }
     
-    private void addSIPMessage(SIPMessageImpl message) {
+    private void addSIPMessage(SIPMessage message) {
         if (logger.isDebugEnabled()) {
             StringBuilder sbDebug = new StringBuilder("Adding standalone message: ");
             sbDebug.append(message);
             logger.debug(sbDebug);
         }
         
-        SIPSessionImpl session = manager.getSIPSessionByCallID(message.getCallID());
+        SIPSession session = manager.getSIPSessionByCallID(message.getCallID());
         
         if (session != null) {
             session.addMessage(message);

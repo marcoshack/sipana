@@ -11,39 +11,39 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 import org.sipana.protocol.sip.SIPMessage;
-import org.sipana.protocol.sip.impl.SIPSessionImpl;
+import org.sipana.protocol.sip.SIPSession;
 
 @Stateless
 public class SIPSessionManagerBean implements SIPSessionManager
 {
     @PersistenceContext(unitName="sipana") private EntityManager manager;
 
-    public void createSIPSession(SIPSessionImpl session) {
+    public void createSIPSession(SIPSession session) {
         manager.persist(session);
     }
 
-    public SIPSessionImpl getSIPSession(long id) {
-        return manager.find(SIPSessionImpl.class, id);
+    public SIPSession getSIPSession(long id) {
+        return manager.find(SIPSession.class, id);
     }
     
-    public SIPSessionImpl getSIPSessionByCallID(String callID) {
-        String strQuery = "SELECT s FROM SIPSessionImpl s WHERE s.callId = :callid";
+    public SIPSession getSIPSessionByCallID(String callID) {
+        String strQuery = "SELECT s FROM SIPSession s WHERE s.callId = :callid";
         Query query = manager.createQuery(strQuery);
         query.setParameter("callid", callID);
         
         try {
-            return (SIPSessionImpl) query.getSingleResult();
+            return (SIPSession) query.getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
     }
     
     public long getSIPSessionCount() {
-        String strQuery = "select count(*) from SIPSessionImpl";
+        String strQuery = "select count(*) from SIPSession";
         return (Long)manager.createQuery(strQuery).getSingleResult();
     }
     
-    public List<SIPSessionImpl> getSIPSessions(
+    public List<SIPSession> getSIPSessions(
     		Long startTime,
     		Long endTime,
     		String method, 
@@ -52,7 +52,7 @@ public class SIPSessionManagerBean implements SIPSessionManager
     		String callId,
     		List<String> ipAddrList)
     {
-        StringBuilder sbQuery = new StringBuilder("SELECT DISTINCT s FROM SIPSessionImpl s ");
+        StringBuilder sbQuery = new StringBuilder("SELECT DISTINCT s FROM SIPSession s ");
 
         if (ipAddrList != null && ipAddrList.size() > 0) {
         	sbQuery.append("INNER JOIN s.requests AS r ");
@@ -99,12 +99,12 @@ public class SIPSessionManagerBean implements SIPSessionManager
         return query.getResultList();
     }
     
-    public void saveSIPSession(SIPSessionImpl session) {
+    public void saveSIPSession(SIPSession session) {
         manager.merge(session);
     }
     
     public List<SIPMessage> getMessageListBySessionId(List<Long> sessionIdList) {
-    	StringBuilder sbQuery = new StringBuilder("SELECT m FROM SIPMessageImpl m INNER JOIN m.sipSession AS s WHERE s.id IN (");
+    	StringBuilder sbQuery = new StringBuilder("SELECT m FROM SIPMessage m INNER JOIN m.sipSession AS s WHERE s.id IN (");
     	sbQuery.append("'").append(StringUtils.join(sessionIdList, "','"));
     	sbQuery.append("') ORDER BY m.time");
     	
@@ -114,7 +114,7 @@ public class SIPSessionManagerBean implements SIPSessionManager
     
     
     public List<SIPMessage> getMessageListByCallID(List<String> callIdList) {
-    	StringBuilder sbQuery = new StringBuilder("SELECT m FROM SIPMessageImpl m WHERE m.callId IN (");
+    	StringBuilder sbQuery = new StringBuilder("SELECT m FROM SIPMessage m WHERE m.callId IN (");
     	sbQuery.append("'").append(StringUtils.join(callIdList, "','")).append("') ORDER BY m.time");
     	
     	Query query = manager.createQuery(sbQuery.toString());

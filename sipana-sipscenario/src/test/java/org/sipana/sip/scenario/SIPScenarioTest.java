@@ -13,8 +13,8 @@ import org.junit.Test;
 import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPResponse;
-import org.sipana.protocol.sip.impl.SIPRequestImpl;
-import org.sipana.protocol.sip.impl.SIPResponseImpl;
+import org.sipana.protocol.sip.SIPRequest;
+import org.sipana.protocol.sip.SIPResponse;
 
 public class SIPScenarioTest {
 	
@@ -34,7 +34,7 @@ public class SIPScenarioTest {
 		callIdList.add("BBB");
 
 		for (String callId : callIdList) {
-			SIPRequest reqInvite = new SIPRequestImpl();
+			SIPRequest reqInvite = new SIPRequest();
 			reqInvite.setMethod("INVITE");
 			reqInvite.setSrcAddress("127.0.0.1");
 			reqInvite.setSrcPort(5060);
@@ -44,7 +44,7 @@ public class SIPScenarioTest {
 			reqInvite.setCallID(callId);
 			messages.add(reqInvite);
 			
-			SIPResponse res180 = new SIPResponseImpl();
+			SIPResponse res180 = new SIPResponse();
 			res180.setReasonPhrase("Ringing");
 			res180.setStatusCode(180);
 			res180.setSrcAddress("127.0.0.1");
@@ -55,7 +55,7 @@ public class SIPScenarioTest {
 			res180.setCallID(callId);
 			messages.add(res180);
 
-			SIPResponse res200 = new SIPResponseImpl();
+			SIPResponse res200 = new SIPResponse();
 			res200.setReasonPhrase("OK");
 			res200.setStatusCode(200);
 			res200.setSrcAddress("127.0.0.1");
@@ -66,7 +66,7 @@ public class SIPScenarioTest {
 			res200.setCallID(callId);
 			messages.add(res200);
 
-			SIPRequest reqBye = new SIPRequestImpl();
+			SIPRequest reqBye = new SIPRequest();
 			reqBye.setMethod("BYE");
 			reqBye.setSrcAddress("127.0.0.1");
 			reqBye.setSrcPort(5060);
@@ -76,7 +76,7 @@ public class SIPScenarioTest {
 			reqBye.setCallID(callId);
 			messages.add(reqBye);
 
-			SIPResponse res200Bye = new SIPResponseImpl();
+			SIPResponse res200Bye = new SIPResponse();
 			res200Bye.setReasonPhrase("OK");
 			res200Bye.setStatusCode(200);
 			res200Bye.setSrcAddress("127.0.0.1");

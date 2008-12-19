@@ -6,7 +6,6 @@ import org.sipana.client.config.ConfigManager;
 import org.sipana.client.sender.MessageSender;
 import org.sipana.client.sip.SIPHandler;
 import org.sipana.protocol.sip.SIPFactory;
-import org.sipana.protocol.sip.impl.SIPFactoryImpl;
 
 public class ServiceLocator {
     private static ServiceLocator instance;
@@ -39,6 +38,6 @@ public class ServiceLocator {
     }
     
     public SIPFactory getSIPFactory() throws Exception {
-        return SIPFactoryImpl.getInstance();
+        return SIPFactory.getInstance();
     }
 }

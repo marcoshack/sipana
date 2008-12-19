@@ -12,7 +12,7 @@ import javax.faces.model.SelectItem;
 import org.apache.log4j.Logger;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPSessionState;
-import org.sipana.protocol.sip.impl.SIPSessionImpl;
+import org.sipana.protocol.sip.SIPSession;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
 import org.sipana.server.sip.SIPSessionManager;
@@ -51,7 +51,7 @@ public class SIPSessionController {
             logger.debug(sbDebug);
         }
         
-        List<SIPSessionImpl> sipSessions = sipSessionManager.getSIPSessions(
+        List<SIPSession> sipSessions = sipSessionManager.getSIPSessions(
                 startTime, 
                 endTimeFinal, 
                 method, 
@@ -62,7 +62,7 @@ public class SIPSessionController {
         
         sipSessionList = new ArrayList<SelectItem>();
 
-        for (SIPSessionImpl session : sipSessions) {
+        for (SIPSession session : sipSessions) {
             SIPRequest firstRequest = session.getRequests().get(0);
             
             StringBuilder item = new StringBuilder(getDateString(firstRequest.getTime()));
