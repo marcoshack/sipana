@@ -1,3 +1,18 @@
+/**
+ * This file is part of Sipana project <http://sipana.org/>
+ *
+ * Sipana is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3 of the License.
+ *
+ * Sipana is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.sipana.sip.scenario;
 
 import java.awt.BasicStroke;
@@ -22,6 +37,10 @@ import org.sipana.protocol.sip.SIPResponse;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
+/**
+ *
+ * @author Marcos Hack <marcoshack@gmail.com>
+ */
 public class SIPScenario {
     private static final int IMAGE_BORDER = 20;
     private static final int HOST_INIT_W = 80;
@@ -53,7 +72,7 @@ public class SIPScenario {
      *            of messages to create SIP scenario diagram
      * @param OutputStream
      *            to write the encoded JPEG image
-     * @author mhack
+     * @author Marcos Hack <marcoshack@gmail.com>
      */
     public void create(OutputStream outputStream) throws Exception {
 
