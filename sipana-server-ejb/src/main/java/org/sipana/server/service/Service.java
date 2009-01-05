@@ -15,7 +15,7 @@
  */
 package org.sipana.server.service;
 
-import org.sipana.server.sip.SIPPerformanceMetricsBean;
+import org.sipana.server.sip.performance.SIPPerformanceMetricsBean;
 import org.sipana.server.sip.SIPSessionManagerBean;
 
 
