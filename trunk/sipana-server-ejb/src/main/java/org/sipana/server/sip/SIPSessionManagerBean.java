@@ -73,7 +73,7 @@ public class SIPSessionManagerBean implements SIPSessionManager
         	sbQuery.append("INNER JOIN s.requests AS r ");
         }
         
-        sbQuery.append("WHERE s.startTime >= :start AND s.startTime <= :end ");
+        sbQuery.append("WHERE s.startTime >= :start AND s.endTime <= :end ");
         
         if (method != null && !method.equals("")) {
         	sbQuery.append("AND s.method = '").append(method.toUpperCase()).append("' ");

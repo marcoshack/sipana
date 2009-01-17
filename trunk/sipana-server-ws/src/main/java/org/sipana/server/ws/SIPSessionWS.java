@@ -20,6 +20,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import org.jboss.resteasy.annotations.providers.jaxb.Wrapped;
 import org.sipana.protocol.sip.SIPSession;
 
 /**
@@ -33,11 +35,20 @@ public interface SIPSessionWS {
 
     @GET
     @Path("/{sessionId}")
-    @Produces("application/*+json")
+    @Produces("application/xml")
     public SIPSession getSIPSession(@PathParam("sessionId") long sessionId);
 
     @GET
     @Path("/list")
-    @Produces("application/*+json")
-    public List<SIPSession> getSIPSessionList();
+    @Produces("application/xml")
+    @Wrapped
+    public List<SIPSession> getSIPSessionList(
+            @QueryParam("startTime") Long startTime,
+            @QueryParam("endTime") Long endTime,
+            @QueryParam("method") String method,
+            @QueryParam("fromUser") String fromUser,
+            @QueryParam("toUser") String toUser,
+            @QueryParam("callId") String callId,
+            @QueryParam("ipAddrList") String ipAddrList
+            );
 }

@@ -19,12 +19,14 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Where;
-import org.sipana.protocol.sip.SIPSessionState;
 
 @XmlRootElement(name = "sipsession")
+@XmlAccessorType(XmlAccessType.NONE)
 public class SIPSession implements Serializable
 {
     private static final long serialVersionUID = -1294316602762618073L;
