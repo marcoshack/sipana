@@ -30,7 +30,7 @@ import org.sipana.protocol.sip.SIPSessionState;
 import org.sipana.protocol.sip.SIPSession;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
-import org.sipana.server.sip.SIPSessionManager;
+import org.sipana.server.dao.SIPSessionManager;
 
 public class SIPSessionController {
     private SIPSessionManager sipSessionManager;

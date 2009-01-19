@@ -20,34 +20,27 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import org.jboss.resteasy.annotations.providers.jaxb.Wrapped;
-import org.sipana.protocol.sip.SIPSession;
+import org.jboss.resteasy.annotations.providers.multipart.PartType;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartOutput;
+import org.sipana.protocol.sip.SIPMessage;
 
 /**
- * 
- * @author mhack
+ *
+ * @author Marcos Hack <marcoshack@gmail.com>
  */
-
-@Path("/sipsessions")
-public interface SIPSessionWS {
-
-    @GET
-    @Path("/{sessionId}")
-    @Produces("application/xml")
-    public SIPSession getSIPSession(@PathParam("sessionId") long sessionId);
+@Path("/sipmessages")
+public interface SIPMessageWS {
 
     @GET
-    @Path("/list")
+    @Path("/list/{sessionId}")
     @Produces("application/xml")
     @Wrapped
-    public List<SIPSession> getSIPSessionList(
-            @QueryParam("startTime") Long startTime,
-            @QueryParam("endTime") Long endTime,
-            @QueryParam("method") String method,
-            @QueryParam("fromUser") String fromUser,
-            @QueryParam("toUser") String toUser,
-            @QueryParam("callId") String callId,
-            @QueryParam("ipAddrList") String ipAddrList
-            );
+    public List<SIPMessage> getSIPMessageList(@PathParam("sessionId") long sessionId);
+
+    @GET
+    @Path("/list/multipart/{sessionId}")
+    @Produces("multipart/mixed")
+    @PartType("application/xml")
+    public MultipartOutput getSIPMessageListMultipart(@PathParam("sessionId") long sessionId);
 }

@@ -13,26 +13,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.sip;
+package org.sipana.server.dao;
 
 import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
-import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPSession;
 
 @Stateless
-public class SIPSessionManagerBean implements SIPSessionManager
+public class SIPSessionManagerBean extends AbstractManagerBean implements SIPSessionManager
 {
-    @PersistenceContext(unitName="sipana") private EntityManager manager;
-
     public void createSIPSession(SIPSession session) {
         manager.persist(session);
     }
@@ -55,7 +50,7 @@ public class SIPSessionManagerBean implements SIPSessionManager
     
     public long getSIPSessionCount() {
         String strQuery = "select count(*) from SIPSession";
-        return (Long)manager.createQuery(strQuery).getSingleResult();
+        return (Long) createQuery(strQuery).getSingleResult();
     }
     
     public List<SIPSession> getSIPSessions(
@@ -107,7 +102,7 @@ public class SIPSessionManagerBean implements SIPSessionManager
         
         sbQuery.append("ORDER BY s.startTime DESC");
         
-        Query query = manager.createQuery(sbQuery.toString());
+        Query query = createQuery(sbQuery);
         query.setParameter("start", startTime);
         query.setParameter("end", endTime);
         
@@ -116,23 +111,5 @@ public class SIPSessionManagerBean implements SIPSessionManager
     
     public void saveSIPSession(SIPSession session) {
         manager.merge(session);
-    }
-    
-    public List<SIPMessage> getMessageListBySessionId(List<Long> sessionIdList) {
-    	StringBuilder sbQuery = new StringBuilder("SELECT m FROM SIPMessage m INNER JOIN m.sipSession AS s WHERE s.id IN (");
-    	sbQuery.append("'").append(StringUtils.join(sessionIdList, "','"));
-    	sbQuery.append("') ORDER BY m.time");
-    	
-    	Query query = manager.createQuery(sbQuery.toString());
-    	return query.getResultList();
-    }
-    
-    
-    public List<SIPMessage> getMessageListByCallID(List<String> callIdList) {
-    	StringBuilder sbQuery = new StringBuilder("SELECT m FROM SIPMessage m WHERE m.callId IN (");
-    	sbQuery.append("'").append(StringUtils.join(callIdList, "','")).append("') ORDER BY m.time");
-    	
-    	Query query = manager.createQuery(sbQuery.toString());
-    	return query.getResultList();
     }
 }

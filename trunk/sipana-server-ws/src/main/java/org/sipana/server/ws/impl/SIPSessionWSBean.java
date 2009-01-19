@@ -25,7 +25,7 @@ import org.sipana.protocol.sip.SIPResponse;
 import org.sipana.protocol.sip.SIPSession;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
-import org.sipana.server.sip.SIPSessionManager;
+import org.sipana.server.dao.SIPSessionManager;
 
 /**
  *
@@ -34,16 +34,16 @@ import org.sipana.server.sip.SIPSessionManager;
 public class SIPSessionWSBean implements SIPSessionWS {
 
     private Logger logger = Logger.getLogger(SIPSessionWSBean.class);
-    private SIPSessionManager sessionManager;
+    private SIPSessionManager sipSessionManager;
 
     public SIPSessionWSBean() {
-        sessionManager = (SIPSessionManager) ServiceLocator.getInstance().getService(Service.SIP_SESSION_MANAGER);
+        sipSessionManager = (SIPSessionManager) ServiceLocator.getInstance().getService(Service.SIP_SESSION_MANAGER);
     }
 
     public SIPSession getSIPSession(long sessionId) {
         logger.debug("Processing getSIPSession");
 
-        SIPSession session = sessionManager.getSIPSession(sessionId);
+        SIPSession session = sipSessionManager.getSIPSession(sessionId);
         breakSIPSessionRefCycle(session);
 
         logger.debug("getSIPSession processed");
@@ -73,7 +73,7 @@ public class SIPSessionWSBean implements SIPSessionWS {
 
         List<String> ipAddrList = createIpAddrList(strIpAddrList);
 
-        List<SIPSession> sessionList = sessionManager.getSIPSessions(startTime, endTime, method, fromUser, toUser, callId, ipAddrList);
+        List<SIPSession> sessionList = sipSessionManager.getSIPSessions(startTime, endTime, method, fromUser, toUser, callId, ipAddrList);
         breakSIPSessionRefCycle(sessionList);
 
         if (logger.isDebugEnabled()) {

@@ -13,12 +13,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.sip;
+package org.sipana.server.dao;
 
 import java.util.List;
 import javax.ejb.Local;
 
-import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPSession;
 
 @Local
@@ -29,6 +28,4 @@ public interface SIPSessionManager {
     public SIPSession getSIPSession(long id);
     public SIPSession getSIPSessionByCallID(String callID);
     public List<SIPSession> getSIPSessions(Long startTime, Long endTime, String method, String fromUser, String toUser, String callId, List<String> ipAddrList);
-    public List<SIPMessage> getMessageListBySessionId(List<Long> sessionIdList);
-    public List<SIPMessage> getMessageListByCallID(List<String> callIdList);
 }
