@@ -15,6 +15,7 @@
  */
 package org.sipana.server.sip;
 
+import org.sipana.server.dao.*;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;

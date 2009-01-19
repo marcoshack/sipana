@@ -24,8 +24,8 @@ import org.junit.Test;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPSession;
-import org.sipana.server.sip.performance.SIPPerformanceMetrics;
-import org.sipana.server.sip.performance.SIPPerformanceMetricsBean;
+import org.sipana.server.sip.SIPPerformanceMetrics;
+import org.sipana.server.sip.SIPPerformanceMetricsBean;
 
 public class SIPPerformanceMetricsTest {
     private SIPPerformanceMetrics metrics;

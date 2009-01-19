@@ -25,7 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
-import org.sipana.server.sip.SIPSessionManager;
+import org.sipana.server.dao.SIPMessageManager;
+import org.sipana.server.dao.SIPSessionManager;
 import org.sipana.sip.scenario.SIPScenario;
 
 public class SIPScenarioController {
@@ -37,10 +38,12 @@ public class SIPScenarioController {
     private String[] sessionId = null;
 
     private SIPSessionManager sipSessionManager;
+    private SIPMessageManager sipMessageManager;
 
     public SIPScenarioController() {
         ServiceLocator serviceLocator = ServiceLocator.getInstance();
         sipSessionManager = (SIPSessionManager) serviceLocator.getService(Service.SIP_SESSION_MANAGER);
+        sipMessageManager = (SIPMessageManager) serviceLocator.getService(Service.SIP_MESSAGE_MANAGER);
     }
 
     public void show() throws Exception {
@@ -53,7 +56,7 @@ public class SIPScenarioController {
             }
 
             if (items.size() > 0) {
-                messageList = sipSessionManager.getMessageListBySessionId(items);
+                messageList = sipMessageManager.getMessageListBySessionId(items);
             }
             
         } else if (callId != null) {
@@ -65,7 +68,7 @@ public class SIPScenarioController {
             }
 
             if (items.size() > 0) {
-                messageList = sipSessionManager.getMessageListByCallID(items);
+                messageList = sipMessageManager.getMessageListByCallID(items);
             }
         }
 
