@@ -31,12 +31,12 @@ import org.sipana.server.dao.SIPSessionManager;
  *
  * @author Marcos Hack <marcoshack@gmail.com>
  */
-public class SIPSessionWSBean implements SIPSessionWS {
+public class SIPSessionWSImpl implements SIPSessionWS {
 
-    private Logger logger = Logger.getLogger(SIPSessionWSBean.class);
+    private Logger logger = Logger.getLogger(SIPSessionWSImpl.class);
     private SIPSessionManager sipSessionManager;
 
-    public SIPSessionWSBean() {
+    public SIPSessionWSImpl() {
         sipSessionManager = (SIPSessionManager) ServiceLocator.getInstance().getService(Service.SIP_SESSION_MANAGER);
     }
 
