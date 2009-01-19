@@ -31,11 +31,11 @@ import org.sipana.server.ws.SIPMessageWS;
  *
  * @author Marcos Hack <marcoshack@gmail.com>
  */
-public class SIPMessageWSBean implements SIPMessageWS {
+public class SIPMessageWSImpl implements SIPMessageWS {
 
     private SIPMessageManager sipMessageManager;
 
-    public SIPMessageWSBean() {
+    public SIPMessageWSImpl() {
         sipMessageManager = (SIPMessageManager) ServiceLocator.getInstance().getService(Service.SIP_MESSAGE_MANAGER);
     }
 

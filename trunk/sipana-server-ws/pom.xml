@@ -13,7 +13,7 @@
     <artifactId>sipana-server-ws</artifactId>
     <packaging>war</packaging>
     <name>Sipana Server WS</name>
-    <description>Sipana Server. Web Services Module</description>
+    <description>Sipana Server. RESTful Web Services using JBoss resteasy API.</description>
     <version>0.3</version>
 
     <dependencies>

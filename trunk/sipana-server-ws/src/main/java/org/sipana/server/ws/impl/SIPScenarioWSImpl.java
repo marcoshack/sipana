@@ -22,9 +22,9 @@ import org.sipana.server.ws.SIPScenarioWS;
  *
  * @author Marcos Hack <marcoshack@gmail.com>
  */
-public class SIPScenarioWSBean implements SIPScenarioWS {
+public class SIPScenarioWSImpl implements SIPScenarioWS {
 
-    private Logger logger = Logger.getLogger(SIPScenarioWSBean.class);
+    private Logger logger = Logger.getLogger(SIPScenarioWSImpl.class);
 
     public String getSIPScenario(String sessionList) {
         // TODO [mhack] fake method to test resteasy
