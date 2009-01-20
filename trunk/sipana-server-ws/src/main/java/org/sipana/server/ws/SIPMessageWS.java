@@ -15,15 +15,11 @@
  */
 package org.sipana.server.ws;
 
-import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import org.jboss.resteasy.annotations.providers.jaxb.Wrapped;
-import org.jboss.resteasy.annotations.providers.multipart.PartType;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartOutput;
-import org.sipana.protocol.sip.SIPMessage;
+import org.sipana.protocol.sip.SIPMessageList;
 
 /**
  *
@@ -35,12 +31,5 @@ public interface SIPMessageWS {
     @GET
     @Path("/list/{sessionId}")
     @Produces("application/xml")
-    @Wrapped
-    public List<SIPMessage> getSIPMessageList(@PathParam("sessionId") long sessionId);
-
-    @GET
-    @Path("/list/multipart/{sessionId}")
-    @Produces("multipart/mixed")
-    @PartType("application/xml")
-    public MultipartOutput getSIPMessageListMultipart(@PathParam("sessionId") long sessionId);
+    public SIPMessageList getSIPMessageList(@PathParam("sessionId") long sessionId);
 }

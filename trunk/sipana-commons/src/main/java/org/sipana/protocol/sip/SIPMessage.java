@@ -17,14 +17,10 @@ package org.sipana.protocol.sip;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+public abstract class SIPMessage implements Serializable {
 
-@XmlRootElement(name = "sipmessage")
-public abstract class SIPMessage implements Serializable
-{
     private static final long serialVersionUID = 8938899488648772992L;
-    public static final Integer REQUEST  = 1;
+    public static final Integer REQUEST = 1;
     public static final Integer RESPONSE = 2;
     private long id;
     private String callID;
@@ -40,9 +36,11 @@ public abstract class SIPMessage implements Serializable
     private int maxForwards;
     private long msgTime;
     private SIPSession sipSession;
-    
-    public SIPMessage() {}
-    
+
+    public SIPMessage() {
+        super();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(SIPMessage.class.getName());
@@ -55,7 +53,6 @@ public abstract class SIPMessage implements Serializable
         return sb.toString();
     }
 
-    @XmlElement
     public long getId() {
         return id;
     }
@@ -64,70 +61,62 @@ public abstract class SIPMessage implements Serializable
         this.id = id;
     }
 
-    @XmlElement
     public String getCallID() {
         return callID;
     }
-    
+
     public void setCallID(String callID) {
         this.callID = callID;
     }
 
-    @XmlElement
     public String getDstAddress() {
         return dstAddr;
     }
-    
+
     public void setDstAddress(String dstIP) {
         this.dstAddr = dstIP;
     }
 
-    @XmlElement
     public String getFromUser() {
         return fromUser;
     }
-    
+
     public void setFromUser(String fromUser) {
         this.fromUser = fromUser;
     }
 
-    @XmlElement
     public String getSrcAddress() {
         return srcAddr;
     }
-    
+
     public void setSrcAddress(String srcIP) {
         this.srcAddr = srcIP;
     }
 
-    @XmlElement
     public long getTime() {
         return msgTime;
     }
-    
+
     public void setTime(long time) {
         this.msgTime = time;
     }
 
-    @XmlElement
     public String getToUser() {
         return toUser;
     }
-    
+
     public void setToUser(String toUser) {
         this.toUser = toUser;
     }
 
-    @XmlElement
     public int getMaxForwards() {
         return maxForwards;
     }
 
     public void setMaxForwards(int maxForwards) {
         this.maxForwards = maxForwards;
-    }    
+    }
 
-    @XmlElement
     public String getRequestAddr() {
         return requestAddr;
     }
@@ -136,16 +125,14 @@ public abstract class SIPMessage implements Serializable
         this.requestAddr = requestAddr;
     }
 
-    @XmlElement
-	public SIPSession getSipSession() {
-		return sipSession;
-	}
+    public SIPSession getSipSession() {
+        return sipSession;
+    }
 
-	public void setSipSession(SIPSession sipSession) {
-		this.sipSession = sipSession;
-	}
+    public void setSipSession(SIPSession sipSession) {
+        this.sipSession = sipSession;
+    }
 
-    @XmlElement
     public String getFromDisplay() {
         return fromDisplay;
     }
@@ -154,7 +141,6 @@ public abstract class SIPMessage implements Serializable
         this.fromDisplay = fromDisplay;
     }
 
-    @XmlElement
     public String getToDisplay() {
         return toDisplay;
     }
@@ -163,7 +149,6 @@ public abstract class SIPMessage implements Serializable
         this.toDisplay = toDisplay;
     }
 
-    @XmlElement
     public int getSrcPort() {
         return srcPort;
     }
@@ -172,7 +157,6 @@ public abstract class SIPMessage implements Serializable
         this.srcPort = srcPort;
     }
 
-    @XmlElement
     public int getDstPort() {
         return dstPort;
     }

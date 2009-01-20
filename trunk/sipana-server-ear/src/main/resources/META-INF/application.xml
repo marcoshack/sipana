@@ -23,7 +23,10 @@
     <java>lib/3rd/jakarta-regexp-1.4.jar</java>
   </module>
   <module>
-    <java>lib/3rd/jaxb-api-2.1.4.jar</java>
+    <java>lib/3rd/jaxb-api-2.1.9.jar</java>
+  </module>
+  <module>
+    <java>lib/3rd/jaxb-impl-2.1.9.jar</java>
   </module>
 
   <!-- Services -->
