@@ -15,13 +15,9 @@
  */
 package org.sipana.server.ws.impl;
 
-import java.util.ArrayList;
 import java.util.List;
-import javax.ws.rs.core.MediaType;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartOutput;
 import org.sipana.protocol.sip.SIPMessage;
-import org.sipana.protocol.sip.SIPRequest;
-import org.sipana.protocol.sip.SIPResponse;
+import org.sipana.protocol.sip.SIPMessageList;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
 import org.sipana.server.dao.SIPMessageManager;
@@ -39,26 +35,10 @@ public class SIPMessageWSImpl implements SIPMessageWS {
         sipMessageManager = (SIPMessageManager) ServiceLocator.getInstance().getService(Service.SIP_MESSAGE_MANAGER);
     }
 
-    public List<SIPMessage> getSIPMessageList(long sessionId) {
-        List<SIPMessage> result = sipMessageManager.getMessageListBySessionId(sessionId);
-        breakSIPMessageRefCycle(result);
-        return result;
-    }
-
-    public MultipartOutput getSIPMessageListMultipart(long sessionId) {
-        MultipartOutput out = new MultipartOutput();
-
-        List<SIPMessage> messageList = getSIPMessageList(sessionId);
-
-        for (SIPMessage m : messageList) {
-            if (m instanceof SIPRequest) {
-                out.addPart((SIPRequest)m, MediaType.APPLICATION_XML_TYPE);
-            } else if (m instanceof SIPResponse) {
-                out.addPart((SIPResponse)m, MediaType.APPLICATION_XML_TYPE);
-            }
-        }
-
-        return out;
+    public SIPMessageList getSIPMessageList(long sessionId) {
+        List<SIPMessage> messageList = sipMessageManager.getMessageListBySessionId(sessionId);
+        breakSIPMessageRefCycle(messageList);
+        return new SIPMessageList(messageList);
     }
 
     /**
@@ -70,11 +50,11 @@ public class SIPMessageWSImpl implements SIPMessageWS {
      */
     private void breakSIPMessageRefCycle(List<SIPMessage> messageList) {
         for (SIPMessage m : messageList) {
-            breakSIPSessionRefCycle(m);
+            breakSIPMessageRefCycle(m);
         }
     }
 
-    private void breakSIPSessionRefCycle(SIPMessage m) {
+    private void breakSIPMessageRefCycle(SIPMessage m) {
         m.setSipSession(null);
     }
 }

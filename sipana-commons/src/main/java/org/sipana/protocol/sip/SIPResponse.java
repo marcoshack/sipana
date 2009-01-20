@@ -15,7 +15,6 @@
  */
 package org.sipana.protocol.sip;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "sipresponse")
@@ -26,7 +25,6 @@ public class SIPResponse extends SIPMessage
     private String reasonPhrase;
     private String relatedRequestMethod;
 
-    @XmlElement
     public String getReasonPhrase() {
         return reasonPhrase;
     }
@@ -35,7 +33,6 @@ public class SIPResponse extends SIPMessage
         this.reasonPhrase = reasonPhrase;
     }
 
-    @XmlElement
     public int getStatusCode() {
         return statusCode;
     }
@@ -44,7 +41,6 @@ public class SIPResponse extends SIPMessage
         this.statusCode = statusCode;
     }
 
-    @XmlElement
     public String getRelatedRequestMethod() {
         return relatedRequestMethod;
     }

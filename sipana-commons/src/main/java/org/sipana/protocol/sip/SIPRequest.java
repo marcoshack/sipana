@@ -15,7 +15,6 @@
  */
 package org.sipana.protocol.sip;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "siprequest")
@@ -24,7 +23,6 @@ public class SIPRequest extends SIPMessage
     private static final long serialVersionUID = 6595857043893213159L;
     private String method;
 
-    @XmlElement
     public String getMethod() {
         return method;
     }
