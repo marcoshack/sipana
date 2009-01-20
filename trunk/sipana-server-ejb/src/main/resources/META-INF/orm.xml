@@ -8,7 +8,7 @@
 
 	<!-- SIPMessage, SIPRequest, SIPResponse -->
 	<entity class="org.sipana.protocol.sip.SIPMessage"
-		access="PROPERTY">
+		access="FIELD">
 		<table name="sip_messages" />
 		<inheritance strategy="SINGLE_TABLE" />
 		<discriminator-column name="sip_message_type"
@@ -27,19 +27,19 @@
 		</attributes>
 	</entity>
 	<entity class="org.sipana.protocol.sip.SIPRequest"
-		access="PROPERTY">
+		access="FIELD">
 		<!-- Value of org.sipana.protocol.sip.SIPMessage.REQUEST -->
 		<discriminator-value>1</discriminator-value>
 	</entity>
 	<entity class="org.sipana.protocol.sip.SIPResponse"
-		access="PROPERTY">
+		access="FIELD">
 		<!-- Value of org.sipana.protocol.sip.SIPMessage.RESPONSE -->
 		<discriminator-value>2</discriminator-value>
 	</entity>
 
 	<!-- SIPSession -->
 	<entity class="org.sipana.protocol.sip.SIPSession"
-		access="PROPERTY">
+		access="FIELD">
 		<table name="sip_sessions" />
 		<attributes>
 			<id name="id">

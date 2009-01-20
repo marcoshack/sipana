@@ -36,25 +36,7 @@ public class SIPMessageWSImpl implements SIPMessageWS {
     }
 
     public SIPMessageList getSIPMessageList(long sessionId) {
-        List<SIPMessage> messageList = sipMessageManager.getMessageListBySessionId(sessionId);
-        breakSIPMessageRefCycle(messageList);
-        return new SIPMessageList(messageList);
-    }
-
-    /**
-     * JAXB throws an exception if there is a circular reference between
-     * objects, this method breaks SIPSession/SIPMessage circular references.
-     *
-     * @param List<SIPMessage>
-     * @author Marcos Hack <marcoshack@gmail.com>
-     */
-    private void breakSIPMessageRefCycle(List<SIPMessage> messageList) {
-        for (SIPMessage m : messageList) {
-            breakSIPMessageRefCycle(m);
-        }
-    }
-
-    private void breakSIPMessageRefCycle(SIPMessage m) {
-        m.setSipSession(null);
+        List<SIPMessage> result = sipMessageManager.getMessageListBySessionId(sessionId);
+        return new SIPMessageList(result);
     }
 }

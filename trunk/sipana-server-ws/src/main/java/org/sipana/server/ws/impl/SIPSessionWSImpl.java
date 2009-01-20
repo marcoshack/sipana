@@ -20,9 +20,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 import org.sipana.server.ws.*;
 import org.apache.log4j.Logger;
-import org.sipana.protocol.sip.SIPRequest;
-import org.sipana.protocol.sip.SIPResponse;
 import org.sipana.protocol.sip.SIPSession;
+import org.sipana.protocol.sip.SIPSessionList;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
 import org.sipana.server.dao.SIPSessionManager;
@@ -44,13 +43,12 @@ public class SIPSessionWSImpl implements SIPSessionWS {
         logger.debug("Processing getSIPSession");
 
         SIPSession session = sipSessionManager.getSIPSession(sessionId);
-        breakSIPSessionRefCycle(session);
 
         logger.debug("getSIPSession processed");
         return session;
     }
 
-    public List<SIPSession> getSIPSessionList(
+    public SIPSessionList getSIPSessionList(
             Long startTime,
             Long endTime,
             String method,
@@ -73,38 +71,15 @@ public class SIPSessionWSImpl implements SIPSessionWS {
 
         List<String> ipAddrList = createIpAddrList(strIpAddrList);
 
-        List<SIPSession> sessionList = sipSessionManager.getSIPSessions(startTime, endTime, method, fromUser, toUser, callId, ipAddrList);
-        breakSIPSessionRefCycle(sessionList);
+        List<SIPSession> result = sipSessionManager.getSIPSessions(startTime, endTime, method, fromUser, toUser, callId, ipAddrList);
 
         if (logger.isDebugEnabled()) {
             StringBuilder sb = new StringBuilder("getSIPSessionList processed. ");
-            sb.append(sessionList.size()).append(" item(s) found.");
+            sb.append(result.size()).append(" item(s) found.");
             logger.debug(sb);
         }
 
-        return sessionList;
-    }
-
-    /**
-     * JAXB throws an exception if there is a circular reference between
-     * objects, this method breaks SIPSession/SIPMessage circular references.
-     *
-     * @param List<SIPSession>
-     * @author Marcos Hack <marcoshack@gmail.com>
-     */
-    private void breakSIPSessionRefCycle(List<SIPSession> sessionList) {
-        for (SIPSession s : sessionList) {
-            breakSIPSessionRefCycle(s);
-        }
-    }
-
-    private void breakSIPSessionRefCycle(SIPSession s) {
-        for (SIPResponse res : s.getResponses()) {
-            res.setSipSession(null);
-        }
-        for (SIPRequest req : s.getRequests()) {
-            req.setSipSession(null);
-        }
+        return new SIPSessionList(result);
     }
 
     private List<String> createIpAddrList(String strIPAddrList) {
@@ -121,7 +96,7 @@ public class SIPSessionWSImpl implements SIPSessionWS {
                 }
             }
         }
-
+        
         return addrList;
     }
 }

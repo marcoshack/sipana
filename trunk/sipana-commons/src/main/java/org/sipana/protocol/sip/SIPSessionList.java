@@ -15,32 +15,32 @@
  */
 package org.sipana.protocol.sip;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
-@XmlRootElement(name = "siprequest")
+/**
+ *
+ * @author Marcos Hack <marcoshack@gmail.com>
+ */
+@XmlRootElement(name = "sipsessionlist")
+@XmlSeeAlso(SIPSession.class)
 @XmlAccessorType(XmlAccessType.NONE)
-public class SIPRequest extends SIPMessage
-{
-    private static final long serialVersionUID = 6595857043893213159L;
-
-    @XmlAttribute
-    private String method;
-
-    public String getMethod() {
-        return method;
+public class SIPSessionList extends ArrayList<SIPSession> {
+    public SIPSessionList() {
+        super();
     }
 
-    public void setMethod(String method) {
-        this.method = method;
+    public SIPSessionList(List<SIPSession> sessionList) {
+        super(sessionList);
     }
-    
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("SIP Request, method=").append(getMethod());
-        sb.append(", ").append(super.toString());
-        return sb.toString();
+
+    @XmlElementRef
+    public List<SIPSession> getSIPSessions() {
+        return this;
     }
 }

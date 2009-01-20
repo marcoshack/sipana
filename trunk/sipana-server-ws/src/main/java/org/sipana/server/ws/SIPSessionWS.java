@@ -23,6 +23,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import org.jboss.resteasy.annotations.providers.jaxb.Wrapped;
 import org.sipana.protocol.sip.SIPSession;
+import org.sipana.protocol.sip.SIPSessionList;
 
 /**
  * 
@@ -41,7 +42,7 @@ public interface SIPSessionWS {
     @Path("/list")
     @Produces("application/xml")
     @Wrapped
-    public List<SIPSession> getSIPSessionList(
+    public SIPSessionList getSIPSessionList(
             @QueryParam("startTime") Long startTime,
             @QueryParam("endTime") Long endTime,
             @QueryParam("method") String method,
