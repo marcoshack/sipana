@@ -1,33 +1,32 @@
 package org.sipana.protocol.sip;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 /**
  *
  * @author Marcos Hack <marcoshack@gmail.com>
  */
-@XmlRootElement(name = "sipmessages")
-public class SIPMessageList {
-
-    @XmlElementRef
-    private List<SIPMessage> messages;
+@XmlRootElement(name = "sipmessagelist")
+@XmlSeeAlso({SIPMessage.class, SIPRequest.class, SIPResponse.class})
+@XmlAccessorType(XmlAccessType.NONE)
+public class SIPMessageList extends ArrayList<SIPMessage> {
 
     public SIPMessageList() {
-        messages = new LinkedList<SIPMessage>();
+        super();
     }
 
     public SIPMessageList(List<SIPMessage> messageList) {
-        messages = messageList;
+        super(messageList);
     }
 
+    @XmlElementRef
     public List<SIPMessage> getMessages() {
-        return messages;
-    }
-
-    public void add(SIPMessage message) {
-        messages.add(message);
+        return this;
     }
 }

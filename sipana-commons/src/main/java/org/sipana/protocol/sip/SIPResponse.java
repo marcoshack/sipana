@@ -15,14 +15,24 @@
  */
 package org.sipana.protocol.sip;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "sipresponse")
+@XmlAccessorType(XmlAccessType.NONE)
 public class SIPResponse extends SIPMessage
 {
     private static final long serialVersionUID = -7490558556327953840L;
+
+    @XmlAttribute
     private int statusCode;
+
+    @XmlAttribute
     private String reasonPhrase;
+
+    @XmlAttribute
     private String relatedRequestMethod;
 
     public String getReasonPhrase() {

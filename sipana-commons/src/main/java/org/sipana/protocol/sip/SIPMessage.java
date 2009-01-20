@@ -16,26 +16,57 @@
 package org.sipana.protocol.sip;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 
+@XmlAccessorType(XmlAccessType.NONE)
 public abstract class SIPMessage implements Serializable {
 
     private static final long serialVersionUID = 8938899488648772992L;
     public static final Integer REQUEST = 1;
     public static final Integer RESPONSE = 2;
-    private long id;
-    private String callID;
-    private String srcAddr;
-    private int srcPort;
-    private String dstAddr;
-    private int dstPort;
-    private String requestAddr;
-    private String fromUser;
-    private String toUser;
-    private String fromDisplay;
-    private String toDisplay;
-    private int maxForwards;
-    private long msgTime;
-    private SIPSession sipSession;
+
+    @XmlAttribute
+    protected long id;
+
+    @XmlAttribute
+    protected String callID;
+
+    @XmlAttribute
+    protected String srcAddress;
+
+    @XmlAttribute
+    protected int srcPort;
+
+    @XmlAttribute
+    protected String dstAddress;
+
+    @XmlAttribute
+    protected int dstPort;
+
+    @XmlAttribute
+    protected String requestAddr;
+
+    @XmlAttribute
+    protected String fromUser;
+
+    @XmlAttribute
+    protected String toUser;
+
+    @XmlAttribute
+    protected String fromDisplay;
+
+    @XmlAttribute
+    protected String toDisplay;
+
+    @XmlAttribute
+    protected int maxForwards;
+
+    @XmlAttribute
+    protected long time;
+
+    protected SIPSession sipSession;
 
     public SIPMessage() {
         super();
@@ -70,11 +101,11 @@ public abstract class SIPMessage implements Serializable {
     }
 
     public String getDstAddress() {
-        return dstAddr;
+        return dstAddress;
     }
 
-    public void setDstAddress(String dstIP) {
-        this.dstAddr = dstIP;
+    public void setDstAddress(String dstAddress) {
+        this.dstAddress = dstAddress;
     }
 
     public String getFromUser() {
@@ -86,19 +117,19 @@ public abstract class SIPMessage implements Serializable {
     }
 
     public String getSrcAddress() {
-        return srcAddr;
+        return srcAddress;
     }
 
-    public void setSrcAddress(String srcIP) {
-        this.srcAddr = srcIP;
+    public void setSrcAddress(String srcAddress) {
+        this.srcAddress = srcAddress;
     }
 
     public long getTime() {
-        return msgTime;
+        return time;
     }
 
     public void setTime(long time) {
-        this.msgTime = time;
+        this.time = time;
     }
 
     public String getToUser() {
@@ -131,6 +162,11 @@ public abstract class SIPMessage implements Serializable {
 
     public void setSipSession(SIPSession sipSession) {
         this.sipSession = sipSession;
+    }
+
+    @XmlAttribute
+    public long getSipSessionId() {
+        return sipSession.getId();
     }
 
     public String getFromDisplay() {

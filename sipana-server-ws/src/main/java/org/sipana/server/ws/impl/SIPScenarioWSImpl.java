@@ -15,7 +15,15 @@
  */
 package org.sipana.server.ws.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+import javax.ws.rs.core.StreamingOutput;
 import org.apache.log4j.Logger;
+import org.sipana.protocol.sip.SIPMessage;
+import org.sipana.server.dao.SIPMessageManager;
+import org.sipana.server.service.Service;
+import org.sipana.server.service.ServiceLocator;
 import org.sipana.server.ws.SIPScenarioWS;
 
 /**
@@ -26,26 +34,34 @@ public class SIPScenarioWSImpl implements SIPScenarioWS {
 
     private Logger logger = Logger.getLogger(SIPScenarioWSImpl.class);
 
-    public String getSIPScenario(String sessionList) {
-        // TODO [mhack] fake method to test resteasy
+    private SIPMessageManager sipMessageManager;
 
-        String[] idList = null;
-        StringBuilder sbList = new StringBuilder();
+    public SIPScenarioWSImpl() {
+        sipMessageManager = (SIPMessageManager) ServiceLocator.getInstance().getService(Service.SIP_MESSAGE_MANAGER);
+    }
 
-        if (sessionList != null) {
-            idList = sessionList.split(",");
-            sbList = new StringBuilder("{ ");
+    public StreamingOutput getSIPScenario(String strIdList) {
+        List<Long> idList = createSIPSessionIdList(strIdList);
+        List<SIPMessage> messageList = sipMessageManager.getMessageListBySessionId(idList);
+        return new SIPScenarioStreamingOutput(messageList);
+    }
 
-            for (String id : idList) {
-                sbList.append(id).append(" ");
+    private List<Long> createSIPSessionIdList(String strIdList) {
+        List<Long> idList = null;
+
+        if (strIdList != null) {
+            String csv = strIdList.replaceAll(" +", ",");
+            StringTokenizer tokenizer = new StringTokenizer(csv, ",");
+
+            if (tokenizer.countTokens() > 0) {
+                idList = new ArrayList<Long>();
+                while (tokenizer.hasMoreTokens()) {
+                    String strId = tokenizer.nextToken();
+                    idList.add(Long.parseLong(strId));
+                }
             }
-
-            sbList.append(" }");
-
-        } else {
-            sbList.append("sessionId undefined");
         }
 
-        return sbList.toString();
+        return idList;
     }
 }

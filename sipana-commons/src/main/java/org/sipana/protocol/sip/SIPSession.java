@@ -21,7 +21,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Where;
 
@@ -31,19 +31,46 @@ public class SIPSession implements Serializable
 {
     private static final long serialVersionUID = -1294316602762618073L;
 
+    @XmlAttribute
     private long id;
+
+    @XmlAttribute
     private long startTime;
+
+    @XmlAttribute
     private long endTime;
+
+    @XmlAttribute
     private long firstResponseTime;
+
+    @XmlAttribute
     private long disconnectionStart;
+
+    @XmlAttribute
     private long establishedTime;
+
+    @XmlAttribute
     private long setupTime;
+
+    @XmlAttribute
     private int state;
+
+    @XmlAttribute
     private String callId;
+
+    @XmlAttribute
     private String method;
+
+    @XmlAttribute
     private String fromUser;
+
+    @XmlAttribute
     private String toUser;
+
+    @Where(clause="sip_message_type = 1")
     private List<SIPRequest> requests;
+
+    @Where(clause="sip_message_type = 2")
     private List<SIPResponse> responses;
 
     public SIPSession() {
@@ -64,7 +91,6 @@ public class SIPSession implements Serializable
         setToUser(request.getToUser());
     }
 
-    @XmlElement
     public long getId() {
         return id;
     }
@@ -73,7 +99,6 @@ public class SIPSession implements Serializable
         this.id = id;
     }
 
-    @XmlElement
     public String getCallId() {
         return callId;
     }
@@ -82,7 +107,6 @@ public class SIPSession implements Serializable
         this.callId = callId;
     }
 
-    @XmlElement
     public long getDisconnectionStart() {
         return disconnectionStart;
     }
@@ -91,7 +115,6 @@ public class SIPSession implements Serializable
         disconnectionStart = time;
     }
 
-    @XmlElement
     public long getEndTime() {
         return endTime;
     }
@@ -100,7 +123,6 @@ public class SIPSession implements Serializable
         this.endTime = endTime;
     }
 
-    @XmlElement
     public long getEstablishedTime() {
         return establishedTime;
     }
@@ -109,7 +131,6 @@ public class SIPSession implements Serializable
         this.establishedTime = establishedTime;
     }
 
-    @XmlElement
     public long getFirstResponseTime() {
         return firstResponseTime;
     }
@@ -118,7 +139,6 @@ public class SIPSession implements Serializable
         this.firstResponseTime = firstResponseTime;
     }
 
-    @XmlElement
     public String getMethod() {
         return method;
     }
@@ -127,7 +147,6 @@ public class SIPSession implements Serializable
         this.method = method;
     }
 
-    @XmlElement
     public long getStartTime() {
         return startTime;
     }
@@ -136,7 +155,6 @@ public class SIPSession implements Serializable
         this.startTime = startTime;
     }
 
-    @XmlElement
     public long getSetupTime() {
         return setupTime;
     }
@@ -145,7 +163,6 @@ public class SIPSession implements Serializable
         this.setupTime = setupTime;
     }
 
-    @XmlElement
     public int getState() {
         return state;
     }
@@ -154,7 +171,11 @@ public class SIPSession implements Serializable
         this.state = state;
     }
 
-    @Where(clause="sip_message_type = 1")
+    @XmlAttribute
+    public String getStateString() {
+        return SIPSessionState.getStateString(getState());
+    }
+
     public List<SIPRequest> getRequests() {
         return requests;
     }
@@ -165,7 +186,6 @@ public class SIPSession implements Serializable
         }
     }
 
-    @Where(clause="sip_message_type = 2")
     public List<SIPResponse> getResponses() {
         return responses;
     }
@@ -176,7 +196,6 @@ public class SIPSession implements Serializable
         }
     }
 
-    @XmlElement
     public String getFromUser() {
         return fromUser;
     }
@@ -185,7 +204,6 @@ public class SIPSession implements Serializable
         this.fromUser = from;
     }
 
-    @XmlElement
     public String getToUser() {
         return toUser;
     }

@@ -36,6 +36,7 @@ import org.sipana.protocol.sip.SIPResponse;
 
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
+import java.io.IOException;
 
 /**
  *
@@ -74,7 +75,7 @@ public class SIPScenario {
      *            to write the encoded JPEG image
      * @author Marcos Hack <marcoshack@gmail.com>
      */
-    public void create(OutputStream outputStream) throws Exception {
+    public void create(OutputStream outputStream) throws IOException {
 
         imgWidth = (HOST_STEP_W * hostList.size()) + HOST_INIT_W;
         imgHeight = (MSG_STEP_H * messages.size()) + (IMAGE_BORDER * 3);

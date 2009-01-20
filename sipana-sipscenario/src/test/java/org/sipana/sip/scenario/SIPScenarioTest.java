@@ -28,8 +28,6 @@ import org.junit.Test;
 import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPResponse;
-import org.sipana.protocol.sip.SIPRequest;
-import org.sipana.protocol.sip.SIPResponse;
 
 public class SIPScenarioTest {
 	
