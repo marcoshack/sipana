@@ -30,92 +30,102 @@ import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPResponse;
 
 public class SIPScenarioTest {
-	
-	private List<SIPMessage> messages; 
 
-	/**
-	 * Create a sample message list
+    private List<SIPMessage> messages;
+
+    /**
+     * Create a sample message list
      *
      * @author Marcos Hack <marcoshack@gmail.com>
-	 */
-	@Before
-	public void createMessageList() {
-		 messages = new ArrayList<SIPMessage>();
+     */
+    @Before
+    public void createMessageList() {
+        messages = new ArrayList<SIPMessage>();
 
-		long startTime = GregorianCalendar.getInstance().getTimeInMillis();
+        long startTime = GregorianCalendar.getInstance().getTimeInMillis();
 
-		List<String> callIdList = new ArrayList<String>();
-		callIdList.add("AAA");
-		callIdList.add("BBB");
+        List<String> callIdList = new ArrayList<String>();
+        callIdList.add("AAA");
+        callIdList.add("BBB");
 
-		for (String callId : callIdList) {
-			SIPRequest reqInvite = new SIPRequest();
-			reqInvite.setMethod("INVITE");
-			reqInvite.setSrcAddress("127.0.0.1");
-			reqInvite.setSrcPort(5060);
-			reqInvite.setDstAddress("127.0.0.1");
-			reqInvite.setDstPort(5061);
-			reqInvite.setTime(startTime += 10);
-			reqInvite.setCallID(callId);
-			messages.add(reqInvite);
-			
-			SIPResponse res180 = new SIPResponse();
-			res180.setReasonPhrase("Ringing");
-			res180.setStatusCode(180);
-			res180.setSrcAddress("127.0.0.1");
-			res180.setSrcPort(5061);
-			res180.setDstAddress("127.0.0.1");
-			res180.setDstPort(5060);
-			res180.setTime(startTime += 10);
-			res180.setCallID(callId);
-			messages.add(res180);
+        for (String callId : callIdList) {
+            SIPRequest reqInvite = new SIPRequest();
+            reqInvite.setMethod("INVITE");
+            reqInvite.setSrcAddress("127.0.0.1");
+            reqInvite.setSrcPort(5060);
+            reqInvite.setDstAddress("127.0.0.1");
+            reqInvite.setDstPort(5061);
+            reqInvite.setTime(startTime += 10);
+            reqInvite.setCallID(callId);
+            messages.add(reqInvite);
 
-			SIPResponse res200 = new SIPResponse();
-			res200.setReasonPhrase("OK");
-			res200.setStatusCode(200);
-			res200.setSrcAddress("127.0.0.1");
-			res200.setSrcPort(5061);
-			res200.setDstAddress("127.0.0.1");
-			res200.setDstPort(5060);
-			res200.setTime(startTime += 10);
-			res200.setCallID(callId);
-			messages.add(res200);
+            SIPResponse res180 = new SIPResponse();
+            res180.setReasonPhrase("Ringing");
+            res180.setStatusCode(180);
+            res180.setSrcAddress("127.0.0.1");
+            res180.setSrcPort(5061);
+            res180.setDstAddress("127.0.0.1");
+            res180.setDstPort(5060);
+            res180.setTime(startTime += 10);
+            res180.setCallID(callId);
+            messages.add(res180);
 
-			SIPRequest reqBye = new SIPRequest();
-			reqBye.setMethod("BYE");
-			reqBye.setSrcAddress("127.0.0.1");
-			reqBye.setSrcPort(5060);
-			reqBye.setDstAddress("127.0.0.1");
-			reqBye.setDstPort(5061);
-			reqBye.setTime(startTime += 100);
-			reqBye.setCallID(callId);
-			messages.add(reqBye);
+            SIPResponse res200 = new SIPResponse();
+            res200.setReasonPhrase("OK");
+            res200.setStatusCode(200);
+            res200.setSrcAddress("127.0.0.1");
+            res200.setSrcPort(5061);
+            res200.setDstAddress("127.0.0.1");
+            res200.setDstPort(5060);
+            res200.setTime(startTime += 10);
+            res200.setCallID(callId);
+            messages.add(res200);
 
-			SIPResponse res200Bye = new SIPResponse();
-			res200Bye.setReasonPhrase("OK");
-			res200Bye.setStatusCode(200);
-			res200Bye.setSrcAddress("127.0.0.1");
-			res200Bye.setSrcPort(5061);
-			res200Bye.setDstAddress("127.0.0.1");
-			res200Bye.setDstPort(5060);
-			res200Bye.setTime(startTime += 10);
-			res200Bye.setCallID(callId);
-			messages.add(res200Bye);
-		}
-	}
-	
-	@Test
-	public void createSIPFlow() throws Exception {
+            SIPRequest reqBye = new SIPRequest();
+            reqBye.setMethod("BYE");
+            reqBye.setSrcAddress("127.0.0.1");
+            reqBye.setSrcPort(5060);
+            reqBye.setDstAddress("127.0.0.1");
+            reqBye.setDstPort(5061);
+            reqBye.setTime(startTime += 100);
+            reqBye.setCallID(callId);
+            messages.add(reqBye);
 
-		FileOutputStream osFile = new FileOutputStream("sipscenario-test.jpg");
+            SIPResponse res200Bye = new SIPResponse();
+            res200Bye.setReasonPhrase("OK");
+            res200Bye.setStatusCode(200);
+            res200Bye.setSrcAddress("127.0.0.1");
+            res200Bye.setSrcPort(5061);
+            res200Bye.setDstAddress("127.0.0.1");
+            res200Bye.setDstPort(5060);
+            res200Bye.setTime(startTime += 10);
+            res200Bye.setCallID(callId);
+            messages.add(res200Bye);
+        }
+    }
 
-		SIPScenario scenario = new SIPScenario(messages);
-		scenario.create(osFile);
+    @Test
+    public void createSIPScenario() throws Exception {
+        FileOutputStream osFile = new FileOutputStream("sipscenario-test-createSIPScenario.jpg");
+        SIPScenario scenario = new SIPScenario(messages, "jpg");
+        scenario.create(osFile);
+        osFile.flush();
+        osFile.close();
 
-		osFile.flush();
-		osFile.close();
+        File file = new File("sipscenario-test-createSIPScenario.jpg");
+        assertTrue(file.exists());
+    }
 
-		File file = new File("sipscenario-test.jpg");
-		assertTrue(file.exists());
-	}
+    @Test
+    public void createEmptySIPScenario() throws Exception {
+        List<SIPMessage> messages = new ArrayList<SIPMessage>();
+        SIPScenario scenario = new SIPScenario(messages, "png");
+        FileOutputStream osFile = new FileOutputStream("sipscenario-test-createEmptySIPScenario.png");
+        scenario.create(osFile);
+        osFile.flush();
+        osFile.close();
+
+        File file = new File("sipscenario-test-createEmptySIPScenario.png");
+        assertTrue(file.exists());
+    }
 }
