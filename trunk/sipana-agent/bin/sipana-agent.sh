@@ -33,7 +33,7 @@ export SIPANA_HOME=`pwd`
 . ${SIPANA_BIN}/functions.sh
 
 # Path and environment variables
-export SIPANA_MAIN="org.sipana.client.SipanaClient"
+export SIPANA_MAIN="org.sipana.agent.SipanaAgentLaucher"
 export SIPANA_OPTIONS=`get_sipana_options`
 export JAVA_OPTIONS="`get_log4j_options` `get_jvm_options`"
 export JAVA_CLASSPATH=`get_classpath`
@@ -53,7 +53,7 @@ if [[ ${SIPANA_DEBUG} ]]; then
     echo "====================================================================="
 fi
 
-echo -e "\nStarting Sipana Client\n"
+echo -e "\nStarting Sipana Agent\n"
 
 # start
 cd $SIPANA_HOME

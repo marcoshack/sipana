@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.client.capture.impl;
+package org.sipana.agent.capture.impl;
 
 import java.util.Date;
 
@@ -24,12 +24,12 @@ import jpcap.packet.IPPacket;
 import jpcap.packet.TCPPacket;
 import jpcap.packet.UDPPacket;
 
-import org.sipana.client.capture.AbstractCaptureSession;
-import org.sipana.client.capture.CaptureException;
-import org.sipana.client.capture.CaptureListener;
-import org.sipana.client.capture.NetworkInterfaceNotFoundException;
-import org.sipana.client.capture.Packet;
-import org.sipana.client.config.ConfigManager;
+import org.sipana.agent.capture.AbstractCaptureSession;
+import org.sipana.agent.capture.CaptureException;
+import org.sipana.agent.capture.CaptureListener;
+import org.sipana.agent.capture.NetworkInterfaceNotFoundException;
+import org.sipana.agent.capture.Packet;
+import org.sipana.agent.config.ConfigManager;
 
 /**
  * Capture Session implementation using Keita Fujii jpcap implementation [1].

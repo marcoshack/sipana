@@ -25,7 +25,7 @@ function get_log4j_options {
 }
 
 function get_sipana_options {
-    OPTIONS="-Dsipana.client.properties=${SIPANA_HOME}/conf/sipana-client.properties"
+    OPTIONS="-Dsipana.agent.properties=${SIPANA_HOME}/conf/sipana-agent.properties"
     echo $OPTIONS
 }
 

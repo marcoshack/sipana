@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.client.sender;
+package org.sipana.agent.sender;
 
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -33,7 +33,7 @@ import javax.jms.Session;
 import javax.naming.InitialContext;
 
 import org.apache.log4j.Logger;
-import org.sipana.client.config.ConfigManager;
+import org.sipana.agent.config.ConfigManager;
 import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPSession;
 
@@ -316,10 +316,13 @@ public class MessageSender implements ExceptionListener {
         
         public void stop() {
             logger.debug("Stopping Delayed sender");
-            running.set(false);
+
+            // Notify sender to send remaining messages
             synchronized (this) {
                 notifyAll();
             }
+
+            running.set(false);
         }
     }
     

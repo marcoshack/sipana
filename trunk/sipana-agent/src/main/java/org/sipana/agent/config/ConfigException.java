@@ -13,16 +13,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.client.capture;
+package org.sipana.agent.config;
 
-public class CaptureException extends Exception {
-	private static final long serialVersionUID = -260000377965849641L;
-
-	public CaptureException(String message) {
+public class ConfigException extends Exception {
+	private static final long serialVersionUID = -4088134407939225553L;
+	
+	public ConfigException(String message) { 
 		super(message);
 	}
 	
-	public CaptureException(String message, Throwable cause) {
+	public ConfigException(String message, Throwable cause) {
 		super(message, cause);
 	}
+
 }

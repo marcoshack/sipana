@@ -13,13 +13,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.client;
+package org.sipana.agent.service;
 
-import org.sipana.client.capture.CaptureManager;
-import org.sipana.client.capture.impl.CaptureManagerImpl;
-import org.sipana.client.config.ConfigManager;
-import org.sipana.client.sender.MessageSender;
-import org.sipana.client.sip.SIPHandler;
+import org.sipana.agent.capture.CaptureManager;
+import org.sipana.agent.capture.impl.CaptureManagerImpl;
+import org.sipana.agent.config.ConfigManager;
+import org.sipana.agent.sender.MessageSender;
+import org.sipana.agent.sip.SIPHandler;
 import org.sipana.protocol.sip.SIPFactory;
 
 public class ServiceLocator {
