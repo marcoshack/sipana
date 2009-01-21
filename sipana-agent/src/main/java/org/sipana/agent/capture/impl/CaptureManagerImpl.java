@@ -13,16 +13,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.client.capture.impl;
+package org.sipana.agent.capture.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.sipana.client.capture.CaptureException;
-import org.sipana.client.capture.CaptureListener;
-import org.sipana.client.capture.CaptureManager;
-import org.sipana.client.capture.CaptureSession;
+import org.sipana.agent.capture.CaptureException;
+import org.sipana.agent.capture.CaptureListener;
+import org.sipana.agent.capture.CaptureManager;
+import org.sipana.agent.capture.CaptureSession;
 
 /**
  *
@@ -30,11 +32,11 @@ import org.sipana.client.capture.CaptureSession;
  */
 public class CaptureManagerImpl implements CaptureManager {
 	private static CaptureManagerImpl instance;
-	private Map<String,CaptureSession> sessionList;
+	private Map<String,CaptureSession> captureSessionMap;
 	private Logger logger;
 	
 	private CaptureManagerImpl() {
-		sessionList = new HashMap<String,CaptureSession>();
+		captureSessionMap = new HashMap<String,CaptureSession>();
 		logger = Logger.getLogger(CaptureManager.class); 
 	}
 	
@@ -64,29 +66,31 @@ public class CaptureManagerImpl implements CaptureManager {
 		
 		//CaptureSession session = new CaptureSessionSFjpcap(filter, device,listener);
 		CaptureSession session = new CaptureSessionKFujii(filter, device,listener);
-		addSession(session);
+		addCaptureSession(session);
 		
 		return session;
 	}
 
-	public void destroyCaptureSession(CaptureSession session) {
-	    // TODO implement destroyCaptureSession(CaptureSession session)
-	}
-	
-	public void destroyCaptureSession(String sessionId) {
-	    // TODO implement destroyCaptureSession(String sessionId)
-	}
-
-	private void addSession(CaptureSession session) {
-		synchronized (sessionList) {
-			sessionList.put(session.getId(), session);
+	public void addCaptureSession(CaptureSession session) {
+		synchronized (captureSessionMap) {
+			captureSessionMap.put(session.getId(), session);
 		}
 	}
 	
-//	private void removeSession(CaptureSession session) {
-//		synchronized (sessionList) {
-//			sessionList.remove(session.getId());
-//		}
-//	}
+	public void removeCaptureSession(CaptureSession session) {
+		synchronized (captureSessionMap) {
+			captureSessionMap.remove(session.getId());
+		}
+	}
+
+    public List<CaptureSession> getCaptureSessionList() {
+        List<CaptureSession> sessionList = new ArrayList<CaptureSession>();
+
+        for (String sessionId : captureSessionMap.keySet()) {
+            sessionList.add(captureSessionMap.get(sessionId));
+        }
+
+        return sessionList;
+    }
 
 }

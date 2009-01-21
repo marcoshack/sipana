@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.client.sip;
+package org.sipana.agent.sip;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -23,9 +23,9 @@ import javax.sip.message.Response;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
-import org.sipana.client.capture.CaptureListener;
-import org.sipana.client.capture.Packet;
-import org.sipana.client.sender.MessageSender;
+import org.sipana.agent.capture.CaptureListener;
+import org.sipana.agent.capture.Packet;
+import org.sipana.agent.sender.MessageSender;
 import org.sipana.protocol.sip.SIPSessionState;
 import org.sipana.protocol.sip.SIPFactory;
 import org.sipana.protocol.sip.SIPMessage;

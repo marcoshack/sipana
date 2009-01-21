@@ -13,10 +13,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.client.capture;
+package org.sipana.agent.capture;
+
+import java.util.List;
 
 public interface CaptureManager {
 	public CaptureSession createCaptureSession(String filter, String device, CaptureListener listener) throws CaptureException;
-	public void destroyCaptureSession(CaptureSession session);
-	public void destroyCaptureSession(String sessionId);
+    public void addCaptureSession(CaptureSession session);
+    public void removeCaptureSession(CaptureSession session);
+    public List<CaptureSession> getCaptureSessionList();
 }

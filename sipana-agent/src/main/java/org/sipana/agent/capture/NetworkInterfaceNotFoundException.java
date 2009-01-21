@@ -13,17 +13,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.client.config;
+package org.sipana.agent.capture;
 
-public class ConfigException extends Exception {
-	private static final long serialVersionUID = -4088134407939225553L;
-	
-	public ConfigException(String message) { 
-		super(message);
-	}
-	
-	public ConfigException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
+/**
+ *
+ * @author Marcos Hack <marcoshack@gmail.com>
+ */
+public class NetworkInterfaceNotFoundException extends CaptureException {
+    public NetworkInterfaceNotFoundException(String msg) {
+        super(msg);
+    }
 }

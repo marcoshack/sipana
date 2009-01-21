@@ -13,8 +13,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.client.capture;
+package org.sipana.agent;
 
-public interface CaptureListener {
-    public void onPacket(Packet packet);
+/**
+ *
+ * @author Marcos Hack <marcoshack@gmail.com>
+ */
+public class SipanaAgentLaucher {
+
+    public static void main(String[] args) {
+        SipanaAgent agent = new SipanaAgent();
+        
+        SipanaAgentSignalHandler sigHandler = new SipanaAgentSignalHandler(agent);
+        Runtime.getRuntime().addShutdownHook(new Thread(sigHandler));
+
+        Thread agentThread = new Thread(agent);
+        agentThread.start();
+    }
 }
