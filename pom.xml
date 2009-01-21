@@ -16,7 +16,7 @@
         <module>sipana-server-war</module>
         <module>sipana-server-ws</module>
         <module>sipana-commons</module>
-        <module>sipana-client</module>
+        <module>sipana-agent</module>
         <module>sipana-sipscenario</module>
     </modules>
 

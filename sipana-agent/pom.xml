@@ -7,8 +7,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.sipana</groupId>
-    <artifactId>sipana-client</artifactId>
-    <name>Sipana Client</name>
+    <artifactId>sipana-agent</artifactId>
+    <name>Sipana Agent</name>
     <version>0.3</version>
     <packaging>jar</packaging>
     <url>http://sipana.org/</url>
