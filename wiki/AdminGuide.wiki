@@ -1,4 +1,5 @@
 #summary Server and Client Installation and Configuration Guides
+#labels Featured
 
 <wiki:toc max_depth="3" />
 
@@ -31,7 +32,7 @@ The MySQL JDBC driver, needed to connect to a MySQL server from a JBoss AS appli
 
 === Download and Install ===
 
-Download the last version of the Sipana Server component [[Download|in the download area]] and unpack it in a local directory
+[http://code.google.com/p/sipana/downloads/list Download] the last version of the Sipana Server component and unpack it in a local directory
 
 {{{
  tar zxvf sipana-server-X.X-x.tar.gz
