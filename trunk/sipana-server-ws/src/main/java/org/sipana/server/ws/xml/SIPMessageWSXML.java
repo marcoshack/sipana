@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.ws;
+package org.sipana.server.ws.xml;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,8 +25,8 @@ import org.sipana.protocol.sip.SIPMessageList;
  *
  * @author Marcos Hack <marcoshack@gmail.com>
  */
-@Path("/sipmessages")
-public interface SIPMessageWS {
+@Path("/sipmessages.xml")
+public interface SIPMessageWSXML {
 
     @GET
     @Path("/list/{sessionId}")

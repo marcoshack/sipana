@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.ws;
+package org.sipana.server.ws.xml;
 
 import java.util.List;
 import javax.ws.rs.GET;
@@ -31,7 +31,7 @@ import org.sipana.protocol.sip.SIPSessionList;
  */
 
 @Path("/sipsessions")
-public interface SIPSessionWS {
+public interface SIPSessionWSXML {
 
     @GET
     @Path("/{sessionId}")
@@ -39,7 +39,7 @@ public interface SIPSessionWS {
     public SIPSession getSIPSession(@PathParam("sessionId") long sessionId);
 
     @GET
-    @Path("/list")
+    @Path("/")
     @Produces("application/xml")
     @Wrapped
     public SIPSessionList getSIPSessionList(

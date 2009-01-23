@@ -59,7 +59,7 @@ public class SIPSession implements Serializable
     private String callId;
 
     @XmlAttribute
-    private String method;
+    private String requestMethod;
 
     @XmlAttribute
     private String fromUser;
@@ -83,7 +83,7 @@ public class SIPSession implements Serializable
     public SIPSession(SIPRequest request) {
         this();
         addRequest(request);
-        setMethod(request.getMethod());
+        setRequestMethod(request.getMethod());
         setCallId(request.getCallID());
         setStartTime(request.getTime());
         setState(SIPSessionState.INITIATED);
@@ -139,12 +139,12 @@ public class SIPSession implements Serializable
         this.firstResponseTime = firstResponseTime;
     }
 
-    public String getMethod() {
-        return method;
+    public String getRequestMethod() {
+        return requestMethod;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
+    public void setRequestMethod(String method) {
+        this.requestMethod = method;
     }
 
     public long getStartTime() {
@@ -235,7 +235,7 @@ public class SIPSession implements Serializable
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("SIPSession: ");
-        sb.append("Initial request method=").append(getMethod());
+        sb.append("Initial request method=").append(getRequestMethod());
         sb.append(", id=").append(getId());
         sb.append(", startTime=").append(getStartTime());
         sb.append(", firstResponseTime=").append(getFirstResponseTime());

@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.ws;
+package org.sipana.server.ws.jpeg;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -26,7 +26,7 @@ import javax.ws.rs.core.StreamingOutput;
  * @author mhack
  */
 @Path("/sipscenario")
-public interface SIPScenarioWS {
+public interface SIPScenarioWSJPEG {
     @GET
     @Path("/")
     @Produces("image/jpeg")

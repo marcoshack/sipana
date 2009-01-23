@@ -33,7 +33,7 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         }
 
         for (SIPSession session : sessionList) {
-            String initialMethod = session.getMethod();
+            String initialMethod = session.getRequestMethod();
             List<SIPRequest> requestList = session.getRequests();
             SIPRequest first = requestList.get(0);
             
@@ -60,7 +60,7 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         int nRegister = 0;
 
         for (SIPSession session : sessionList) {
-            if (session.getMethod().equals(Request.REGISTER)) {
+            if (session.getRequestMethod().equals(Request.REGISTER)) {
                 result =+ getRegistrationRequestDelay(session);
                 nRegister++;
             }

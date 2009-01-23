@@ -21,13 +21,13 @@ import org.sipana.protocol.sip.SIPMessageList;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
 import org.sipana.server.dao.SIPMessageManager;
-import org.sipana.server.ws.SIPMessageWS;
+import org.sipana.server.ws.xml.SIPMessageWSXML;
 
 /**
  *
  * @author Marcos Hack <marcoshack@gmail.com>
  */
-public class SIPMessageWSImpl implements SIPMessageWS {
+public class SIPMessageWSImpl implements SIPMessageWSXML {
 
     private SIPMessageManager sipMessageManager;
 

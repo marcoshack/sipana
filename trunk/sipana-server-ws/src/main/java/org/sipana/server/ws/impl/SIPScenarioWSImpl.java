@@ -24,13 +24,13 @@ import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.server.dao.SIPMessageManager;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
-import org.sipana.server.ws.SIPScenarioWS;
+import org.sipana.server.ws.jpeg.SIPScenarioWSJPEG;
 
 /**
  *
  * @author Marcos Hack <marcoshack@gmail.com>
  */
-public class SIPScenarioWSImpl implements SIPScenarioWS {
+public class SIPScenarioWSImpl implements SIPScenarioWSJPEG {
 
     private Logger logger = Logger.getLogger(SIPScenarioWSImpl.class);
 

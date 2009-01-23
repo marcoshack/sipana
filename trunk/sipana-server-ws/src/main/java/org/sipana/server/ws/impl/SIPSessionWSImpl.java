@@ -18,7 +18,7 @@ package org.sipana.server.ws.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import org.sipana.server.ws.*;
+import org.sipana.server.ws.xml.*;
 import org.apache.log4j.Logger;
 import org.sipana.protocol.sip.SIPSession;
 import org.sipana.protocol.sip.SIPSessionList;
@@ -30,7 +30,7 @@ import org.sipana.server.dao.SIPSessionManager;
  *
  * @author Marcos Hack <marcoshack@gmail.com>
  */
-public class SIPSessionWSImpl implements SIPSessionWS {
+public class SIPSessionWSImpl implements SIPSessionWSXML {
 
     private Logger logger = Logger.getLogger(SIPSessionWSImpl.class);
     private SIPSessionManager sipSessionManager;
