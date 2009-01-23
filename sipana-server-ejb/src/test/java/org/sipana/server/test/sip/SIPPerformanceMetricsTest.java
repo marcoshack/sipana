@@ -44,7 +44,7 @@ public class SIPPerformanceMetricsTest {
         // 10 sessions
         for (int i = 1; i <= nSessions; i++) {
             SIPSession session = new SIPSession();
-            session.setMethod(Request.INVITE);
+            session.setRequestMethod(Request.INVITE);
             
             // 5 hosts = 4 hops ser session
             for (int j = 1; j <= nHosts; j++) {

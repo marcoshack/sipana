@@ -24,6 +24,7 @@ import java.util.StringTokenizer;
 
 import javax.faces.model.SelectItem;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPSessionState;
@@ -38,9 +39,11 @@ public class SIPSessionController {
 
     // Logic parameters
     private List<SelectItem> sipSessionList = new ArrayList<SelectItem>();
+    private String[] selectedItems;
+
     private long startTime;
     private long endTime;
-    private String method;
+    private String requestMethod;
     private String fromUser;
     private String toUser;
     private String callId;
@@ -58,7 +61,7 @@ public class SIPSessionController {
             StringBuilder sbDebug = new StringBuilder("Processing SIPSession list request: ");
             sbDebug.append("startTime: ").append(startTime);
             sbDebug.append(", endTime: ").append(endTimeFinal);
-            sbDebug.append(", method: ").append(method);
+            sbDebug.append(", method: ").append(requestMethod);
             sbDebug.append(", fromUser: ").append(fromUser);
             sbDebug.append(", toUser: ").append(toUser);
             sbDebug.append(", callId: ").append(callId);
@@ -69,7 +72,7 @@ public class SIPSessionController {
         List<SIPSession> sipSessions = sipSessionManager.getSIPSessions(
                 startTime, 
                 endTimeFinal, 
-                method, 
+                requestMethod,
                 fromUser, 
                 toUser, 
                 callId, 
@@ -95,18 +98,22 @@ public class SIPSessionController {
     public void reset() {
         startTime  = 0;
         endTime    = 0;
-        method     = null;
+        requestMethod = null;
         fromUser   = null;
         toUser     = null;
         callId     = null;
         ipAddrList = null;
-        sipSessionList.clear();
+        selectedItems = null;
+        sipSessionList = new ArrayList<SelectItem>();
     }
     
     public String details() {
         return "details";
     }
 
+    /**
+     * Getter and Setters
+     */
     public long getStartTime() {
         return startTime;
     }
@@ -123,16 +130,16 @@ public class SIPSessionController {
         this.endTime = endTime;
     }
 
-    public List<SelectItem> getSipSessionList() {
+    public List<SelectItem> getList() {
         return sipSessionList;
     }
 
     public String getMethod() {
-        return method;
+        return requestMethod;
     }
 
     public void setMethod(String method) {
-        this.method = method;
+        this.requestMethod = method;
     }
 
     public String getFromUser() {
@@ -171,6 +178,17 @@ public class SIPSessionController {
         this.ipAddrList = ipAddr;
     }
     
+    public String[] getSelectedItems() {
+        return selectedItems;
+    }
+
+    public void setSelectedItems(String[] selectedSessionId) {
+        this.selectedItems = selectedSessionId;
+    }
+
+    public String getSelectedItemsCSV() {
+        return StringUtils.join(selectedItems, ",");
+    }
     
     private List<String> createIpAddrList(String strIPAddrList) {
         String csv = strIPAddrList.replaceAll(" +", ",");
