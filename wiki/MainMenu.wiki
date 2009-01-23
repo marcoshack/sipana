@@ -1,0 +1,7 @@
+#summary Main menu for wiki pages
+
+=== Documentation ===
+
+[AdminGuide Instalation and Configuration]<br>
+[UserGuide User Guide]<br>
+[DevelopmentGuide Development Guide]<br>
