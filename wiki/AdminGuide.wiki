@@ -112,7 +112,7 @@ Open a web browser and point to the following address to test your installation.
 ____
 <br>
 
-= Agent =
+= Sipana Agent =
 
 == Jpcap library ==
 
