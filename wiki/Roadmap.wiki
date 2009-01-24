@@ -1,0 +1,13 @@
+#summary Project planning.
+#labels Development,Documentation
+
+= Version 0.3 =
+
+*Release date*: 2008-01-31
+
+*Changes*
+ * Fix all [http://code.google.com/p/sipana/issues/list?can=2&q=label%3AMilestone-v0.3 issues with Milestone v0.3]
+ * Implement all operations via REST Web services (module ''sipana-server-ws'')
+ * Web interface with the following features: (module ''sipana-server-war'')
+  * Search SIP sessions
+  * View SIP session detail with SIP scenario and session performance metrics
