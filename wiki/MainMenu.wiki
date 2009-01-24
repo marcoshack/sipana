@@ -1,6 +1,14 @@
 #summary Main menu for wiki pages
 
 *Documentation*
- * [AdminGuide Instalation and Configuration]<br>
- * [UserGuide User Guide]<br>
- * [DevelopmentGuide Development Guide]<br>
+ * [AdminGuide Instalation and Configuration]
+   * [AdminGuide#Sipana_Server Sipana Server]
+   * [AdminGuide#Sipana_Agent Sipana Agent]
+
+ * [UserGuide User Guide]
+
+ * [DevelopmentGuide Development Guide]
+   * [SipanaArchitecture Architecture]
+   * [SipanaModules Modules]
+   * [DevelopmentWorkspace Development Workspace]
+   * [Roadmap Roadmap]
