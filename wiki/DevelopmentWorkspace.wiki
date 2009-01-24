@@ -61,7 +61,7 @@ In order to run the Sipana server component you need to create and setup the MyS
 # Create database (assuming you're using user ''root'' with password):
 
 {{{
-mysql -u root -p < $SIPANA_WORKDIR/sql/sipana_db_create.sql
+mysql -u root -p < $WORKDIR/sipana/sql/sipana_db_create.sql
 }}}
 
 # Create and give permissions to ''sipana'' MySQL user:
