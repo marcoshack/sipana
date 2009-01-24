@@ -1,5 +1,5 @@
 #summary Server and Client Installation and Configuration Guides
-#labels Featured
+#labels Documentation
 
 <wiki:toc max_depth="3" />
 
