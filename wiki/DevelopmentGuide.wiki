@@ -1,8 +1,8 @@
 #summary Development Dodumentation
 #labels Documentation,Development
 
-* [SipanaArchitecture Sipana Architecture] (big picture)
-* [SipanaModules Sipana Modules]
-* [DevelopmentWorkspace Development Workspace]
-* [Roadmap]
-* [SimilarTools Similar Tools]
+ * [SipanaArchitecture Sipana Architecture] (big picture)
+ * [SipanaModules Sipana Modules]
+ * [DevelopmentWorkspace Development Workspace]
+ * [Roadmap]
+ * [SimilarTools Similar Tools]
