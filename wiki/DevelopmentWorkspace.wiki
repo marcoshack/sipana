@@ -21,8 +21,10 @@ Follow instructions in [http://code.google.com/p/sipana/source/checkout checkout
 
 = Build =
 
+{{{
  cd $WORKDIR/sipana
  mvn
+}}}
 
 This process take a while because maven will download all required packages and maven plugins.
 
@@ -58,13 +60,16 @@ In order to run the Sipana server component you need to create and setup the MyS
 
 # Create database (assuming you're using user ''root'' with password):
 
-`mysql -u root -p < $SIPANA_WORKDIR/sql/sipana_db_create.sql`
+{{{
+mysql -u root -p < $SIPANA_WORKDIR/sql/sipana_db_create.sql
+}}}
 
 # Create and give permissions to ''sipana'' MySQL user:
 
-`mysql -u root -p sipana`
-
-`grant all privileges on sipana.* to 'sipana'@'localhost' identified by 'sipana';`
+{{{
+mysql -u root -p sipana
+grant all privileges on sipana.* to 'sipana'@'localhost' identified by 'sipana';
+}}}
 
 <br>
 
