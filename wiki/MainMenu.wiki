@@ -4,7 +4,9 @@
  * [AdminGuide Instalation and Configuration]
    * [AdminGuide#Sipana_Server Sipana Server]
    * [AdminGuide#Sipana_Agent Sipana Agent]
- * [UserGuide User Guide]
+
+<wiki:comment> * [UserGuide User Guide]</wiki:comment>
+
  * [DevelopmentGuide Development Guide]
    * [SipanaArchitecture Architecture]
    * [SipanaModules Modules]
