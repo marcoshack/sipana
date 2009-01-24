@@ -1,0 +1,28 @@
+#summary Sipana Modules documentation
+
+*[SipanaAgent Sipana Agent]*
+  Client component to capture network packages and send it to server component. You can think in it as a probe.
+
+
+*[SipanaCommons Sipana Commons]*
+  Classes used both in client and server components, including SIP message and session representation classes, message parsing, etc.
+
+
+*[SipanaServerEAR Sipana Server EAR]*
+  Server deployment package.
+
+
+*[SipanaServerEJB Sipana Server EJB]*
+  Persistence, business logic and server services. Includes, but isn't limited to, SIP message parsing and processing and SIP performance metrics.
+
+
+*[SipanaServerWAR Sipana Server WAR]*
+  Web interface using JSF.
+
+
+*[SipanaServerWS Sipana Server WS]*
+  RESTful web services using JBoss resteasy.
+
+
+*[SipanaSIPScenario Sipana SIP Scenario]*
+  SIP signaling sequence diagram API.
