@@ -1,5 +1,7 @@
 #summary Main menu for wiki pages
 
+<br>
+
  * [MainPage Home/Search]
  * [AdminGuide Instalation and Configuration]
    * [AdminGuide#Sipana_Server Sipana Server]
@@ -9,3 +11,5 @@
    * [SipanaModules Modules]
    * [DevelopmentWorkspace Development Workspace]
    * [Roadmap Roadmap]
+
+<br>
