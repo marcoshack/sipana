@@ -1,6 +1,6 @@
 #summary Main menu for wiki pages
 
-*Documentation*
+ * [MainPage Home/Search]
  * [AdminGuide Instalation and Configuration]
    * [AdminGuide#Sipana_Server Sipana Server]
    * [AdminGuide#Sipana_Agent Sipana Agent]
