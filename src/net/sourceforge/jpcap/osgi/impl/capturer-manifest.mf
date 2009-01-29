@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-Name: JPcap API
+bundle-SymbolicName: net.sourceforge.jpcap.osgi
+Bundle-Version: 1.0.0
+Bundle-Description: Bundle for network packet capture based on jpcap library
+Bundle-Vendor: sipana.org
+Bundle-Category: Network
+Bundle-Activator: net.sourceforge.jpcap.osgi.impl.CaptureActivator
+Import-Package: org.osgi.framework, org.apache.log4j
+Export-Package: net.sourceforge.jpcap.capture, net.sourceforge.jpcap.net, net.sourceforge.jpcap.util, net.sourceforge.jpcap.osgi

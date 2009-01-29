@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+/*
+ * This file is part of Sipana project <http://sipana.org/>
+ * 
+ * Sipana is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * Sipana is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+-->
+
+<project name="sipana" default="all">
+
+	<property name="dest" value="classes"/>
+	<property name="dest.bundles" value="bundle-sipana" />
+	<property name="dest.tests" value="${dest.bundles}"/>
+	<property name="src" value="src"/>
+	<property name="src.test" value="test"/>
+	<property name="package.base" value="org/sipana"/>
+	<property name="configuration" value="conf"/>
+	<property name="lib.dir" value="lib"/>
+	<property name="log.dir" value="log"/>
+	<property name="bundle" value="bundle"/>
+	<property name="cache.dir" value=".cache"/>
+	
+	<property name="pcap.lib" value="${lib.dir}/jpcap-core.jar"/>
+	<property name="pcap.version" value="0.01.16"/>
+	<property name="pcap.package.base" value="net/sourceforge/jpcap/osgi"/>
+	
+	<property name="sipana-sip.version" value="1.0.0"/>
+	<property name="sipana-sip.package.base" value="org/sipana/sip"/>
+	
+	<!-- EQUINOX --> 
+	<property name="plugins" value="plugins"/>
+	
+	<!-- COMPILE CLASS PATH -->
+    <path id="compile.class.path">
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    	<fileset dir="${bundle}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+	
+	<target name="all" depends="init,compile,bundles,bundles-test"/>
+	
+	<!-- INIT -->
+	<target name="init">
+		<mkdir dir="${dest}"/>
+		<mkdir dir="${dest.bundles}"/>
+		<mkdir dir="${dest.tests}"/>
+	</target>
+	
+	<!-- COMPILE --> 
+	<target name="compile" depends="init">
+		<javac classpathref="compile.class.path" destdir="${dest}"
+		    debug="on" srcdir="${src}">
+			<include name="**/*.java"/>
+		</javac>
+		<javac classpathref="compile.class.path" destdir="${dest}"
+		    debug="on" srcdir="${src.test}">
+			<include name="**/*.java"/>
+		</javac>
+	</target>
+	
+	<!-- ALL BUNDLES -->
+	<target name="bundles" depends="bundle-jpcap,bundle-sipana-sip"/>
+	<target name="bundles-test" depends="bundle-jpcap-test,bundle-activemq-test"/>
+
+	<!-- BUNDLE PCAP -->
+	<target name="bundle-jpcap" depends="init,compile">
+        <jar 
+        	compress="true" 
+        	destfile="${dest.bundles}/net.sourceforge.jpcap.osgi-${pcap.version}.jar"
+            manifest="${src}/${pcap.package.base}/impl/capturer-manifest.mf">
+            <zipfileset 
+            	dir="${dest}/${pcap.package.base}"
+                prefix="${pcap.package.base}"
+            	excludes="${pcap.package.base}/test"
+            />
+            <zipfileset src="${pcap.lib}" prefix=""/>
+        </jar>
+	</target>
+
+	<!-- BUNDLE PCAP TEST -->
+	<target name="bundle-jpcap-test" depends="init,compile">
+        <jar compress="true" 
+        	destfile="${dest.tests}/net.sourceforge.jpcap.osgi.test-${pcap.version}.jar"
+            manifest="${src.test}/${pcap.package.base}/test/test-capturer-manifest.mf">
+        	
+            <zipfileset 
+            	dir="${dest}/${pcap.package.base}/test"
+                prefix="${pcap.package.base}/test"/>
+        	
+        </jar>
+	</target>
+	
+	<!-- BUNDLE ACTIVEMQ PRODUCER TEST -->
+	<target name="bundle-activemq-test" depends="init,compile">
+        <jar compress="true" 
+        	destfile="${dest.tests}/org.apache.activemq.test.producer.jar"
+            manifest="${src.test}/org/apache/activemq/test/producer-manifest.mf">
+        	
+            <zipfileset 
+            	dir="${dest}/org/apache/activemq/test"
+                prefix="org/apache/activemq/test"/>
+        	
+        </jar>
+	</target>
+	
+	<!-- BUNDLE SIPANA-SIP -->
+	<target name="bundle-sipana-sip" depends="init,compile">
+        <jar 
+        	compress="true" 
+        	destfile="${dest.bundles}/org.sipana.sip-${sipana-sip.version}.jar"
+            manifest="${src}/${sipana-sip.package.base}/impl/sipana-sip-manifest.mf">
+            <zipfileset 
+            	dir="${dest}/${sipana-sip.package.base}"
+                prefix="${sipana-sip.package.base}"
+            	excludes="${sipana-sip.package.base}/test"
+            />
+            <zipfileset src="${lib.dir}/sip-sdp.jar" prefix=""/>
+        	<zipfileset src="${lib.dir}/concurrent.jar" prefix=""/>
+        	<zipfileset src="${lib.dir}/jakarta-regexp-1.3.jar" prefix=""/>
+        </jar>
+	</target>
+	
+	<!-- CLEAN -->
+	<target name="clean" depends="clean-bundles,clean-cache,clean-log">
+	</target>
+	
+	<target name="clean-bundles">
+		<delete dir="${dest}" verbose="yes"/>
+		<delete dir="${dest.bundles}" verbose="yes"/>
+	</target>
+	
+	<target name="clean-cache">
+		<delete dir="${cache.dir}" verbose="yes"/>
+	</target>
+
+	<target name="clean-log">
+		<delete dir="${log.dir}" verbose="yes"/>
+	</target>
+	
+	<!-- RUN -->
+	<target name="run" depends="all">
+		<java jar="${lib.dir}/felix.jar" fork="true">
+			<sysproperty key="log4j.configuration" value="./conf/log4j.properties"/>
+			<sysproperty key="log4j.debug" value="1"/>
+		</java>
+	</target>
+	
+</project>
