@@ -1,18 +1,3 @@
-/**
- * This file is part of Sipana project <http://sipana.org/>
- *
- * Sipana is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 of the License.
- *
- * Sipana is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 package org.sipana.sip.scenario;
 
 import java.awt.BasicStroke;
@@ -26,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.sipana.SipanaProperties;
 import org.sipana.SipanaPropertyType;
@@ -33,15 +19,10 @@ import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPResponse;
 
-import java.io.IOException;
-import javax.imageio.ImageIO;
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
-/**
- *
- * @author Marcos Hack <marcoshack@gmail.com>
- */
 public class SIPScenario {
-
     private static final int IMAGE_BORDER = 20;
     private static final int HOST_INIT_W = 80;
     private static final int HOST_INIT_H = 20;
@@ -51,8 +32,6 @@ public class SIPScenario {
     private static final int HOST_LINE_TO_MSG_BOX_OFFSET_H = 5;
     private static final int MSG_STEP_H = 26;
     private static final List<Color> colors = createColorList();
-    private static final String DEFAULT_IMAGE_FORMAT = "png";
-    private String imageFormat;
     private int currColor = 0;
     private int imgWidth;
     private int imgHeight;
@@ -60,16 +39,11 @@ public class SIPScenario {
     private Map<String, Color> sessionColors;
     private HashMap<String, Integer> hostList;
 
+    // avoid unnecessary instantiation
     public SIPScenario(List<SIPMessage> messages) {
         this.messages = messages;
         sessionColors = new HashMap<String, Color>();
         hostList = createHostListWithWeightPosition(messages);
-        imageFormat = DEFAULT_IMAGE_FORMAT;
-    }
-
-    public SIPScenario(List<SIPMessage> messages, String imageFormat) {
-        this(messages);
-        this.imageFormat = imageFormat;
     }
 
     /**
@@ -79,36 +53,26 @@ public class SIPScenario {
      *            of messages to create SIP scenario diagram
      * @param OutputStream
      *            to write the encoded JPEG image
-     * @author Marcos Hack <marcoshack@gmail.com>
+     * @author mhack
      */
-    public void create(OutputStream outputStream) throws IOException {
-        BufferedImage buffImage;
+    public void create(OutputStream outputStream) throws Exception {
 
-        if (messages.size() > 0) {
-            imgWidth = (HOST_STEP_W * hostList.size()) + HOST_INIT_W;
-            imgHeight = (MSG_STEP_H * messages.size()) + (IMAGE_BORDER * 3);
+        imgWidth = (HOST_STEP_W * hostList.size()) + HOST_INIT_W;
+        imgHeight = (MSG_STEP_H * messages.size()) + (IMAGE_BORDER * 3);
 
-            buffImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
-            Graphics2D graph = buffImage.createGraphics();
-            graph.setBackground(Color.WHITE);
-            graph.clearRect(1, 1, imgWidth - 2, imgHeight - 2);
-            drawMessages(graph, messages, hostList);
-            drawHosts(graph, imgHeight, hostList);
-            
-        } else {
-            // Empty SIPScenario, only a warning about that
-            imgWidth = 400;
-            imgHeight = 200;
+        BufferedImage buffImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graph = buffImage.createGraphics();
+        graph.setBackground(Color.WHITE);
+        graph.clearRect(1, 1, imgWidth - 2, imgHeight - 2);
 
-            buffImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_INT_RGB);
-            Graphics2D graph = buffImage.createGraphics();
-            graph.setBackground(Color.WHITE);
-            graph.clearRect(1, 1, imgWidth - 2, imgHeight - 2);
-            graph.setColor(Color.BLACK);
-            graph.drawString("Empty message list. Unable to draw SIP scenario.", 50, imgHeight/2);
-        }
+        drawMessages(graph, messages, hostList);
+        drawHosts(graph, imgHeight, hostList);
 
-        ImageIO.write(buffImage, imageFormat, outputStream);
+        StringBuilder sbFilename = new StringBuilder("sip_callflow-");
+        sbFilename.append(UUID.randomUUID()).append(".jpg");
+
+        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(outputStream);
+        encoder.encode(buffImage);
     }
 
     private void drawMessages(Graphics2D graph, List<SIPMessage> messages,
@@ -122,7 +86,7 @@ public class SIPScenario {
         // list and a little bit (HOST_LINE_TO_MSG_BOX_OFFSET_H) bellow the host
         // vertical stroke line
         int h = HOST_INIT_H * 2 + HOST_LINE_TO_MSG_BOX_OFFSET_H;
-
+        
         Long startTime = null;
         int msgBoxWidth = imgWidth - (IMAGE_BORDER * 2);
 
@@ -170,11 +134,13 @@ public class SIPScenario {
             if (message instanceof SIPRequest) {
                 text = ((SIPRequest) message).getMethod();
             } else {
-                text = ((SIPResponse) message).getStatusCode() + " " + ((SIPResponse) message).getReasonPhrase();
+                text = ((SIPResponse) message).getStatusCode() + " "
+                        + ((SIPResponse) message).getReasonPhrase();
             }
 
             int stepCenter = HOST_STEP_W / 2;
-            int textWCenter = dstWPos + ((dstWPos > srcWPos) ? -stepCenter : stepCenter);
+            int textWCenter = dstWPos
+                    + ((dstWPos > srcWPos) ? -stepCenter : stepCenter);
             int textWPos = textWCenter - HOST_STEP_W / 4;
             graph.drawString(text, textWPos, h - 2);
 
@@ -188,14 +154,15 @@ public class SIPScenario {
         graph.drawString("Delta", IMAGE_BORDER, HOST_INIT_H);
 
         // stroke for host's dashed line
-        float dash[] = {3.0f};
+        float dash[] = { 3.0f };
         BasicStroke bs = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f);
         graph.setStroke(bs);
 
         for (String hostAddr : hostList.keySet()) {
             int lineWeight = hostList.get(hostAddr);
             graph.drawString(hostAddr, (lineWeight - HOST_LINE_OFFSET_W), HOST_INIT_H);
-            graph.drawLine(lineWeight, HOST_INIT_H + HOST_LINE_OFFSET_H, lineWeight, height - HOST_INIT_H);
+            graph.drawLine(lineWeight, HOST_INIT_H + HOST_LINE_OFFSET_H, lineWeight, height
+                    - HOST_INIT_H);
         }
     }
 

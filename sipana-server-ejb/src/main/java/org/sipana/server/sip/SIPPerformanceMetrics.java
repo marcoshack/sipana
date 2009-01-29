@@ -1,23 +1,8 @@
-/**
- * This file is part of Sipana project <http://sipana.org/>
- *
- * Sipana is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 of the License.
- *
- * Sipana is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 package org.sipana.server.sip;
 
 import java.util.List;
 import javax.ejb.Local;
-import org.sipana.protocol.sip.SIPSession;;
+import org.sipana.protocol.sip.impl.SIPSessionImpl;;
 
 /**
  * 
@@ -35,7 +20,7 @@ public interface SIPPerformanceMetrics
      * @param session
      * @return
      */
-    public long getRegistrationRequestDelay(SIPSession session);
+    public long getRegistrationRequestDelay(SIPSessionImpl session);
 
     /**
      * 3.1. Average Registration Request Delay (ARRD)
@@ -43,7 +28,7 @@ public interface SIPPerformanceMetrics
      * @param sessionList
      * @return
      */
-    public long getAvgRegistrationRequestDelay(List<SIPSession> sessionList);
+    public long getAvgRegistrationRequestDelay(List<SIPSessionImpl> sessionList);
 
     /**
      * 3.2. Session Request Delay (SRD)
@@ -51,7 +36,7 @@ public interface SIPPerformanceMetrics
      * @param session
      * @return
      */
-    public long getSessionRequestDelay(SIPSession session);
+    public long getSessionRequestDelay(SIPSessionImpl session);
 
     /**
      * 3.2. Average Session Request Delay (SRD)
@@ -59,7 +44,7 @@ public interface SIPPerformanceMetrics
      * @param sessionList
      * @return
      */
-    public long getAvgSessionRequestDelay(List<SIPSession> sessionList);
+    public long getAvgSessionRequestDelay(List<SIPSessionImpl> sessionList);
 
     /**
      * 3.3. Session Disconnect Delay (SDD)
@@ -67,7 +52,7 @@ public interface SIPPerformanceMetrics
      * @param session
      * @return
      */
-    public long getSessionDisconnectDelay(SIPSession session);
+    public long getSessionDisconnectDelay(SIPSessionImpl session);
 
     /**
      * 3.3. Average Session Disconnect Delay (SDD)
@@ -75,7 +60,7 @@ public interface SIPPerformanceMetrics
      * @param sessionList
      * @return
      */
-    public long getAvgSessionDisconnectDelay(List<SIPSession> sessionList);
+    public long getAvgSessionDisconnectDelay(List<SIPSessionImpl> sessionList);
 
     /**
      * 3.4. Session Duration Time (SDT)
@@ -83,7 +68,7 @@ public interface SIPPerformanceMetrics
      * @param session
      * @return
      */
-    public long getSessionDurationTime(SIPSession session);
+    public long getSessionDurationTime(SIPSessionImpl session);
 
     /**
      * 3.4. Average Session Duration Time (SDT)
@@ -91,7 +76,7 @@ public interface SIPPerformanceMetrics
      * @param sessionList
      * @return
      */
-    public long getAvgSessionDurationTime(List<SIPSession> sessionList);
+    public long getAvgSessionDurationTime(List<SIPSessionImpl> sessionList);
 
     /**
      * 3.5. Average Hops per Request (AHR)
@@ -99,7 +84,7 @@ public interface SIPPerformanceMetrics
      * @param sessionList
      * @return
      */
-    public long getAvgHopsPerRequest(List<SIPSession> sessionList);
+    public long getAvgHopsPerRequest(List<SIPSessionImpl> sessionList);
 
     /**
      * 3.6. Session Establishment Rate (SER)
@@ -107,7 +92,7 @@ public interface SIPPerformanceMetrics
      * @param sessionList
      * @return
      */
-    public long getSessionEstablishmentRate(List<SIPSession> sessionList);
+    public long getSessionEstablishmentRate(List<SIPSessionImpl> sessionList);
 
     /**
      * 3.7. Session Establishment Efficiency Rate (SEER)
@@ -116,7 +101,7 @@ public interface SIPPerformanceMetrics
      * @return
      */
     public long getSessionEstablishmentEfficiencyRate(
-            List<SIPSession> sessionList);
+            List<SIPSessionImpl> sessionList);
 
     /**
      * 3.8. Session Defects (SD)
@@ -124,7 +109,7 @@ public interface SIPPerformanceMetrics
      * @param sessionList
      * @return
      */
-    public long getSessionDefects(List<SIPSession> sessionList);
+    public long getSessionDefects(List<SIPSessionImpl> sessionList);
 
     /**
      * 3.9. Ineffective Session Attempts (ISA)
@@ -132,7 +117,7 @@ public interface SIPPerformanceMetrics
      * @param sessionList
      * @return
      */
-    public double getIneffectiveSessionAttempts(List<SIPSession> sessionList);
+    public double getIneffectiveSessionAttempts(List<SIPSessionImpl> sessionList);
 
     /**
      * 3.10. Session Disconnect Failures (SDF)
@@ -140,7 +125,7 @@ public interface SIPPerformanceMetrics
      * @param sessionList
      * @return
      */
-    public long getSessionDisconnectFailures(List<SIPSession> sessionList);
+    public long getSessionDisconnectFailures(List<SIPSessionImpl> sessionList);
 
     /**
      * 3.11. Session Completion Rate (SCR)
@@ -148,7 +133,7 @@ public interface SIPPerformanceMetrics
      * @param sessionList
      * @return
      */
-    public double getSessionCompletionRate(List<SIPSession> sessionList);
+    public double getSessionCompletionRate(List<SIPSessionImpl> sessionList);
 
     /**
      * 3.12. Session Success Rate (SSR)
@@ -156,5 +141,5 @@ public interface SIPPerformanceMetrics
      * @param sessionList
      * @return
      */
-    public double getSessionSuccessRate(List<SIPSession> sessionList);
+    public double getSessionSuccessRate(List<SIPSessionImpl> sessionList);
 }

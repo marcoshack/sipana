@@ -13,7 +13,7 @@ USE `sipana`;
 DROP TABLE IF EXISTS `sip_sessions`;
 CREATE TABLE `sip_sessions` (
   `id` bigint(20) NOT NULL auto_increment,
-  `requestMethod` varchar(255) default NULL,
+  `method` varchar(255) default NULL,
   `state` int(11) NOT NULL,
   `startTime` bigint(20) NOT NULL,
   `endTime` bigint(20) NOT NULL,
