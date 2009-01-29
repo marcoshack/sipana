@@ -3,7 +3,7 @@ function selectDate(){
 input = document.getElementsByTagName("input");
 
 Calendar.setup({
-        inputField     :    input[1],
+        inputField     :    input[0],
         ifFormat       :    "%d/%m/%Y %H:%M",
         button         :    "trigger_start",
         align          :    "Tl",
@@ -12,7 +12,7 @@ Calendar.setup({
         singleClick    :    true
 });   
 Calendar.setup({
-        inputField     :    input[2],
+        inputField     :    input[1],
         ifFormat       :    "%d/%m/%Y %H:%M",
         button         :    "trigger_end",
         align          :    "Tl",

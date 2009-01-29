@@ -6,24 +6,12 @@
 	<title>Sipana</title>
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="/sipana/sipsession/resources/style/style.css"/>
-
-	<!-- JavaScript -->
-    <script type="text/javascript" src="/sipana/sipsession/resources/script/script.js"></script>
-
-	<!-- Pop-up Calendar -->
-	<style type="text/css">
-		@import url(/sipana/sipsession/resources/calendar/calendar-system.css);
-	</style>
-	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/calendar.js"></script>
-	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/lang/calendar-en.js"></script>
-	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/calendar-setup.js"></script>
-
 </head>
 <body onload="selectDate()">
 
 	<f:view>
 		
-		<h:form>
+		<h:form style="width: 100%">
 			<fieldset class="date">
 				<legend><h:outputText value="#{sipsession_msgs.ttl_search}" /></legend>
 				
@@ -78,26 +66,39 @@
          	</fieldset>
 		</h:form>
 		
-        <h:form>
-            <fieldset>
+		<h:form>
+			<fieldset>
+			
+				<legend><h:outputText value="#{sipsession_msgs.ttl_result}"/></legend>
+				
+				<h:outputFormat value="#{sipsession_msgs.msg_search_result}">
+					<f:param value="#{sipSession.listSize}" />
+				</h:outputFormat>
+				
+				<h:selectManyCheckbox styleClass="list" layout="pageDirection" value="#{sipScenario.callId}">
+					<f:selectItems value="#{sipSession.sipSessionList}"/>
+				</h:selectManyCheckbox>
 
-                <legend><h:outputText value="#{sipsession_msgs.ttl_result}"/></legend>
-
-                <h:outputFormat value="#{sipsession_msgs.msg_search_result}">
-                    <f:param value="#{sipSession.listSize}" />
-                </h:outputFormat>
-
-                <h:selectManyCheckbox styleClass="list" layout="pageDirection" value="#{sipSession.selectedItems}">
-                    <f:selectItems value="#{sipSession.list}"/>
-                </h:selectManyCheckbox>
-
-                <br/>
-                <h:commandButton styleClass="btn" action="#{sipSession.details}" value="#{sipsession_msgs.btn_details}" />
-
-            </fieldset>
-        </h:form>
+				<br/>
+				<h:commandButton styleClass="btn" action="#{sipScenario.show}" value="#{sipsession_msgs.btn_draw_graph}" /><br>
+				<h:commandButton styleClass="btn" action="#{sipSession.details}" value="#{sipsession_msgs.btn_details}" />
+				
+			</fieldset>
+		</h:form>
 		
 	</f:view>
 	
 </body>
+
+	<!-- JavaScript -->
+	<script type="text/javascript" src="/sipana/sipsession/resources/script/script.js"/></script>
+
+	<!-- Pop-up Calendar -->
+	<style type="text/css"> 
+		@import url(/sipana/sipsession/resources/calendar/calendar-brown.css);
+	</style>
+	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/calendar.js"></script>
+	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/lang/calendar-en.js"></script>
+	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/calendar-setup.js"></script>
+
 </html>

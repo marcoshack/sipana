@@ -1,18 +1,3 @@
-/**
- * This file is part of Sipana project <http://sipana.org/>
- *
- * Sipana is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 of the License.
- *
- * Sipana is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 package org.sipana.server.test.sip;
 
 import java.util.ArrayList;
@@ -22,8 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.sipana.protocol.sip.SIPRequest;
-import org.sipana.protocol.sip.SIPRequest;
-import org.sipana.protocol.sip.SIPSession;
+import org.sipana.protocol.sip.impl.SIPRequestImpl;
+import org.sipana.protocol.sip.impl.SIPSessionImpl;
 import org.sipana.server.sip.SIPPerformanceMetrics;
 import org.sipana.server.sip.SIPPerformanceMetricsBean;
 
@@ -37,18 +22,18 @@ public class SIPPerformanceMetricsTest {
     
     @Test
     public void avgHopsPerRequest() {
-        List<SIPSession> sessionList = new ArrayList<SIPSession>();
+        List<SIPSessionImpl> sessionList = new ArrayList<SIPSessionImpl>();
         int nSessions = 10;
         int nHosts    = 5;
         
         // 10 sessions
         for (int i = 1; i <= nSessions; i++) {
-            SIPSession session = new SIPSession();
-            session.setRequestMethod(Request.INVITE);
+            SIPSessionImpl session = new SIPSessionImpl();
+            session.setMethod(Request.INVITE);
             
             // 5 hosts = 4 hops ser session
             for (int j = 1; j <= nHosts; j++) {
-                SIPRequest request = new SIPRequest();
+                SIPRequest request = new SIPRequestImpl();
                 request.setMethod(Request.INVITE);
                 request.setMaxForwards(70 - j);
                 session.addRequest(request);
