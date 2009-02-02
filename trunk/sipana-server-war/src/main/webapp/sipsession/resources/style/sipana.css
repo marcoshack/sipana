@@ -1,4 +1,4 @@
-BODY{
+BODY {
 	background-color:	#eeeed1;
 	font-family: verdana,arial;
 	font-size: 10pt;
@@ -6,25 +6,26 @@ BODY{
 
 FIELDSET {
 	background-color: #f5f5f5;
-	width:850pt;
-	border-top:1pt solid #666666;
-	border-left:10pt solid #000000;
-	border-bottom:5pt outset #000000;
-	border-right: 1pt outset #666666;
+	width: 98%;
+	border-top:    1pt solid #666666;
+	border-left:   1pt solid #000000;
+	border-bottom: 1pt outset #000000;
+	border-right:  1pt outset #666666;
 	margin-top:10pt;
 }
 
-FIELDSET LEGEND{
+FIELDSET LEGEND {
 	font-size:	12pt;
-	font-style: oblique;
+	font-style: normal;
 	font-weight: bold;
+    font-family: verdana,arial;
 }
 
-.date{
-	width: 590pt;	
+.search_form {
+	width: 98%;
 }
 
-.date INPUT, .btn {
+.search_form INPUT, .btn {
 	background-color: #FFFFFF;
 	font-family: verdana,arial;
 	font-size: 8pt;
@@ -37,22 +38,22 @@ IMG {
 	border-left: 1pt solid #000000;
 }
 
-.alert{
+.errors {
 	position: absolute;
 	font-size: 8pt;
 	font-weight: bold;
 	color: red;
-}
-
-.alert1{
-	margin-left:60pt;
-}
-
-.alert2{
-	margin-left:330pt;
+    font-family: verdana,arial;
+    font-style: normal;
+    font-variant: normal;
 }
 
 .list {
 	font-family: verdana,arial;
 	font-size: 10pt;
+    width: 98%;
+}
+
+.sipscenario {
+    text-align: center;
 }

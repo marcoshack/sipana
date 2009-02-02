@@ -18,15 +18,21 @@
     <html xmlns="http://www.w3.org/1999/xhtml">
         <head>
             <title>SIP Session details</title>
+            <link rel="stylesheet" type="text/css" href="/sipana/sipsession/resources/style/sipana.css"></link>
         </head>
         <body>
             <h:form>
                 <div id="sip_session_details">
-                    <h:outputText value="SIP Session details"/><br/>
-                </div>
-                <br/>
-                <div id="sip_scenario">
-                    <h:graphicImage value="http://localhost:8080/sipana-ws/sipscenario/?sipSessionId=#{sipSession.selectedItemsCSV}" />
+                    <fieldset>
+                        <legend><h:outputText value="SIP Session Details"/></legend><br/>
+
+                        <br/>
+
+                        <div id="sip_scenario" class="sipscenario">
+                            <h:graphicImage value="http://#{sipSession.serverAddress}:8080/sipana-ws/sipscenario/?sipSessionId=#{sipSession.selectedItemsCSV}" />
+                        </div>
+
+                    </fieldset>
                 </div>
             </h:form>
         </body>
