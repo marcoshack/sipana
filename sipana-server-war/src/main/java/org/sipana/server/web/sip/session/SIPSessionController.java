@@ -26,21 +26,19 @@ import javax.faces.model.SelectItem;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.sipana.protocol.sip.SIPRequest;
-import org.sipana.protocol.sip.SIPSessionState;
 import org.sipana.protocol.sip.SIPSession;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
 import org.sipana.server.dao.SIPSessionManager;
 
 public class SIPSessionController {
+
     private SIPSessionManager sipSessionManager;
     private Logger logger = Logger.getLogger(SIPSessionController.class);
 
     // Logic parameters
     private List<SelectItem> sipSessionList = new ArrayList<SelectItem>();
     private String[] selectedItems;
-
     private long startTime;
     private long endTime;
     private String requestMethod;
@@ -48,7 +46,7 @@ public class SIPSessionController {
     private String toUser;
     private String callId;
     private String ipAddrList;
-    
+
     public SIPSessionController() {
         ServiceLocator serviceLocator = ServiceLocator.getInstance();
         sipSessionManager = (SIPSessionManager) serviceLocator.getService(Service.SIP_SESSION_MANAGER);
@@ -68,52 +66,51 @@ public class SIPSessionController {
             sbDebug.append(", ipAddr: ").append(ipAddrList);
             logger.debug(sbDebug);
         }
-        
+
         List<SIPSession> sipSessions = sipSessionManager.getSIPSessions(
-                startTime, 
-                endTimeFinal, 
+                startTime,
+                endTimeFinal,
                 requestMethod,
-                fromUser, 
-                toUser, 
-                callId, 
+                fromUser,
+                toUser,
+                callId,
                 createIpAddrList(ipAddrList));
-        
+
         sipSessionList = new ArrayList<SelectItem>();
 
         for (SIPSession session : sipSessions) {
-            SIPRequest firstRequest = session.getRequests().get(0);
-            
-            StringBuilder item = new StringBuilder(getDateString(firstRequest.getTime()));
-            item.append(" ").append(firstRequest.getMethod());
-            item.append(", From: ").append(firstRequest.getFromUser());
-            item.append(", To: ").append(firstRequest.getToUser());
-            
-            String state = SIPSessionState.getStateString(session.getState());
-            item.append(", status: ").append(state);
-            
+            StringBuilder item = new StringBuilder(getDateString(session.getStartTime()));
+            item.append(" ").append(session.getRequestMethod());
+            item.append(", From: ").append(session.getFromUser());
+            item.append(", To: ").append(session.getToUser());
+            item.append(", Status: ").append(session.getStateString());
+
             sipSessionList.add(new SelectItem(session.getId(), item.toString()));
         }
     }
 
     public void reset() {
-        startTime  = 0;
-        endTime    = 0;
+        startTime = 0;
+        endTime = 0;
         requestMethod = null;
-        fromUser   = null;
-        toUser     = null;
-        callId     = null;
+        fromUser = null;
+        toUser = null;
+        callId = null;
         ipAddrList = null;
         selectedItems = null;
         sipSessionList = new ArrayList<SelectItem>();
     }
-    
+
     public String details() {
-        return "details";
+        if (selectedItems.length > 0) {
+            return "details";
+        } else {
+            return null;
+        }
     }
 
-    /**
-     * Getter and Setters
-     */
+    /* Getter and Setters */
+    
     public long getStartTime() {
         return startTime;
     }
@@ -177,7 +174,7 @@ public class SIPSessionController {
     public void setIpAddrList(String ipAddr) {
         this.ipAddrList = ipAddr;
     }
-    
+
     public String[] getSelectedItems() {
         return selectedItems;
     }
@@ -189,16 +186,16 @@ public class SIPSessionController {
     public String getSelectedItemsCSV() {
         return StringUtils.join(selectedItems, ",");
     }
-    
+
     private List<String> createIpAddrList(String strIPAddrList) {
         String csv = strIPAddrList.replaceAll(" +", ",");
         StringTokenizer tokenizer = new StringTokenizer(csv, ",");
         List<String> addrList = new LinkedList<String>();
-        
+
         while (tokenizer.hasMoreTokens()) {
             addrList.add(tokenizer.nextToken());
         }
-        
+
         return addrList;
     }
 
@@ -208,7 +205,7 @@ public class SIPSessionController {
         Calendar now = Calendar.getInstance();
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(dateInMillis);
-        
+
         if (now.get(Calendar.DAY_OF_MONTH) == date.get(Calendar.DAY_OF_MONTH)) {
             dateFormat.applyPattern("HH:mm:ss,S");
             return dateFormat.format(date.getTime());
@@ -216,5 +213,10 @@ public class SIPSessionController {
             dateFormat.applyPattern("yyyy-MM-dd HH:mm:ss,S");
             return dateFormat.format(date.getTime());
         }
+    }
+
+    // TODO [mhack] obviouslly it isn't the right place to do that
+    public String getServerAddress() {
+        return System.getProperty("bind.address");
     }
 }

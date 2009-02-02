@@ -4,16 +4,10 @@
 <html>
 <head>
 	<title>Sipana</title>
-	<!-- CSS -->
-	<link rel="stylesheet" type="text/css" href="/sipana/sipsession/resources/style/style.css"/>
+	<link rel="stylesheet" type="text/css" href="/sipana/sipsession/resources/style/sipana.css"/>
+    <link rel="stylesheet" type="text/css" href="/sipana/sipsession/resources/calendar/calendar-system.css"/>
 
-	<!-- JavaScript -->
     <script type="text/javascript" src="/sipana/sipsession/resources/script/script.js"></script>
-
-	<!-- Pop-up Calendar -->
-	<style type="text/css">
-		@import url(/sipana/sipsession/resources/calendar/calendar-system.css);
-	</style>
 	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/calendar.js"></script>
 	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/lang/calendar-en.js"></script>
 	<script type="text/javascript" src="/sipana/sipsession/resources/calendar/calendar-setup.js"></script>
@@ -24,8 +18,8 @@
 	<f:view>
 		
 		<h:form>
-			<fieldset class="date">
-				<legend><h:outputText value="#{sipsession_msgs.ttl_search}" /></legend>
+			<fieldset class="search_form">
+				<legend><h:outputText value="#{sipsession_msgs.tit_search}" /></legend>
 				
 				<h:outputText styleClass="alert" value="#{sipsession_msgs.fld_date_format}"/><br/>
 				
@@ -80,12 +74,15 @@
 		
         <h:form>
             <fieldset>
-
-                <legend><h:outputText value="#{sipsession_msgs.ttl_result}"/></legend>
+                <legend><h:outputText value="#{sipsession_msgs.tit_result}"/></legend>
 
                 <h:outputFormat value="#{sipsession_msgs.msg_search_result}">
                     <f:param value="#{sipSession.listSize}" />
                 </h:outputFormat>
+
+                <br/>
+                <h:commandButton styleClass="btn" action="#{sipSession.details}" value="#{sipsession_msgs.btn_details}" />
+                <br/>
 
                 <h:selectManyCheckbox styleClass="list" layout="pageDirection" value="#{sipSession.selectedItems}">
                     <f:selectItems value="#{sipSession.list}"/>
