@@ -71,7 +71,7 @@ public class SIPSessionManagerBean extends AbstractManagerBean implements SIPSes
         sbQuery.append("WHERE s.startTime >= :start AND s.endTime <= :end ");
         
         if (method != null && !method.equals("")) {
-        	sbQuery.append("AND s.method = '").append(method.toUpperCase()).append("' ");
+        	sbQuery.append("AND s.requestMethod = '").append(method.toUpperCase()).append("' ");
         }
         
         if (fromUser != null && !fromUser.equals("")) {
