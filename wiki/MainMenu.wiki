@@ -6,7 +6,7 @@
  * [AdminGuide Instalation and Configuration]
    * [AdminGuide#Sipana_Server Sipana Server]
    * [AdminGuide#Sipana_Agent Sipana Agent]
- * [DevelopmentGuide Development Guide]
+ * [DevelopmentGuide Development Documentation]
    * [SipanaArchitecture Architecture]
    * [SipanaModules Modules]
    * [DevelopmentWorkspace Development Workspace]
