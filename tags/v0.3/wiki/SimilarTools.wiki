@@ -1,0 +1,33 @@
+#summary Tools that have similar concepts and features than Sipana.
+#labels Development,Documentation
+
+The [http://www.voip-info.org/wiki/view/How+To+Debug+and+Troubleshoot+VOIP How To Debug and Troubleshoot VOIP] page of voip-info has a good list of available tools for SIP monitoring and troubleshooting.
+
+<br>
+
+= [http://manageengine.adventnet.com/products/vqmanager/ VQManager] =
+
+ * VQManager is a proprietary system;
+ * The current version doesn't have distributed clients/sniffers to capture and send information to a server. Each environment should have its own VQManager installation as described in this [http://forums.adventnet.com/viewtopic.php?t=701791 thread];
+
+<br>
+
+= [http://www.wireshark.org/ Wireshark (Ethereal)] =
+
+ * Standalone generic protocol analyzer that has some SIP and RTP features
+ * Good SIP call flow feature for troubleshooting
+
+<br>
+
+= [http://www.sipient.com/distributed.html Distributed SIPFlow] =
+
+ * It only creates SIP flows, there are no historical nor statistic information;
+ * The console is a desktop graphic interface (Java), no remote visualization;
+ * _Check if the console is able to persist the data_;
+
+<br>
+
+= [http://ant.comm.ccu.edu.tw/sip/ SIPAnalyzer] =
+
+ * No development since May 2004;
+ * Only capture and send the raw SIP data to the server and provides a web interface to list and view the packets;

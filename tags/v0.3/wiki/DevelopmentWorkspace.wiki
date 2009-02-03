@@ -1,0 +1,81 @@
+#summary Workspace configuration for project development.
+#labels Development,Documentation
+
+<wiki:toc max_depth="3" />
+
+<br>
+
+= Requisites =
+
+ * Maven2 (http://maven.apache.org/)
+ * Sun JDK 1.5 or higher
+ * MySQL server 5.x
+
+<br>
+
+= Checkout =
+
+Follow instructions in [http://code.google.com/p/sipana/source/checkout checkout] page. Hereby we'll refer to $WORKDIR as the parent directory where you did the project checkout.
+
+<br>
+
+= Build =
+
+{{{
+ cd $WORKDIR/sipana
+ mvn
+}}}
+
+This process take a while because maven will download all required packages and maven plugins.
+
+<br>
+
+= IDE configuration =
+
+== Netbeans 6.5 ==
+
+=== Install and Configure Maven plugin ===
+
+ * Install Netbeans Maven plugin: ''Tools / Plugins / Search: Maven / Install''
+
+ * Configure Maven options: ''Toos / Options / Miscellaneous / Maven''
+
+<img src="http://sipana.googlecode.com/svn/trunk/doc/images/nb65-maven_plugin_options.png"/>
+
+==== Open Sipana project ====
+
+ # Open menu ''File / Open Project''
+ # Find the project location
+ # Check the option ''"Open Required Projects"'' to open all projects in your workspace
+ # Click ''Open Project'' button
+
+<img src="http://sipana.googlecode.com/svn/trunk/doc/images/nb65-open_project.png"/>
+
+<br>
+
+= Database creation =
+
+In order to run the Sipana server component you need to create and setup the MySQL database.
+
+
+# Create database (assuming you're using user ''root'' with password):
+
+{{{
+mysql -u root -p < $WORKDIR/sipana/sql/sipana_db_create.sql
+}}}
+
+# Create and give permissions to ''sipana'' MySQL user:
+
+{{{
+mysql -u root -p sipana
+grant all privileges on sipana.* to 'sipana'@'localhost' identified by 'sipana';
+}}}
+
+<br>
+
+= See also =
+
+ * [SipanaModules Sipana Modules]
+ * [SipanaArchitecture Sipana Architecture]
+ * [Roadmap Project Roadmap]
+ * [http://code.google.com/p/sipana/issues/list Issue list]
