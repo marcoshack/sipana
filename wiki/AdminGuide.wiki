@@ -24,7 +24,7 @@ The Sipana Server will be installed in the *default* JBoss server deployment ($J
 
 By default Sipana server uses the MySQL as background DBMS, so you will need a up and running MySQL server.
 
-The MySQL JDBC driver, needed to connect to a MySQL server from a JBoss AS application, is not installed in the JBoss AS by default. Please download the correct version for you MySQL server [http://dev.mysql.com/downloads/connector/j/ here] and copy the file *mysql-connector-java-X.X.X-bin.jar* to the *$JBOSS_HOME/server/default/lib* directory.
+The MySQL JDBC driver, needed to connect to a MySQL server from a JBoss AS application, is not installed in the JBoss AS by default. Please download the correct version for you MySQL server [http://dev.mysql.com/downloads/connector/j/ here] and copy the file *mysql-connector-java-X.X.X-bin.jar* to the *$JBOSS_HOME/server/$JBOSS_SERVER/lib* directory.
 
 <br>
 
@@ -35,14 +35,15 @@ The MySQL JDBC driver, needed to connect to a MySQL server from a JBoss AS appli
 [http://code.google.com/p/sipana/downloads/list Download] the last version of the Sipana Server component and unpack it in a local directory
 
 {{{
- tar zxvf sipana-server-X.X-x.tar.gz
+ tar zxvf sipana-server-X.X.X.tar.gz
+ cd sipana-server-X.X.X
 }}}
 
 
-Copy all files from *deploy* and *lib* directories to the JBoss AS default deploy:
+Copy '''sipana.ear''' to the JBoss AS server deploy directory:
 
 {{{
- cp -R sipana-server/jboss/* $JBOSS_HOME/server/default/
+ cp -R sipana.ear $JBOSS_HOME/server/$JBOSS_SERVER/deploy
 }}}
 
 <br>
@@ -62,7 +63,7 @@ Configure a username and password with all privileges to be used by Sipana Serve
 }}}
 
 {{{
- grant all privileges on sipana.* to 'sipana_db_user'@'localhost' identified by 'sipana_db_pass';
+ grant all privileges on sipana.* to 'sipana'@'localhost' identified by 'sipana';
  flush privileges;
 }}}
 
@@ -82,8 +83,8 @@ The *connection-url* attribute format is: _jdbc:mysql://HOST:PORT/DATABASE_NAME_
 
 {{{
  <connection-url>jdbc:mysql://localhost:3306/sipana</connection-url>
- <user-name>sipana_db_user</user-name>
- <password>sipana_db_password</password>
+ <user-name>sipana</user-name>
+ <password>sipana</password>
 }}}
 
 
@@ -93,7 +94,7 @@ The *connection-url* attribute format is: _jdbc:mysql://HOST:PORT/DATABASE_NAME_
  $JBOSS_HOME/bin/run.sh -c default -b SERVER_ADDRESS
 }}}
 
-*IMPORTANT*: You cannot use *0.0.0.0* as -b parameter value otherwise the client component wont be able to connect to the server (It's a JBoss JMS problem, don't ask me what it is :)
+*IMPORTANT*: You cannot use *0.0.0.0* as -b parameter value otherwise the client component wont be able to connect to the server (see [http://code.google.com/p/sipana/issues/detail?id=4 Issue #4])
 
 Please look in the [http://www.jboss.org/jbossas/docs/index.html JBoss AS documentation] for more information about server operation.
 
