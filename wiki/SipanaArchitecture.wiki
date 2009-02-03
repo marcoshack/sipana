@@ -1,0 +1,4 @@
+#summary Project architecture overview
+#labels Development,Documentation
+
+<img src="http://sipana.googlecode.com/svn/trunk/doc/images/sipana_architecture.png"/>
