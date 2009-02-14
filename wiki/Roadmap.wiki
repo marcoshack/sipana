@@ -3,8 +3,8 @@
 
 = Version 0.4 =
 
-*Release schedule*: 2008-03-02
-*Release date*:
+ * *Release schedule*: 2008-03-02
+ * *Release date*:
 
 *Changes*
  * Fix all [http://code.google.com/p/sipana/issues/list?can=2&q=label%3AMilestone-v0.4 issues with Milestone v0.4]
@@ -15,8 +15,8 @@
 
 = Version 0.3 =
 
-*Release schedule*: 2008-01-31
-*Release date*: 2008-02-03
+ * *Release schedule*: 2008-01-31
+ * *Release date*: 2008-02-03
 
 *Changes*
  * Fix all [http://code.google.com/p/sipana/issues/list?can=2&q=label%3AMilestone-v0.3 issues with Milestone v0.3]
