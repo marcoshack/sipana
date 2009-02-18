@@ -1,7 +1,7 @@
 #summary Project Maven Repositories
 #labels Development
 
-*Sipana Modules*
+*Sipana Artifacts*
 
   http://sipana.org/maven2/
 
