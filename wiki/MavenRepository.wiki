@@ -1,4 +1,4 @@
-#summary Project Maven Repository
+#summary Project Maven Repositories
 #labels Development
 
 *Sipana Modules*
