@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.sipana</groupId>
 		<artifactId>sipana</artifactId>
-		<version>0.3</version>
+		<version>0.4</version>
 	</parent>
 
 	<groupId>org.sipana</groupId>
@@ -14,7 +14,7 @@
 	<packaging>war</packaging>
 	<name>Sipana Server WAR</name>
 	<description>Sipana Server. Web Module</description>
-	<version>0.3</version>
+	<version>0.4</version>
 
 	<dependencies>
 		<dependency>
