@@ -1,8 +1,9 @@
 #summary Development Dodumentation
 #labels Documentation,Development
 
- * [SipanaArchitecture Sipana Architecture] (big picture)
- * [SipanaModules Sipana Modules]
- * [DevelopmentWorkspace Development Workspace]
- * [Roadmap]
- * [SimilarTools Similar Tools]
+   * [Roadmap Roadmap]
+   * [Changelog Changelog]
+   * [SipanaArchitecture Architecture Overview]
+   * [SipanaModules Sipana Modules]
+   * [DevelopmentWorkspace Development Workspace]
+   * [MavenRepository Maven Repository]
