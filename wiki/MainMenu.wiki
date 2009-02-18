@@ -12,5 +12,6 @@
    * [SipanaArchitecture Architecture Overview]
    * [SipanaModules Sipana Modules]
    * [DevelopmentWorkspace Development Workspace]
+   * [MavenRepository Maven Repository]
 
 <br>
