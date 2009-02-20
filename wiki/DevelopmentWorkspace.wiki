@@ -40,7 +40,7 @@ This process take a while because maven will download all required packages and 
 
  * Configure Maven options: ''Toos / Options / Miscellaneous / Maven''
 
-<img src="http://sipana.googlecode.com/svn/trunk/doc/images/nb65-maven_plugin_options.png"/>
+<img src="http://sipana.googlecode.com/svn/images/nb65-maven_plugin_options.png"/>
 
 ==== Open Sipana project ====
 
@@ -49,7 +49,7 @@ This process take a while because maven will download all required packages and 
  # Check the option ''"Open Required Projects"'' to open all projects in your workspace
  # Click ''Open Project'' button
 
-<img src="http://sipana.googlecode.com/svn/trunk/doc/images/nb65-open_project.png"/>
+<img src="http://sipana.googlecode.com/svn/images/nb65-open_project.png"/>
 
 <br>
 
