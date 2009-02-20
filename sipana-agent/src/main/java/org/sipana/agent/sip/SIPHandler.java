@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
 import org.sipana.agent.capture.CaptureListener;
 import org.sipana.agent.capture.Packet;
-import org.sipana.agent.sender.MessageSender;
+import org.sipana.agent.sender.Sender;
 import org.sipana.protocol.sip.SIPSessionState;
 import org.sipana.protocol.sip.SIPFactory;
 import org.sipana.protocol.sip.SIPMessage;
@@ -37,9 +37,9 @@ public class SIPHandler implements CaptureListener {
     private Logger logger;
     private ConcurrentMap<String, SIPSession> sessionList;
     private SIPFactory messageFactory;
-    private MessageSender messageSender;
+    private Sender messageSender;
     
-    public SIPHandler(MessageSender sender) {
+    public SIPHandler(Sender sender) {
         logger = Logger.getLogger(SIPHandler.class);
         sessionList = new ConcurrentHashMap<String, SIPSession>();
         messageFactory = SIPFactory.getInstance();

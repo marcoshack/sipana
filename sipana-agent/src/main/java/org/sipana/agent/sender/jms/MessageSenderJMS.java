@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.agent.sender;
+package org.sipana.agent.sender.jms;
 
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -34,10 +34,11 @@ import javax.naming.InitialContext;
 
 import org.apache.log4j.Logger;
 import org.sipana.agent.config.ConfigManager;
+import org.sipana.agent.sender.Sender;
 import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPSession;
 
-public class MessageSender implements ExceptionListener {
+public class MessageSenderJMS implements Sender, ExceptionListener {
     public static final int STATE_STOPED  = 0;
     public static final int STATE_RUNNING = 1;
     public static final int STATE_FAILED =  2;
@@ -60,19 +61,19 @@ public class MessageSender implements ExceptionListener {
     private String destinationName;
     
     
-    public MessageSender() throws Exception {
+    public MessageSenderJMS() throws Exception {
         state = new AtomicInteger();
         sessions = new ConcurrentLinkedQueue<SIPSession>();
         messages = new ConcurrentLinkedQueue<SIPMessage>();
         discardedSessions = new AtomicInteger(0);
 
-        logger = Logger.getLogger(MessageSender.class);
+        logger = Logger.getLogger(MessageSenderJMS.class);
         configManager = ConfigManager.getInstance();
         bufferSize = configManager.getBufferSize();
         isDelayed  = configManager.isSenderModeDelayed();
         destinationName = configManager.getSenderDestination();
 
-        setState(MessageSender.STATE_STOPED);
+        setState(MessageSenderJMS.STATE_STOPED);
     }
 
     public void send(SIPSession session) throws Exception {
@@ -139,13 +140,12 @@ public class MessageSender implements ExceptionListener {
         return state.get();
     }
     
-    public boolean start() {
+    public void start() {
         try {
             logger.debug("Starting message Sender");
             
-            if (getState() == MessageSender.STATE_RUNNING) {
+            if (getState() == MessageSenderJMS.STATE_RUNNING) {
                 logger.debug("Sender already running");
-                return false;
             }
             
             logger.debug("Creating JNDI Initial Context");
@@ -168,24 +168,21 @@ public class MessageSender implements ExceptionListener {
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             producer = session.createProducer(destination);
             
-            setState(MessageSender.STATE_RUNNING);
+            setState(MessageSenderJMS.STATE_RUNNING);
             
             if (isDelayed) {
                 startDelayedSender();
             }
             
             logger.info("Sender sucessful started");
-            return true;
             
         } catch (Exception e) {
             logger.error("Fail starting SIPSession sender", e);
-            setState(MessageSender.STATE_FAILED);
+            setState(MessageSenderJMS.STATE_FAILED);
             
             if (reconnector == null || !(reconnector.isRunning())) {
                 startSenderReconnector();
             }
-            
-            return false;
         }
     }
 
@@ -198,7 +195,7 @@ public class MessageSender implements ExceptionListener {
             }
             
             // Close connection if it's running
-            if (getState() == MessageSender.STATE_RUNNING) {
+            if (getState() == MessageSenderJMS.STATE_RUNNING) {
                 logger.debug("Closing sender connection");
                 connection.close();
             }
@@ -233,7 +230,7 @@ public class MessageSender implements ExceptionListener {
         logger.error("Sender connection fail", e);
         
         if (isRunning()) {
-            setState(MessageSender.STATE_FAILED);
+            setState(MessageSenderJMS.STATE_FAILED);
             
             if (delayedSender != null && delayedSender.isRunning()) {
                 delayedSender.stop();
@@ -253,7 +250,7 @@ public class MessageSender implements ExceptionListener {
     }
     
     private boolean isRunning() {
-        return (getState() == MessageSender.STATE_RUNNING);
+        return (getState() == MessageSenderJMS.STATE_RUNNING);
     }
     
     private class DelayedSender implements Runnable {
@@ -339,7 +336,7 @@ public class MessageSender implements ExceptionListener {
         public void run() {
             running.set(true);
             
-            while (getState() == MessageSender.STATE_FAILED && running.get()) {
+            while (getState() == MessageSenderJMS.STATE_FAILED && running.get()) {
                 
                 try {
                     logger.info("Waiting " + retryInterval + " seconds to retry");
@@ -350,9 +347,8 @@ public class MessageSender implements ExceptionListener {
                     
                     if (running.get()) {
                         logger.info("Trying to restart sender connection");
-                        if (start()) {
-                            running.set(false); // Stop reconnector
-                        }
+                        start();
+                        running.set(false); // Stop reconnector
                     }
                     
                 } catch (Throwable t) {
