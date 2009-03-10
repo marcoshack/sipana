@@ -4,14 +4,14 @@
 
  * [MainPage Home/Search]
  * [AdminGuide Instalation and Configuration]
-   * [AdminGuide#Sipana_Server Sipana Server]
-   * [AdminGuide#Sipana_Agent Sipana Agent]
+  * [AdminGuide#Sipana_Server Sipana Server]
+  * [AdminGuide#Sipana_Agent Sipana Agent]
  * [DevelopmentGuide Development Documentation]
-   * [Roadmap Roadmap]
-   * [Changelog Changelog]
-   * [SipanaArchitecture Architecture Overview]
-   * [SipanaModules Sipana Modules]
-   * [DevelopmentWorkspace Development Workspace]
-   * [MavenRepository Maven Repository]
+  * [Roadmap Roadmap]
+  * [Changelog Changelog]
+  * [SipanaArchitecture Architecture Overview]
+  * [SipanaModules Sipana Modules]
+  * [DevelopmentWorkspace Development Workspace]
+  * [MavenRepository Maven Repository]
 
 <br>
