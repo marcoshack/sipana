@@ -8,7 +8,7 @@
 = Requisites =
 
  * Maven2 (http://maven.apache.org/)
- * Sun JDK 1.5 or higher
+ * Sun JDK 1.6 or higher
  * MySQL server 5.x
 
 <br>
