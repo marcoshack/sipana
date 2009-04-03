@@ -13,5 +13,6 @@
   * [SipanaModules Sipana Modules]
   * [DevelopmentWorkspace Development Workspace]
   * [MavenRepository Maven Repository]
+  * [DevelopmentFAQ FAQ]
 
 <br>
