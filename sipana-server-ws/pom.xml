@@ -12,7 +12,7 @@
     <groupId>org.sipana</groupId>
     <artifactId>sipana-server-ws</artifactId>
     <packaging>war</packaging>
-    <name>Sipana Server WS</name>
+    <name>sipana-server-ws</name>
     <description>Sipana Server. RESTful Web Services using JBoss resteasy API.</description>
     <version>0.4</version>
 

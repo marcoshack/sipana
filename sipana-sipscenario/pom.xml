@@ -10,7 +10,7 @@
 	
 	<groupId>org.sipana</groupId>
 	<artifactId>sipana-sipscenario</artifactId>
-	<name>Sipana SIP Scenario</name>
+	<name>sipana-sipscenario</name>
 	<description>Sipana SIP Scenario</description>
 	<version>0.4</version>
 

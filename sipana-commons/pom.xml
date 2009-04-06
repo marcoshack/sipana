@@ -10,7 +10,7 @@
 
 	<groupId>org.sipana</groupId>
 	<artifactId>sipana-commons</artifactId>
-	<name>Sipana Commons</name>
+	<name>sipana-commons</name>
 	<description>Sipana Common components</description>
 	<version>0.4</version>
 	<url>http://sipana.org</url>
