@@ -4,7 +4,7 @@
 
     <groupId>org.sipana</groupId>
     <artifactId>sipana</artifactId>
-    <name>Sipana</name>
+    <name>sipana</name>
     <packaging>pom</packaging>
     <version>0.4</version>
 

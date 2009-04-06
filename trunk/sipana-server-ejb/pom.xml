@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.sipana</groupId>
     <artifactId>sipana-server-ejb</artifactId>
-    <name>Sipana Server EJB</name>
+    <name>sipana-server-ejb</name>
     <description>Sipana Server. EJB Module</description>
     <version>0.4</version>
 

@@ -12,7 +12,7 @@
 	<groupId>org.sipana</groupId>
 	<artifactId>sipana-server-war</artifactId>
 	<packaging>war</packaging>
-	<name>Sipana Server WAR</name>
+	<name>sipana-server-war</name>
 	<description>Sipana Server. Web Module</description>
 	<version>0.4</version>
 

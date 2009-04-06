@@ -11,7 +11,7 @@
 
     <groupId>org.sipana</groupId>
     <artifactId>sipana-server-ear</artifactId>
-    <name>Sipana Server EAR</name>
+    <name>sipana-server-ear</name>
     <description>Sipana Server. EAR module</description>
     <packaging>ear</packaging>
     <version>0.4</version>
