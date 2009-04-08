@@ -29,4 +29,6 @@ public interface SIPMessageManager {
     public List<SIPMessage> getMessageListBySessionId(List<Long> sessionIdList);
     public List<SIPMessage> getMessageListByCallID(String callId);
     public List<SIPMessage> getMessageListByCallID(List<String> callIdList);
+    public void save(SIPMessage message);
+    public void save(List<SIPMessage> messageList);
 }
