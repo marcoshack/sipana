@@ -35,8 +35,12 @@ public class SIPMessageWSImpl implements SIPMessageWSXML {
         sipMessageManager = (SIPMessageManager) ServiceLocator.getInstance().getService(Service.SIP_MESSAGE_MANAGER);
     }
 
-    public SIPMessageList getSIPMessageList(long sessionId) {
+    public SIPMessageList getMessageList(long sessionId) {
         List<SIPMessage> result = sipMessageManager.getMessageListBySessionId(sessionId);
         return new SIPMessageList(result);
+    }
+
+    public void saveMessageList(SIPMessageList messageList) {
+        sipMessageManager.save(messageList);
     }
 }
