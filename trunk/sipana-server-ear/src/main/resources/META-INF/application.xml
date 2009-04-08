@@ -28,6 +28,9 @@
   <module>
     <java>lib/3rd/jaxb-impl-2.1.9.jar</java>
   </module>
+  <module>
+    <java>lib/3rd/mysql-connector-java-5.1.6.jar</java>
+  </module>
 
   <!-- Services -->
   <module>
