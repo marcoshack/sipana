@@ -15,7 +15,9 @@
  */
 package org.sipana.server.ws.xml;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -25,11 +27,16 @@ import org.sipana.protocol.sip.SIPMessageList;
  *
  * @author Marcos Hack <marcoshack@gmail.com>
  */
-@Path("/sipmessages.xml")
+@Path("/sipmessages")
 public interface SIPMessageWSXML {
 
     @GET
     @Path("/list/{sessionId}")
     @Produces("application/xml")
-    public SIPMessageList getSIPMessageList(@PathParam("sessionId") long sessionId);
+    public SIPMessageList getMessageList(@PathParam("sessionId") long sessionId);
+
+
+    @PUT
+    @Consumes("application/xml")
+    public void saveMessageList(SIPMessageList messageList);
 }
