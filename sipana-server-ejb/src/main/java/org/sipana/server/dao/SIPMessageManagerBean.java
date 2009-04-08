@@ -21,6 +21,7 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 import org.apache.commons.lang.StringUtils;
 import org.sipana.protocol.sip.SIPMessage;
+import org.sipana.protocol.sip.SIPMessageList;
 
 /**
  *
@@ -56,5 +57,15 @@ public class SIPMessageManagerBean extends AbstractManagerBean implements SIPMes
 
         Query q = createQuery(sbQuery);
         return q.getResultList();
+    }
+
+    public void save(SIPMessage message) {
+        manager.persist(message);
+    }
+
+    public void save(List<SIPMessage> messageList) {
+        for (SIPMessage m : messageList) {
+            save(m);
+        }
     }
 }
