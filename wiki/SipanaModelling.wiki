@@ -1,3 +1,0 @@
-#summary UML modelling
-
-[http://tinyurl.com/sipana-uml-message]
