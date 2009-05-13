@@ -22,7 +22,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.sipana.protocol.sip.SIPRequest;
-import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPSession;
 import org.sipana.server.sip.SIPPerformanceMetrics;
 import org.sipana.server.sip.SIPPerformanceMetricsBean;
@@ -51,7 +50,7 @@ public class SIPPerformanceMetricsTest {
                 SIPRequest request = new SIPRequest();
                 request.setMethod(Request.INVITE);
                 request.setMaxForwards(70 - j);
-                session.addRequest(request);
+                session.addMessage(request);
             }
             
             sessionList.add(session);

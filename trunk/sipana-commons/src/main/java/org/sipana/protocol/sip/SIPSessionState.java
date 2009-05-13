@@ -18,42 +18,42 @@ package org.sipana.protocol.sip;
 import org.sipana.SipanaProperties;
 import org.sipana.SipanaPropertyType;
 
-public class SIPSessionState {
-    public static final int INITIATED       = 1;
-    public static final int ESTABLISHED     = 2;
-    public static final int COMPLETED       = 3;
-    public static final int FAILED          = 4;
-    public static final int TIMEOUT         = 5;
-    public static final int PROVISIONED     = 6;
-    public static final int DISCONNECTING   = 7;
-    public static final int CANCELED        = 8;
+public enum SIPSessionState {
+    INITIATED,
+    ESTABLISHED,
+    COMPLETED,
+    FAILED,
+    TIMEOUT,
+    PROVISIONED,
+    DISCONNECTING,
+    CANCELED;
 
-    public static String getStateString(int state) {
+    public static String getStateString(SIPSessionState state) {
         String strStatus;
 
         switch (state) {
-        case SIPSessionState.INITIATED:
+        case INITIATED:
             strStatus = SipanaProperties.getProperty(SipanaPropertyType.SIPSESSION_STATUS_INITIATED);
             break;
-        case SIPSessionState.PROVISIONED:
+        case PROVISIONED:
             strStatus = SipanaProperties.getProperty(SipanaPropertyType.SIPSESSION_STATUS_PROVISIONED);
             break;
-        case SIPSessionState.ESTABLISHED:
+        case ESTABLISHED:
             strStatus = SipanaProperties.getProperty(SipanaPropertyType.SIPSESSION_STATUS_ESTABLISHED);
             break;
-        case SIPSessionState.COMPLETED:
+        case COMPLETED:
             strStatus = SipanaProperties.getProperty(SipanaPropertyType.SIPSESSION_STATUS_COMPLETED);
             break;
-        case SIPSessionState.FAILED:
+        case FAILED:
             strStatus = SipanaProperties.getProperty(SipanaPropertyType.SIPSESSION_STATUS_FAILED);
             break;
-        case SIPSessionState.TIMEOUT:
+        case TIMEOUT:
             strStatus = SipanaProperties.getProperty(SipanaPropertyType.SIPSESSION_STATUS_TIMEOUT);
             break;
-        case SIPSessionState.DISCONNECTING:
+        case DISCONNECTING:
             strStatus = SipanaProperties.getProperty(SipanaPropertyType.SIPSESSION_STATUS_DISCONNECTING);
             break;
-        case SIPSessionState.CANCELED:
+        case CANCELED:
             strStatus = SipanaProperties.getProperty(SipanaPropertyType.SIPSESSION_STATUS_CANCELED);
             break;
         default:

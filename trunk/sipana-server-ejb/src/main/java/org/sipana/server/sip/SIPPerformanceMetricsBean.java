@@ -18,6 +18,7 @@ package org.sipana.server.sip;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.sip.message.Request;
+import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPSessionState;
 import org.sipana.protocol.sip.SIPSession;
@@ -34,21 +35,28 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
 
         for (SIPSession session : sessionList) {
             String initialMethod = session.getRequestMethod();
-            List<SIPRequest> requestList = session.getRequests();
-            SIPRequest first = requestList.get(0);
+            List<SIPMessage> messageList = session.getMessageList();
+            SIPRequest first = null;
             
             // Get the last request within the session with the same method of 
             // initial request to discard requests captured on intermediate 
             // hosts (Average Hops is an end-to-end metric)
             SIPRequest last = null;
-            for (SIPRequest request : requestList) {
+            for (SIPMessage m : messageList) {
                 // TODO Use CSeq to get only the first request 
-                if (request.getMethod().equals(initialMethod)) {
-                    last = request;
+                if (m instanceof SIPRequest 
+                        && ((SIPRequest)m).getMethod().equals(initialMethod))
+                {
+                    if (first == null) {
+                        first = (SIPRequest)m;
+                    }
+                    last = (SIPRequest)m;
                 }
             }
 
-            result += (first.getMaxForwards() - last.getMaxForwards());
+            if (first != null && last != null) {
+                result += (first.getMaxForwards() - last.getMaxForwards());
+            }
         }
 
         int listSize = sessionList.size();

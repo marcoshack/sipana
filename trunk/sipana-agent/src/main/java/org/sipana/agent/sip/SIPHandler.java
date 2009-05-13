@@ -81,7 +81,7 @@ public class SIPHandler implements CaptureListener {
         }
         
         if (session != null) {
-            session.addResponse(response);
+            session.addMessage(response);
             
             if (session.getFirstResponseTime() == 0) {
                 session.setFirstResponseTime(response.getTime());
@@ -125,7 +125,7 @@ public class SIPHandler implements CaptureListener {
             SIPSession newSession = messageFactory.createSession(invite);
             addSession(newSession);
         } else {
-            getSession(callId).addRequest(invite);
+            getSession(callId).addMessage(invite);
         }
     }
 
@@ -133,7 +133,7 @@ public class SIPHandler implements CaptureListener {
         SIPSession session = getSession(ack.getCallID());
         
         if (session != null) {
-            session.addRequest(ack);
+            session.addMessage(ack);
             
             if (session.getState() == SIPSessionState.FAILED) {
                 terminateSession(session);
@@ -148,7 +148,7 @@ public class SIPHandler implements CaptureListener {
         SIPSession session = getSession(request.getCallID());
         
         if (session != null) {
-            session.addRequest(request);
+            session.addMessage(request);
             session.setDisconnectionStart(request.getTime());
             session.setState(SIPSessionState.DISCONNECTING);
         } else {
