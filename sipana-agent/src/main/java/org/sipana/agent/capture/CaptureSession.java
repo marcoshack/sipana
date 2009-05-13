@@ -20,9 +20,21 @@ public interface CaptureSession {
     public static int STATE_RUNINNG = 1;
     public static int STATE_IDLE = 2;
     public static int STATE_ERROR = 3;
-    
+
+    /**
+     * Set the listener for this capture session.
+     *
+     * @param listener
+     */
     public void setListener(CaptureListener listener);
+
+    /**
+     * Set the capture filter in the libpcap [1] format.
+     *
+     * @param filter
+     */
     public void setFilter(String filter);
+
     public void setDevice(String device);
     public void setPromiscuous(boolean promiscuous);
     

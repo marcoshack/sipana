@@ -23,7 +23,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.hibernate.annotations.Where;
 
 @XmlRootElement(name = "sipsession")
 @XmlAccessorType(XmlAccessType.NONE)
@@ -53,7 +52,7 @@ public class SIPSession implements Serializable
     private long setupTime;
 
     @XmlAttribute
-    private int state;
+    private SIPSessionState state;
 
     @XmlAttribute
     private String callId;
@@ -67,22 +66,17 @@ public class SIPSession implements Serializable
     @XmlAttribute
     private String toUser;
 
-    @Where(clause="sip_message_type = 1")
-    private List<SIPRequest> requests;
-
-    @Where(clause="sip_message_type = 2")
-    private List<SIPResponse> responses;
+    private List<SIPMessage> messageList;
 
     public SIPSession() {
-        requests = new LinkedList<SIPRequest>();
-        responses = new LinkedList<SIPResponse>();
+        messageList = new LinkedList<SIPMessage>();
         firstResponseTime = 0; // no first response
         setupTime = 0; // no setup time
     }
     
     public SIPSession(SIPRequest request) {
         this();
-        addRequest(request);
+        addMessage(request);
         setRequestMethod(request.getMethod());
         setCallId(request.getCallID());
         setStartTime(request.getTime());
@@ -163,37 +157,17 @@ public class SIPSession implements Serializable
         this.setupTime = setupTime;
     }
 
-    public int getState() {
+    public SIPSessionState getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(SIPSessionState state) {
         this.state = state;
     }
 
     @XmlAttribute
     public String getStateString() {
         return SIPSessionState.getStateString(getState());
-    }
-
-    public List<SIPRequest> getRequests() {
-        return requests;
-    }
-
-    public void setRequests(List<SIPRequest> requests) {
-        synchronized (this.requests) {
-            this.requests = requests;            
-        }
-    }
-
-    public List<SIPResponse> getResponses() {
-        return responses;
-    }
-
-    public void setResponses(List<SIPResponse> responses) {
-        synchronized (this.responses) {
-            this.responses = responses;
-        }
     }
 
     public String getFromUser() {
@@ -211,31 +185,21 @@ public class SIPSession implements Serializable
     public void setToUser(String to) {
         this.toUser = to;
     }
-    
-    public void addRequest(SIPRequest request) {
-        synchronized (requests) {
-            requests.add(request);
-        }
-    }
-    
-    public void addResponse(SIPResponse response) {
-        synchronized (responses) {
-            responses.add(response);
-        }
-    }
-    
+
     public void addMessage(SIPMessage message) {
-        if (message instanceof SIPRequest) {
-            addRequest((SIPRequest) message);
-        } else if (message instanceof SIPRequest) {
-            addResponse((SIPResponse) message);
+        synchronized (messageList) {
+            messageList.add(message);
         }
+    }
+
+    public List<SIPMessage> getMessageList() {
+        return messageList;
     }
     
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("SIPSession: ");
-        sb.append("Initial request method=").append(getRequestMethod());
+        StringBuilder sb = new StringBuilder("SIPSession[");
+        sb.append("initialRequestMethod=").append(getRequestMethod());
         sb.append(", id=").append(getId());
         sb.append(", startTime=").append(getStartTime());
         sb.append(", firstResponseTime=").append(getFirstResponseTime());
@@ -244,49 +208,18 @@ public class SIPSession implements Serializable
         sb.append(", endTime=").append(getEndTime());
         sb.append(", state=").append(getState());
 
-        sb.append(". Request list: ");
-        if (!requests.isEmpty()) {
-            for (SIPRequest request : requests) {
-                sb.append(request);
-                if (requests.iterator().hasNext()) {
+        sb.append(", messageList = {");
+        if (!messageList.isEmpty()) {
+            for (SIPMessage m : messageList) {
+                sb.append(m);
+                if (messageList.iterator().hasNext()) {
                     sb.append(", ");
                 }
             }
         } else {
-            sb.append("empty");
-        }
-
-        sb.append(". Response list: ");
-        if (!responses.isEmpty()) {
-            for (SIPResponse response : responses) {
-                sb.append(response);
-                if (responses.iterator().hasNext()) {
-                    sb.append(", ");
-                }
-            }
-        } else {
-            sb.append("empty");
+            sb.append("}");
         }
 
         return sb.toString();
-    }
-    
-    public void merge(SIPSession session) {
-        requests.addAll(session.getRequests());
-        responses.addAll(session.getResponses());
-        
-        // TODO [mhack] Think better in the session merge scenarios 
-        if (session.getEndTime() > endTime) {
-            endTime            = session.getEndTime();
-            establishedTime    = session.getEstablishedTime();
-            setupTime          = session.getSetupTime();
-            disconnectionStart = session.getDisconnectionStart();
-            state              = session.getState();
-        }
-        
-        if (session.getStartTime() < startTime) {
-            startTime          = session.getStartTime();
-            firstResponseTime  = session.getFirstResponseTime();
-        }
     }
 }
