@@ -65,7 +65,7 @@ public class SIPSessionManagerBean extends AbstractManagerBean implements SIPSes
         StringBuilder sbQuery = new StringBuilder("SELECT DISTINCT s FROM SIPSession s ");
 
         if (ipAddrList != null && ipAddrList.size() > 0) {
-        	sbQuery.append("INNER JOIN s.requests AS r ");
+        	sbQuery.append("INNER JOIN s.messages AS m ");
         }
         
         sbQuery.append("WHERE s.startTime >= :start AND s.endTime <= :end ");
@@ -87,9 +87,10 @@ public class SIPSessionManagerBean extends AbstractManagerBean implements SIPSes
         }
         
         if (ipAddrList != null && ipAddrList.size() > 0) {
-            String ipAddrInList = new StringBuilder("'").append(StringUtils.join(ipAddrList, "','")).append("'").toString();
-        	sbQuery.append("AND (r.srcAddress IN (").append(ipAddrInList);
-        	sbQuery.append(") OR r.dstAddress IN (").append(ipAddrInList).append(")) ");
+            String csvList = StringUtils.join(ipAddrList, "','");
+            String ipAddrInList = new StringBuilder("'").append(csvList).append("'").toString();
+        	sbQuery.append("AND (m.srcAddress IN (").append(ipAddrInList);
+        	sbQuery.append(") OR m.dstAddress IN (").append(ipAddrInList).append(")) ");
         }
 
         // If startTime/endTime is null set it to min/max values
