@@ -61,24 +61,20 @@ public class SIPScenario {
     private HashMap<String, Integer> hostList;
 
     public SIPScenario(List<SIPMessage> messages) {
-        this.messages = messages;
-        sessionColors = new HashMap<String, Color>();
-        hostList = createHostListWithWeightPosition(messages);
-        imageFormat = DEFAULT_IMAGE_FORMAT;
+        this(messages, DEFAULT_IMAGE_FORMAT);
     }
 
-    public SIPScenario(List<SIPMessage> messages, String imageFormat) {
-        this(messages);
-        this.imageFormat = imageFormat;
+    public SIPScenario(List<SIPMessage> messages, String format) {
+        hostList = createHostListWithWeightPosition(messages);
+        imageFormat = format;
+        sessionColors = new HashMap<String, Color>();
     }
 
     /**
      * Create SIP Scenario diagram and save it as a JPEG image file.
      * 
-     * @param List
-     *            of messages to create SIP scenario diagram
-     * @param OutputStream
-     *            to write the encoded JPEG image
+     * @param List of messages to create SIP scenario diagram
+     * @param OutputStream to write the encoded JPEG image to
      * @author Marcos Hack <marcoshack@gmail.com>
      */
     public void create(OutputStream outputStream) throws IOException {
