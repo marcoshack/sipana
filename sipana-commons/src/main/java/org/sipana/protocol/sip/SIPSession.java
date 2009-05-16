@@ -66,10 +66,10 @@ public class SIPSession implements Serializable
     @XmlAttribute
     private String toUser;
 
-    private List<SIPMessage> messageList;
+    private List<SIPMessage> messages;
 
     public SIPSession() {
-        messageList = new LinkedList<SIPMessage>();
+        messages = new LinkedList<SIPMessage>();
         firstResponseTime = 0; // no first response
         setupTime = 0; // no setup time
     }
@@ -187,13 +187,13 @@ public class SIPSession implements Serializable
     }
 
     public void addMessage(SIPMessage message) {
-        synchronized (messageList) {
-            messageList.add(message);
+        synchronized (messages) {
+            messages.add(message);
         }
     }
 
     public List<SIPMessage> getMessageList() {
-        return messageList;
+        return messages;
     }
     
     @Override
@@ -209,10 +209,10 @@ public class SIPSession implements Serializable
         sb.append(", state=").append(getState());
 
         sb.append(", messageList = {");
-        if (!messageList.isEmpty()) {
-            for (SIPMessage m : messageList) {
+        if (!messages.isEmpty()) {
+            for (SIPMessage m : messages) {
                 sb.append(m);
-                if (messageList.iterator().hasNext()) {
+                if (messages.iterator().hasNext()) {
                     sb.append(", ");
                 }
             }
