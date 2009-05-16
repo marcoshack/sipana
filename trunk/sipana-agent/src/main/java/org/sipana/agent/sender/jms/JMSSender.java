@@ -187,7 +187,7 @@ public class JMSSender implements Sender, ExceptionListener {
     }
 
     public void stop() {
-        logger.debug("Stoping message Sender");
+        logger.info("Stoping message Sender");
 		try {
             // Stop Delayed sender thread if it's running
             if (delayedSender != null) {
