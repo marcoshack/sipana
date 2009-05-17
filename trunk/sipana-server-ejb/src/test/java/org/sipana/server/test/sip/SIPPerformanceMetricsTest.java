@@ -23,8 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPSession;
-import org.sipana.server.sip.SIPPerformanceMetrics;
-import org.sipana.server.sip.SIPPerformanceMetricsBean;
+import org.sipana.server.sip.metric.SIPPerformanceMetrics;
+import org.sipana.server.sip.metric.SIPPerformanceMetricsBean;
 
 public class SIPPerformanceMetricsTest {
     private SIPPerformanceMetrics metrics;
@@ -57,9 +57,9 @@ public class SIPPerformanceMetricsTest {
         }
         
         // (nHosts - 1) because the initial host doesn't count as a hop
-        long expected = ((nHosts -1) * nSessions) / nSessions;
+        double expected = ((nHosts -1) * nSessions) / nSessions;
         
-        long result = metrics.getAvgHopsPerRequest(sessionList);
+        double result = metrics.getAvgHopsPerRequest(sessionList);
         Assert.assertTrue(result == expected);
     }
 

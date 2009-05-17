@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.sip;
+package org.sipana.server.sip.metric;
 
 import java.util.List;
 import javax.ejb.Stateless;
@@ -26,45 +26,51 @@ import org.sipana.protocol.sip.SIPSession;
 @Stateless
 public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
 {
-    public long getAvgHopsPerRequest(List<SIPSession> sessionList) {
-        long result = 0;
+    public int getHopsPerRequest(SIPSession session) {
+        String initialMethod = session.getRequestMethod();
+        List<SIPMessage> messageList = session.getMessageList();
+        SIPRequest first = null;
+        int result = 0;
 
-        if (sessionList.size() == 0) {
-            return 0;
+        // Get the last request within the session with the same method of
+        // initial request to discard requests captured on intermediate
+        // hosts (Average Hops is an end-to-end metric)
+        SIPRequest last = null;
+        for (SIPMessage m : messageList) {
+            // TODO Use CSeq to get only the first request
+            if (m instanceof SIPRequest && ((SIPRequest) m).getMethod().equals(initialMethod)) {
+                if (first == null) {
+                    first = (SIPRequest) m;
+                }
+                last = (SIPRequest) m;
+            }
         }
 
-        for (SIPSession session : sessionList) {
-            String initialMethod = session.getRequestMethod();
-            List<SIPMessage> messageList = session.getMessageList();
-            SIPRequest first = null;
-            
-            // Get the last request within the session with the same method of 
-            // initial request to discard requests captured on intermediate 
-            // hosts (Average Hops is an end-to-end metric)
-            SIPRequest last = null;
-            for (SIPMessage m : messageList) {
-                // TODO Use CSeq to get only the first request 
-                if (m instanceof SIPRequest 
-                        && ((SIPRequest)m).getMethod().equals(initialMethod))
-                {
-                    if (first == null) {
-                        first = (SIPRequest)m;
-                    }
-                    last = (SIPRequest)m;
-                }
-            }
+        if (first != null && last != null) {
+            result += (first.getMaxForwards() - last.getMaxForwards());
+        }
+        
+        return result;
+    }
 
-            if (first != null && last != null) {
-                result += (first.getMaxForwards() - last.getMaxForwards());
-            }
+
+    public double getAvgHopsPerRequest(List<SIPSession> sessionList) {
+        double result = 0;
+
+        for (SIPSession session : sessionList) {
+            result += getHopsPerRequest(session);
         }
 
         int listSize = sessionList.size();
-        return listSize > 0 ? result / listSize : 0;
+        return listSize > 0 ? result / listSize : 0L;
     }
 
-    public long getAvgRegistrationRequestDelay(List<SIPSession> sessionList) {
-        long result = 0L;
+    public double getIneffectiveRegistrationAttempts(List<SIPSession> sessionList) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public double getAvgRegistrationRequestDelay(List<SIPSession> sessionList) {
+        double result = 0L;
         int nRegister = 0;
 
         for (SIPSession session : sessionList) {
@@ -99,19 +105,19 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         return listSize > 0 ? result / listSize : 0;
     }
 
-    public long getAvgSessionRequestDelay(List<SIPSession> sessionList) {
-        long result = 0;
+    public double getAvgSessionRequestDelay(List<SIPSession> sessionList) {
+        double result = 0;
 
         for (SIPSession session : sessionList) {
             result =+ getSessionRequestDelay(session);
         }
 
         int listSize = sessionList.size();
-        return listSize > 0 ? result / listSize : 0;
+        return listSize > 0 ? result / listSize : 0L;
     }
 
     public double getIneffectiveSessionAttempts(List<SIPSession> sessionList) {
-        long nFail = 0;
+        double nFail = 0;
         
         for (SIPSession session : sessionList) {
             if (session.getState() == SIPSessionState.FAILED) {
@@ -120,14 +126,14 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         }
 
         int listSize = sessionList.size();
-        return (double) (listSize > 0 ? nFail / listSize : 0);
+        return (double) (listSize > 0 ? nFail / listSize : 0L);
     }
 
     public long getRegistrationRequestDelay(SIPSession session) {
         return (session.getEndTime() - session.getStartTime());
     }
 
-    public double getSessionCompletionRate(List<SIPSession> sessionList) {
+    public double getSessionCompletionRatio(List<SIPSession> sessionList) {
         int nComplete = 0;
         
         for (SIPSession session : sessionList) {
@@ -137,45 +143,44 @@ public class SIPPerformanceMetricsBean implements SIPPerformanceMetrics
         }
 
         int listSize = sessionList.size();
-        return (double) (listSize > 0 ? nComplete / listSize : 0);
+        return (double) (listSize > 0 ? nComplete / listSize : 0L);
     }
 
-    public long getSessionDefects(List<SIPSession> sessionList) {
+    public double getSessionDefectsRatio(List<SIPSession> sessionList) {
         // TODO getSessionDefects()
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public long getSessionDisconnectDelay(SIPSession session) {
         return (session.getEndTime() - session.getDisconnectionStart());
     }
 
-    public long getSessionDisconnectFailures(List<SIPSession> sessionList) {
+    public double getSessionDisconnectFailures(List<SIPSession> sessionList) {
         // TODO getSessionDisconnectFailures()
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public long getSessionDurationTime(SIPSession session) {
         return (session.getDisconnectionStart() - session.getEstablishedTime());
     }
 
-    public long getSessionEstablishmentEfficiencyRate(
+    public double getSessionEstablishmentEffectivenessRatio(
             List<SIPSession> sessionList) {
         // TODO getSessionEstablishmentEfficiencyRate()
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public long getSessionEstablishmentRate(List<SIPSession> sessionList) {
+    public double getSessionEstablishmentRatio(List<SIPSession> sessionList) {
         // TODO getSessionEstablishmentRate()
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public long getSessionRequestDelay(SIPSession session) {
         return (session.getSetupTime() - session.getStartTime());
     }
 
-    public double getSessionSuccessRate(List<SIPSession> sessionList) {
+    public double getSessionSuccessRatio(List<SIPSession> sessionList) {
         // TODO getSessionSuccessRate()
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-
 }

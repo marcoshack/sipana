@@ -17,7 +17,7 @@ package org.sipana.server.service;
 
 import org.sipana.server.dao.SIPMessageManagerBean;
 import org.sipana.server.dao.SIPSessionManagerBean;
-import org.sipana.server.sip.SIPPerformanceMetricsBean;
+import org.sipana.server.sip.metric.SIPPerformanceMetricsBean;
 
 
 public interface Service {
