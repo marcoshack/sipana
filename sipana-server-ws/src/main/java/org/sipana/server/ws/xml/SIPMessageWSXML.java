@@ -21,6 +21,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPMessageList;
 
 /**
@@ -31,9 +32,14 @@ import org.sipana.protocol.sip.SIPMessageList;
 public interface SIPMessageWSXML {
 
     @GET
-    @Path("/list/{sessionId}")
+    @Path("/{messageId}")
     @Produces("application/xml")
-    public SIPMessageList getMessageList(@PathParam("sessionId") long sessionId);
+    public SIPMessage getMessage(@PathParam("messageId") long messageId);
+
+    @GET
+    @Path("/session/{sessionList}")
+    @Produces("application/xml")
+    public SIPMessageList getMessageList(@PathParam("sessionList") String sessionList);
 
 
     @PUT

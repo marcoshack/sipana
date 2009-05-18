@@ -30,13 +30,17 @@ import org.sipana.protocol.sip.SIPMessageList;
 @Stateless
 public class SIPMessageManagerBean extends AbstractManagerBean implements SIPMessageManager {
 
-    public List<SIPMessage> getMessageListBySessionId(Long sessionId) {
-        List<Long> sessionIdList = new ArrayList<Long>();
-        sessionIdList.add(sessionId);
-        return getMessageListBySessionId(sessionIdList);
+    public SIPMessage find(long id) {
+        return manager.find(SIPMessage.class, id);
     }
 
-    public List<SIPMessage> getMessageListBySessionId(List<Long> sessionIdList) {
+    public List<SIPMessage> findBySessionID(Long sessionId) {
+        List<Long> sessionIdList = new ArrayList<Long>();
+        sessionIdList.add(sessionId);
+        return findBySessionID(sessionIdList);
+    }
+
+    public List<SIPMessage> findBySessionID(List<Long> sessionIdList) {
         StringBuilder sbQuery = new StringBuilder("SELECT m FROM SIPMessage m INNER JOIN m.sipSession AS s WHERE s.id IN (");
         sbQuery.append("'").append(StringUtils.join(sessionIdList, "','"));
         sbQuery.append("') ORDER BY m.time");
@@ -45,13 +49,13 @@ public class SIPMessageManagerBean extends AbstractManagerBean implements SIPMes
         return q.getResultList();
     }
 
-    public List<SIPMessage> getMessageListByCallID(String callId) {
+    public List<SIPMessage> findByCallID(String callId) {
         ArrayList<String> callIdList = new ArrayList<String>();
         callIdList.add(callId);
-        return getMessageListByCallID(callIdList);
+        return findByCallID(callIdList);
     }
 
-    public List<SIPMessage> getMessageListByCallID(List<String> callIdList) {
+    public List<SIPMessage> findByCallID(List<String> callIdList) {
         StringBuilder sbQuery = new StringBuilder("SELECT m FROM SIPMessage m WHERE m.callId IN (");
         sbQuery.append("'").append(StringUtils.join(callIdList, "','")).append("') ORDER BY m.time");
 

@@ -104,7 +104,7 @@ public class SIPSessionMDB implements MessageListener {
             logger.debug(sb);
         }
 
-        manager.createSIPSession(session);
+        manager.save(session);
     }
     
     private void addSIPMessage(SIPMessage message) {
@@ -114,7 +114,7 @@ public class SIPSessionMDB implements MessageListener {
             logger.debug(sbDebug);
         }
         
-        SIPSession session = manager.getSIPSessionByCallID(message.getCallID());
+        SIPSession session = manager.findByCallID(message.getCallID());
         
         if (session != null) {
             session.addMessage(message);

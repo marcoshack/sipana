@@ -15,7 +15,9 @@
  */
 package org.sipana.server.ws.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPMessageList;
 import org.sipana.server.service.Service;
@@ -32,11 +34,23 @@ public class SIPMessageWSImpl implements SIPMessageWSXML {
     private SIPMessageManager sipMessageManager;
 
     public SIPMessageWSImpl() {
-        sipMessageManager = (SIPMessageManager) ServiceLocator.getInstance().getService(Service.SIP_MESSAGE_MANAGER);
+        ServiceLocator sl = ServiceLocator.getInstance();
+        sipMessageManager = (SIPMessageManager) sl.getService(Service.SIP_MESSAGE_MANAGER);
     }
 
-    public SIPMessageList getMessageList(long sessionId) {
-        List<SIPMessage> result = sipMessageManager.getMessageListBySessionId(sessionId);
+    public SIPMessage getMessage(long messageId) {
+        return sipMessageManager.find(messageId);
+    }
+
+    public SIPMessageList getMessageList(String sessionList) {
+        String[] strList = StringUtils.split(sessionList, ",");
+        List<Long> list = new ArrayList<Long>();
+
+        for (String strID : strList) {
+            list.add(Long.parseLong(strID));
+        }
+
+        List<SIPMessage> result = sipMessageManager.findBySessionID(list);
         return new SIPMessageList(result);
     }
 

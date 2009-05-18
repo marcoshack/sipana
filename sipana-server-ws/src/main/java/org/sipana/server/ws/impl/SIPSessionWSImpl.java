@@ -42,7 +42,7 @@ public class SIPSessionWSImpl implements SIPSessionWSXML {
     public SIPSession getSIPSession(long sessionId) {
         logger.debug("Processing getSIPSession");
 
-        SIPSession session = sipSessionManager.getSIPSession(sessionId);
+        SIPSession session = sipSessionManager.find(sessionId);
 
         logger.debug("getSIPSession processed");
         return session;
@@ -71,7 +71,7 @@ public class SIPSessionWSImpl implements SIPSessionWSXML {
 
         List<String> ipAddrList = createIpAddrList(strIpAddrList);
 
-        List<SIPSession> result = sipSessionManager.getSIPSessions(startTime, endTime, method, fromUser, toUser, callId, ipAddrList);
+        List<SIPSession> result = sipSessionManager.find(startTime, endTime, method, fromUser, toUser, callId, ipAddrList);
 
         if (logger.isDebugEnabled()) {
             StringBuilder sb = new StringBuilder("getSIPSessionList processed. ");

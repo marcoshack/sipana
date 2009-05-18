@@ -25,10 +25,11 @@ import org.sipana.protocol.sip.SIPMessage;
  */
 @Local
 public interface SIPMessageManager {
-    public List<SIPMessage> getMessageListBySessionId(Long sessionId);
-    public List<SIPMessage> getMessageListBySessionId(List<Long> sessionIdList);
-    public List<SIPMessage> getMessageListByCallID(String callId);
-    public List<SIPMessage> getMessageListByCallID(List<String> callIdList);
+    public SIPMessage find(long id);
+    public List<SIPMessage> findBySessionID(Long sessionId);
+    public List<SIPMessage> findBySessionID(List<Long> sessionIdList);
+    public List<SIPMessage> findByCallID(String callId);
+    public List<SIPMessage> findByCallID(List<String> callIdList);
     public void save(SIPMessage message);
     public void save(List<SIPMessage> messageList);
 }
