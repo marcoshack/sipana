@@ -42,7 +42,7 @@ public class SIPScenarioWSImpl implements SIPScenarioWSJPEG {
 
     public StreamingOutput getSIPScenario(String strIdList) {
         List<Long> idList = createSIPSessionIdList(strIdList);
-        List<SIPMessage> messageList = sipMessageManager.getMessageListBySessionId(idList);
+        List<SIPMessage> messageList = sipMessageManager.findBySessionID(idList);
         return new SIPScenarioStreamingOutput(messageList);
     }
 

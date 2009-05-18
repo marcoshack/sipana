@@ -67,7 +67,7 @@ public class SIPSessionController {
             logger.debug(sbDebug);
         }
 
-        List<SIPSession> sipSessions = sipSessionManager.getSIPSessions(
+        List<SIPSession> sipSessions = sipSessionManager.find(
                 startTime,
                 endTimeFinal,
                 requestMethod,

@@ -13,20 +13,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.dao;
+package org.sipana.server.ws.xml;
 
-import java.util.List;
-import javax.ejb.Local;
+import javax.ws.rs.Path;
 
-import org.sipana.protocol.sip.SIPSession;
+/**
+ *
+ * @author mhack
+ */
 
-@Local
-public interface SIPSessionManager {
-    public void save(SIPSession session);
-    public long getSIPSessionCount();
-    public SIPSession find(long id);
-    @Deprecated
-    public List<SIPSession> find(Long startTime, Long endTime, String method, String fromUser, String toUser, String callId, List<String> ipAddrList);
-    public List<SIPSession> find(SIPSessionFindParams params);
-    public SIPSession findByCallID(String callID);
+@Path("/sipmetrics")
+public interface SIPPerformanceMetricsWSXML {
+    
 }

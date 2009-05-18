@@ -65,6 +65,7 @@ public class SIPScenario {
     }
 
     public SIPScenario(List<SIPMessage> messages, String format) {
+        this.messages = messages;
         hostList = createHostListWithWeightPosition(messages);
         imageFormat = format;
         sessionColors = new HashMap<String, Color>();
