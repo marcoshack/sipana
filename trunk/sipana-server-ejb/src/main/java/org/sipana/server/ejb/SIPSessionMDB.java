@@ -13,9 +13,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.sip;
+package org.sipana.server.ejb;
 
-import org.sipana.server.dao.*;
+import org.sipana.server.ejb.impl.SIPSessionManagerBean;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;

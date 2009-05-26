@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.dao;
+package org.sipana.server.ejb.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

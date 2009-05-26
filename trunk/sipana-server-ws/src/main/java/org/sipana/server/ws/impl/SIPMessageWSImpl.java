@@ -22,7 +22,7 @@ import org.sipana.protocol.sip.SIPMessage;
 import org.sipana.protocol.sip.SIPMessageList;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
-import org.sipana.server.dao.SIPMessageManager;
+import org.sipana.server.ejb.SIPMessageManager;
 import org.sipana.server.ws.xml.SIPMessageWSXML;
 
 /**

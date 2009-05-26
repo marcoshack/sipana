@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.sipana.server.dao;
+package org.sipana.server.ejb.impl;
 
 import java.util.Date;
 import java.util.List;

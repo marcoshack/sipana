@@ -23,8 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPSession;
-import org.sipana.server.sip.metric.SIPPerformanceMetrics;
-import org.sipana.server.sip.metric.SIPPerformanceMetricsBean;
+import org.sipana.server.ejb.SIPPerformanceMetrics;
+import org.sipana.server.ejb.impl.SIPPerformanceMetricsBean;
 
 public class SIPPerformanceMetricsTest {
     private SIPPerformanceMetrics metrics;

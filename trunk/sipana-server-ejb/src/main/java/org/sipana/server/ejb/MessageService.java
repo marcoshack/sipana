@@ -13,15 +13,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.service;
+package org.sipana.server.ejb;
 
-import org.sipana.server.ejb.impl.SIPMessageManagerBean;
-import org.sipana.server.ejb.impl.SIPSessionManagerBean;
-import org.sipana.server.ejb.impl.SIPPerformanceMetricsBean;
+import java.util.List;
+import javax.ejb.Local;
+import org.sipana.protocol.sip.SIPMessage;
 
-
-public interface Service {
-	public static final String SIP_SESSION_MANAGER = SIPSessionManagerBean.class.getSimpleName();
-    public static final String SIP_MESSAGE_MANAGER = SIPMessageManagerBean.class.getSimpleName();
-	public static final String SIP_PERFORMANCE_METRICS = SIPPerformanceMetricsBean.class.getSimpleName();
+/**
+ *
+ * @author mhack
+ */
+@Local
+public interface MessageService {
+    public void processMessage(SIPMessage message);
+    public void processMessage(List<SIPMessage> messageList);
 }
