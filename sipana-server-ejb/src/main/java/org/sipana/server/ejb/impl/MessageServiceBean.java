@@ -13,23 +13,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.dao;
+package org.sipana.server.ejb.impl;
 
 import java.util.List;
-import javax.ejb.Local;
+import javax.ejb.Stateless;
 import org.sipana.protocol.sip.SIPMessage;
+import org.sipana.server.ejb.MessageService;
 
 /**
  *
- * @author Marcos Hack <marcoshack@gmail.com>
+ * @author mhack
  */
-@Local
-public interface SIPMessageManager {
-    public SIPMessage find(long id);
-    public List<SIPMessage> findBySessionID(Long sessionId);
-    public List<SIPMessage> findBySessionID(List<Long> sessionIdList);
-    public List<SIPMessage> findByCallID(String callId);
-    public List<SIPMessage> findByCallID(List<String> callIdList);
-    public void save(SIPMessage message);
-    public void save(List<SIPMessage> messageList);
+@Stateless
+public class MessageServiceBean implements MessageService {
+
+    public void processMessage(SIPMessage message) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void processMessage(List<SIPMessage> messageList) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

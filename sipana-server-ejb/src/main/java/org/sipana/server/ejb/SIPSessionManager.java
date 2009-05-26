@@ -13,8 +13,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.dao;
+package org.sipana.server.ejb;
 
+import org.sipana.server.ejb.impl.SIPSessionFindParams;
 import java.util.List;
 import javax.ejb.Local;
 

@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.server.web.sip.session;
+package org.sipana.server.web.sip;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 import org.sipana.protocol.sip.SIPSession;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
-import org.sipana.server.dao.SIPSessionManager;
+import org.sipana.server.ejb.SIPSessionManager;
 
 public class SIPSessionController {
 

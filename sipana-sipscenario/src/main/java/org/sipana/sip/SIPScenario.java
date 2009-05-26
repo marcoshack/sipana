@@ -13,8 +13,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.sipana.sip.scenario;
+package org.sipana.sip;
 
+import org.sipana.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
