@@ -6,7 +6,7 @@
   <recv request="INVITE" crlf="true">
   </recv>
 
-  <pause milliseconds="100"/> 
+  <!--pause milliseconds="10"/--> 
   
   <send>
     <![CDATA[
