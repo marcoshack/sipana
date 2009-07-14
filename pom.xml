@@ -18,7 +18,8 @@
         <module>sipana-commons</module>
         <module>sipana-agent</module>
         <module>sipana-sipscenario</module>
-    </modules>
+        <module>sipana-client</module>
+  </modules>
 
     <distributionManagement>
         <repository>

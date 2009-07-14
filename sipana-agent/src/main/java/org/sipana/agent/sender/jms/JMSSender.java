@@ -16,6 +16,7 @@
 package org.sipana.agent.sender.jms;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -113,6 +114,14 @@ public class JMSSender implements Sender, ExceptionListener {
             logger.warn(sbWarn);
         }
     }
+
+    public void send(List<SIPMessage> messages) throws Exception {
+        for (SIPMessage m : messages) {
+            send(m);
+        }
+    }
+
+
     
     private void sendNow(Serializable object) throws Exception {
         if (logger.isDebugEnabled()) {
