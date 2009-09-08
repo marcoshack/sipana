@@ -1,6 +1,6 @@
 #summary Project architecture overview
 #labels Development,Documentation
 
-The diagram bellow illustrates the Architecture decisions in the current version of Sipana. For information about future developments visit the [http://code.google.com/p/sipana/wiki/Issues?tm=3 Issues] page and take a look in the [https://sipana.googlecode.com/svn/trunk Marcos Hack's graduation term] (only in Portuguese).
+The diagram bellow illustrates the Architecture decisions in the current version of Sipana. For information about future developments visit the [http://code.google.com/p/sipana/wiki/Issues?tm=3 Issues] page and take a look in the [http://compmack.googlecode.com/svn/marcoshack/tgi/TGI_Marcos_Hack.pdf Marcos Hack's graduation term] (only in Portuguese).
 
 <img src="http://sipana.googlecode.com/svn/images/sipana_architecture.png"/>
