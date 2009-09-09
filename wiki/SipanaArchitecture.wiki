@@ -8,7 +8,7 @@ The diagram bellow illustrates the Architecture decisions in the current version
 ==Deployment overview==
 The image bellow ilustrates a possible distributed deployment environment:
 
-<img src="http://sipana.googlecode.com/svn/images/sipana_distributed_deploy.png"/>
+<img src="http://sipana.googlecode.com/svn/images/sipana-distributed.png"/>
 In each site (Tokyo, São Paulo, and Los Angeles) there are a Sipana Agent running as a network sniffer monitoring all of the Sip Signaling in the LAN.
 
 Only in Tokyo there is a Sipana Server, so all of the agents send the Sip Statistics to the Sipana Server in Tokyo, and anybody could acces the Sipana Server in Tokyo to analyse the performance, and troubleshooting of the whole network.
