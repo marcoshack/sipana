@@ -1,5 +1,6 @@
 package org.sipana.client.http;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.sipana.client.SipanaClient;
 import org.sipana.protocol.sip.SIPRequest;
@@ -8,6 +9,7 @@ import org.sipana.protocol.sip.SIPRequest;
  *
  * @author mhack
  */
+@Ignore
 public class SipanaHttpClientTest {
 
     @Test

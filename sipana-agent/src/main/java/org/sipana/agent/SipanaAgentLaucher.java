@@ -23,10 +23,6 @@ public class SipanaAgentLaucher {
 
     public static void main(String[] args) {
         SipanaAgent agent = new SipanaAgent();
-        
-        SipanaAgentSignalHandler sigHandler = new SipanaAgentSignalHandler(agent);
-        Runtime.getRuntime().addShutdownHook(new Thread(sigHandler));
-
         Thread agentThread = new Thread(agent);
         agentThread.start();
     }
