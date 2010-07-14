@@ -135,9 +135,6 @@ I could install the RPM/DEB packages with no problems in the following Linux dis
 
   * [http://code.google.com/p/sipana/downloads/list Download] the current version of Sipana Client and unpack it in the host where you are going to install the Client component.
 
-  * Install the library [http://netresearch.ics.uci.edu/kfujii/jpcap/doc/ JPcap] using their install package.
-
-
   * Edit the file *conf/jndi.properties* and set the property *java.naming.provider.url* with the server address. Change only the IP address/hostname and maintain the prefix *jnp://* and the port *:1099*.
 
 
