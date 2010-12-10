@@ -3,7 +3,7 @@
 
 = Version 0.4 =
 
- * *Release schedule*: 2009-04-30
+ * *Release schedule*: 
  * *Release date*:
 
 *Changes*
