@@ -1,5 +1,3 @@
 ﻿#summary Sipana Wiki
 
-The Sipana project wiki was moved from http://sipana.org/wiki/ to Google Code wiki system.
-
 Use the navigation menu to the right to navigate over the content.
