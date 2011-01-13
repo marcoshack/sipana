@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id$ -->
+
+<server>
+	<mbean code="org.jboss.varia.property.SystemPropertiesService"
+		name="sipana:type=Service,name=SipanaProperties">
+
+		<!-- 
+			| Load properties from each of the given comma seperated URLs
+			
+			<attribute name="URLList">
+			http://somehost/some-location.properties,
+			./conf/somelocal.properties
+			</attribute>
+			
+		-->
+
+		<attribute name="Properties">
+
+		</attribute>
+	</mbean>
+</server>
