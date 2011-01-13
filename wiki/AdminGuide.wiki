@@ -139,11 +139,11 @@ I could install the RPM/DEB packages with no problems in the following Linux dis
 
 
   * Edit the file *conf/sipana-client.properties* and edit the following properties
-*org.sipana.client.capture.interface*: set with the network interface name where you want to capture or *any* to capture in all interfaces simultaneously. 
-  *org.sipana.client.capture.filter*: set the _pcap_ capture filter (_p.ex. "udp and port 5060"_). Please refer to [http://www.tcpdump.org/#documentation tcpdump/libpcap documentation] for more information.
+     * *org.sipana.client.capture.interface*: set with the network interface name where you want to capture or *any* to capture in all interfaces simultaneously. 
+     * *org.sipana.client.capture.filter*: set the _pcap_ capture filter (_p.ex. "udp and port 5060"_). Please refer to [http://www.tcpdump.org/#documentation tcpdump/libpcap documentation] for more information.
 
 
-  * Start the client
+  * Start the client (with *root* privileges)
 
 {{{
  $SIPANA_HOME/bin/sipana-client.sh
