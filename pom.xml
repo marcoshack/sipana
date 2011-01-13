@@ -4,9 +4,9 @@
 
     <groupId>org.sipana</groupId>
     <artifactId>sipana</artifactId>
-    <name>sipana</name>
+    <name>Sipana</name>
     <packaging>pom</packaging>
-    <version>0.4</version>
+    <version>0.3</version>
 
     <description>Sipana</description>
 
@@ -18,8 +18,7 @@
         <module>sipana-commons</module>
         <module>sipana-agent</module>
         <module>sipana-sipscenario</module>
-        <module>sipana-client</module>
-  </modules>
+    </modules>
 
     <distributionManagement>
         <repository>

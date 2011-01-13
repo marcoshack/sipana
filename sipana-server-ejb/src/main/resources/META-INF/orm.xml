@@ -45,22 +45,22 @@
 			<id name="id">
 				<generated-value strategy="AUTO" />
 			</id>
-			<one-to-many name="messages"
-				target-entity="org.sipana.protocol.sip.SIPMessage"
+			<one-to-many name="requests"
+				target-entity="org.sipana.protocol.sip.SIPRequest"
 				fetch="EAGER">
 				<join-column name="id_sip_session" />
 				<cascade>
 					<cascade-all />
 				</cascade>
 			</one-to-many>
-			<!--one-to-many name="responses"
+			<one-to-many name="responses"
 				target-entity="org.sipana.protocol.sip.SIPResponse"
 				fetch="EAGER">
 				<join-column name="id_sip_session" />
 				<cascade>
 					<cascade-all />
 				</cascade>
-			</one-to-many-->
+			</one-to-many>
 		</attributes>
 	</entity>
 </entity-mappings>

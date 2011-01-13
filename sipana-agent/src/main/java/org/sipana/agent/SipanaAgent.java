@@ -21,7 +21,7 @@ import org.sipana.agent.capture.CaptureManager;
 import org.sipana.agent.capture.CaptureSession;
 import org.sipana.agent.config.ConfigException;
 import org.sipana.agent.config.ConfigManager;
-import org.sipana.agent.sender.Sender;
+import org.sipana.agent.sender.MessageSender;
 import org.sipana.agent.sip.SIPHandler;
 
 public class SipanaAgent implements Runnable {
@@ -33,7 +33,7 @@ public class SipanaAgent implements Runnable {
     private ServiceLocator serviceLocator;
     private Integer status;
     private ConfigManager configManager;
-    private Sender sender;
+    private MessageSender sender;
     private SIPHandler sipHandler;
     private CaptureManager captureManager;
 
@@ -42,7 +42,7 @@ public class SipanaAgent implements Runnable {
     public void start() throws Exception {
         serviceLocator = ServiceLocator.getInstance();
         configManager = serviceLocator.getConfigManager();
-        sender = serviceLocator.getSender();
+        sender = serviceLocator.getSIPSessionSender();
         sipHandler = serviceLocator.getSIPHandler(sender);
         captureManager = serviceLocator.getCaptureManager();
 

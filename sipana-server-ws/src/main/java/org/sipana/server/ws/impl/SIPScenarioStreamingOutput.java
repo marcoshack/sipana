@@ -6,7 +6,7 @@ import java.util.List;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;
 import org.sipana.protocol.sip.SIPMessage;
-import org.sipana.sip.SIPScenario;
+import org.sipana.sip.scenario.SIPScenario;
 
 /**
  *

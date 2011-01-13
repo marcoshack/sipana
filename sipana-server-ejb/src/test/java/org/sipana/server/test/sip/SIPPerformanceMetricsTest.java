@@ -22,9 +22,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.sipana.protocol.sip.SIPRequest;
+import org.sipana.protocol.sip.SIPRequest;
 import org.sipana.protocol.sip.SIPSession;
-import org.sipana.server.ejb.SIPPerformanceMetrics;
-import org.sipana.server.ejb.impl.SIPPerformanceMetricsBean;
+import org.sipana.server.sip.SIPPerformanceMetrics;
+import org.sipana.server.sip.SIPPerformanceMetricsBean;
 
 public class SIPPerformanceMetricsTest {
     private SIPPerformanceMetrics metrics;
@@ -50,16 +51,16 @@ public class SIPPerformanceMetricsTest {
                 SIPRequest request = new SIPRequest();
                 request.setMethod(Request.INVITE);
                 request.setMaxForwards(70 - j);
-                session.addMessage(request);
+                session.addRequest(request);
             }
             
             sessionList.add(session);
         }
         
         // (nHosts - 1) because the initial host doesn't count as a hop
-        double expected = ((nHosts -1) * nSessions) / nSessions;
+        long expected = ((nHosts -1) * nSessions) / nSessions;
         
-        double result = metrics.getAvgHopsPerRequest(sessionList);
+        long result = metrics.getAvgHopsPerRequest(sessionList);
         Assert.assertTrue(result == expected);
     }
 

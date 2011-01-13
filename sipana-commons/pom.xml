@@ -5,14 +5,14 @@
     <parent>
 		<artifactId>sipana</artifactId>
 		<groupId>org.sipana</groupId>
-		<version>0.4</version>
+		<version>0.3</version>
 	</parent>
 
 	<groupId>org.sipana</groupId>
 	<artifactId>sipana-commons</artifactId>
-	<name>sipana-commons</name>
+	<name>Sipana Commons</name>
 	<description>Sipana Common components</description>
-	<version>0.4</version>
+	<version>0.3</version>
 	<url>http://sipana.org</url>
 
 	<dependencies>

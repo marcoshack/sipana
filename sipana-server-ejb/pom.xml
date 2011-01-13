@@ -3,15 +3,15 @@
     <parent>
         <artifactId>sipana</artifactId>
         <groupId>org.sipana</groupId>
-        <version>0.4</version>
+        <version>0.3</version>
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.sipana</groupId>
     <artifactId>sipana-server-ejb</artifactId>
-    <name>sipana-server-ejb</name>
+    <name>Sipana Server EJB</name>
     <description>Sipana Server. EJB Module</description>
-    <version>0.4</version>
+    <version>0.3</version>
 
     <dependencies>
         <dependency>
@@ -38,11 +38,5 @@
             <version>1.1</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.6</version>
-        </dependency>
-        
     </dependencies>
 </project>

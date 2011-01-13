@@ -1,0 +1,155 @@
+#summary Server and Client Installation and Configuration Guides
+#labels Documentation
+
+<wiki:toc max_depth="3" />
+
+<br><br>
+
+= Sipana Server =
+
+== JBoss Application Server ==
+
+The Sipana server component is a Java EE application developed to run in the [http://www.jboss.org/jbossas/ JBoss Application Server]. Before install and run the Sipana Server you need to install the Java Virtual Machine (JRE or JDK) version 5 or higher and the JBoss AS version 4.2.3.GA or higher.
+
+
+The Sipana Server will be installed in the *default* JBoss server deployment ($JBOSS_HOME/server/default). We recommend you to configure the environment variable *$JBOSS_HOME* with the patch for you JBoss AS installation because we'll use it in all command line commands in this document so you wont need to replace it with your server installation path:
+
+{{{
+ export JBOSS_HOME=/usr/local/jboss-4.2.3.GA
+}}}
+
+<br>
+
+=== MySQL server and MySQL JDBC driver ===
+
+By default Sipana server uses the MySQL as background DBMS, so you will need a up and running MySQL server.
+
+The MySQL JDBC driver, needed to connect to a MySQL server from a JBoss AS application, is not installed in the JBoss AS by default. Please download the correct version for you MySQL server [http://dev.mysql.com/downloads/connector/j/ here] and copy the file *mysql-connector-java-X.X.X-bin.jar* to the *$JBOSS_HOME/server/$JBOSS_SERVER/lib* directory.
+
+<br>
+
+== Sipana Server component ==
+
+=== Download and Install ===
+
+[http://code.google.com/p/sipana/downloads/list Download] the last version of the Sipana Server component and unpack it in a local directory
+
+{{{
+ tar zxvf sipana-server-X.X.X.tar.gz
+ cd sipana-server-X.X.X
+}}}
+
+
+Copy '''sipana.ear''' to the JBoss AS server deploy directory:
+
+{{{
+ cp -R sipana.ear $JBOSS_HOME/server/$JBOSS_SERVER/deploy
+}}}
+
+<br>
+
+=== Create the database ===
+
+You will need *root* access or equivalent to execute the database creation script:
+
+{{{
+ mysql -u root -p < sipana-server/sql/sipana_db_create.sql
+}}}
+
+Configure a username and password with all privileges to be used by Sipana Server:
+
+{{{
+ mysql -u root -p
+}}}
+
+{{{
+ grant all privileges on sipana.* to 'sipana'@'localhost' identified by 'sipana';
+ flush privileges;
+}}}
+
+Please look in the [http://dev.mysql.com/doc/ MySQL documentation] for more information about creating and configure the database.
+
+<br>
+
+=== Configure the database parameters ===
+
+Edit the file *sipana-server-ds.xml* in the directory *$JBOSS_HOME/server/default/deploy* and change the following parameters as needed.
+
+{{{
+ vim $JBOSS_HOME/server/default/deploy/sipana-server-ds.xml
+}}}
+
+The *connection-url* attribute format is: _jdbc:mysql://HOST:PORT/DATABASE_NAME_
+
+{{{
+ <connection-url>jdbc:mysql://localhost:3306/sipana</connection-url>
+ <user-name>sipana</user-name>
+ <password>sipana</password>
+}}}
+
+
+== Run the JBoss AS ==
+
+{{{
+ $JBOSS_HOME/bin/run.sh -c default -b SERVER_ADDRESS
+}}}
+
+*IMPORTANT*: You cannot use *0.0.0.0* as -b parameter value otherwise the client component wont be able to connect to the server (see [http://code.google.com/p/sipana/issues/detail?id=4 Issue #4])
+
+Please look in the [http://www.jboss.org/jbossas/docs/index.html JBoss AS documentation] for more information about server operation.
+
+<br>
+
+== Test the web interface ==
+
+Open a web browser and point to the following address to test your installation. Change the string SERVER_ADDRESS to the server IP address:
+
+{{{
+  http://SERVER_ADDRESS/sipana/</nowiki>
+}}}
+
+
+<br>
+____
+<br>
+
+= Sipana Agent =
+
+== Jpcap library ==
+
+The Sipana Client component uses _Jpcap_ library (a JNI layer to use native libpcap/WinPcap library). We use the [http://netresearch.ics.uci.edu/kfujii/jpcap/doc/install.html Keita Fujii jpcap implementation] (there is a Source jpcap project but it seems to be no longer maintained).
+
+Please take a look in the [http://netresearch.ics.uci.edu/kfujii/jpcap/doc/install.html project installation documentation] in and read our installation notes below if you have problems during the installation. Fell free to ask for help about jpcap installation in the [http://groups.google.com/group/sipana-dev/ Sipana mailing list].
+
+=== Jpcap installation notes ===
+
+I could install the RPM/DEB packages with no problems in the following Linux distributions:
+
+ * Ubuntu 8.10 with Sun JDK
+ * CentOS 5.2 with Sun JDK and Sun JRE
+     use "_rpm -ivh --nodeps jpcap-x.x.rpm_" to install the RPM if you installed only the Sun JRE rpm package. jpcap RPM package depends on package "jdk" provided only by Sun SDK package)
+
+<br>
+
+== Sipana Client ==
+
+  * [[Download|Download]] the current version of Sipana Client and unpack it in the host where you are going to install the Client component.
+
+
+  * Edit the file *conf/jndi.properties* and set the property *java.naming.provider.url* with the server address. Change only the IP address/hostname and maintain the prefix *jnp://* and the port *:1099*.
+
+
+  * Edit the file *conf/sipana-client.properties* and edit the following properties
+*org.sipana.client.capture.interface*: set with the network interface name where you want to capture or *any* to capture in all interfaces simultaneously. 
+  *org.sipana.client.capture.filter*: set the _pcap_ capture filter (_p.ex. "udp and port 5060"_). Please refer to [http://www.tcpdump.org/#documentation tcpdump/libpcap documentation] for more information.
+
+
+  * Start the client
+
+{{{
+ $SIPANA_HOME/bin/sipana-client.sh
+}}}
+
+    where $SIPANA_HOME is the Sipana Client installation directory.
+
+<br>

@@ -18,8 +18,7 @@ package org.sipana.agent.service;
 import org.sipana.agent.capture.CaptureManager;
 import org.sipana.agent.capture.impl.CaptureManagerImpl;
 import org.sipana.agent.config.ConfigManager;
-import org.sipana.agent.sender.Sender;
-import org.sipana.agent.sender.jms.JMSSender;
+import org.sipana.agent.sender.MessageSender;
 import org.sipana.agent.sip.SIPHandler;
 import org.sipana.protocol.sip.SIPFactory;
 
@@ -37,11 +36,11 @@ public class ServiceLocator {
         return instance;
     }
     
-    public Sender getSender() throws Exception {
-        return new JMSSender();
+    public MessageSender getSIPSessionSender() throws Exception {
+        return new MessageSender();
     }
     
-    public SIPHandler getSIPHandler(Sender sender) {
+    public SIPHandler getSIPHandler(MessageSender sender) {
         return new SIPHandler(sender);
     }
     

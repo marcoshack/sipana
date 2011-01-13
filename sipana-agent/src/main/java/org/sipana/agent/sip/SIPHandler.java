@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
 import org.sipana.agent.capture.CaptureListener;
 import org.sipana.agent.capture.Packet;
-import org.sipana.agent.sender.Sender;
+import org.sipana.agent.sender.MessageSender;
 import org.sipana.protocol.sip.SIPSessionState;
 import org.sipana.protocol.sip.SIPFactory;
 import org.sipana.protocol.sip.SIPMessage;
@@ -37,9 +37,9 @@ public class SIPHandler implements CaptureListener {
     private Logger logger;
     private ConcurrentMap<String, SIPSession> sessionList;
     private SIPFactory messageFactory;
-    private Sender messageSender;
+    private MessageSender messageSender;
     
-    public SIPHandler(Sender sender) {
+    public SIPHandler(MessageSender sender) {
         logger = Logger.getLogger(SIPHandler.class);
         sessionList = new ConcurrentHashMap<String, SIPSession>();
         messageFactory = SIPFactory.getInstance();
@@ -81,7 +81,7 @@ public class SIPHandler implements CaptureListener {
         }
         
         if (session != null) {
-            session.addMessage(response);
+            session.addResponse(response);
             
             if (session.getFirstResponseTime() == 0) {
                 session.setFirstResponseTime(response.getTime());
@@ -125,7 +125,7 @@ public class SIPHandler implements CaptureListener {
             SIPSession newSession = messageFactory.createSession(invite);
             addSession(newSession);
         } else {
-            getSession(callId).addMessage(invite);
+            getSession(callId).addRequest(invite);
         }
     }
 
@@ -133,7 +133,7 @@ public class SIPHandler implements CaptureListener {
         SIPSession session = getSession(ack.getCallID());
         
         if (session != null) {
-            session.addMessage(ack);
+            session.addRequest(ack);
             
             if (session.getState() == SIPSessionState.FAILED) {
                 terminateSession(session);
@@ -148,7 +148,7 @@ public class SIPHandler implements CaptureListener {
         SIPSession session = getSession(request.getCallID());
         
         if (session != null) {
-            session.addMessage(request);
+            session.addRequest(request);
             session.setDisconnectionStart(request.getTime());
             session.setState(SIPSessionState.DISCONNECTING);
         } else {

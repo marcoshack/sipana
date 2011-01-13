@@ -5,14 +5,14 @@
 	<parent>
 		<artifactId>sipana</artifactId>
 		<groupId>org.sipana</groupId>
-		<version>0.4</version>
+		<version>0.3</version>
 	</parent>
 	
 	<groupId>org.sipana</groupId>
 	<artifactId>sipana-sipscenario</artifactId>
-	<name>sipana-sipscenario</name>
+	<name>Sipana SIP Scenario</name>
 	<description>Sipana SIP Scenario</description>
-	<version>0.4</version>
+	<version>0.3</version>
 
 	<dependencies>
 		<dependency>

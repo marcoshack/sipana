@@ -1,0 +1,18 @@
+#summary Sipana Server EJB module documentation.
+#labels Development,Documentation,Modules,TODO
+
+= Components =
+
+== SIP message processing ==
+
+  _TODO_
+
+<br>
+
+== SIP Performance Metrics _(org.sipana.server.sip.performance)_ ==
+
+The SIP Performance Metrics used in the Sipana project is based on the Daryl Malas Internet Draft [http://tools.ietf.org/html/draft-ietf-pmol-sip-perf-metrics SIP End-to-End Performance Metrics].
+
+All classes involved with performance metrics are in the *org.sipana.server.sip.performance* Java package .
+
+<br>

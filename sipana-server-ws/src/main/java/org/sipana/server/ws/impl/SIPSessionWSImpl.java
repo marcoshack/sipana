@@ -24,7 +24,7 @@ import org.sipana.protocol.sip.SIPSession;
 import org.sipana.protocol.sip.SIPSessionList;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
-import org.sipana.server.ejb.SIPSessionManager;
+import org.sipana.server.dao.SIPSessionManager;
 
 /**
  *
@@ -42,7 +42,7 @@ public class SIPSessionWSImpl implements SIPSessionWSXML {
     public SIPSession getSIPSession(long sessionId) {
         logger.debug("Processing getSIPSession");
 
-        SIPSession session = sipSessionManager.find(sessionId);
+        SIPSession session = sipSessionManager.getSIPSession(sessionId);
 
         logger.debug("getSIPSession processed");
         return session;
@@ -71,7 +71,7 @@ public class SIPSessionWSImpl implements SIPSessionWSXML {
 
         List<String> ipAddrList = createIpAddrList(strIpAddrList);
 
-        List<SIPSession> result = sipSessionManager.find(startTime, endTime, method, fromUser, toUser, callId, ipAddrList);
+        List<SIPSession> result = sipSessionManager.getSIPSessions(startTime, endTime, method, fromUser, toUser, callId, ipAddrList);
 
         if (logger.isDebugEnabled()) {
             StringBuilder sb = new StringBuilder("getSIPSessionList processed. ");

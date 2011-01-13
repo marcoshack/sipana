@@ -45,21 +45,36 @@ public class SIPFactory implements ParseExceptionListener {
         return createMessage(sipMessage);
     }
 
-    public SIPMessage createMessage(gov.nist.javax.sip.message.SIPMessage sipMessage) {
+    public SIPMessage createMessage(
+            gov.nist.javax.sip.message.SIPMessage sipMessage) {
         SIPMessage message = null;
 
         if (sipMessage != null) {
             if (sipMessage instanceof gov.nist.javax.sip.message.SIPRequest) {
-                message = createSIPRequest((gov.nist.javax.sip.message.SIPRequest)sipMessage);
+                message = new SIPRequest();
+                gov.nist.javax.sip.message.SIPRequest sipRequest = (gov.nist.javax.sip.message.SIPRequest) sipMessage;
+                SIPRequest request = (SIPRequest) message;
+
+                request.setMethod(sipRequest.getMethod());
+                request.setMaxForwards(sipRequest.getMaxForwards().getMaxForwards());
+
+                // Request address host:port
+                SipURI requestURI = (SipURI) sipRequest.getRequestLine().getUri();
+                StringBuilder sbAddr = new StringBuilder(requestURI.getHost());
+                sbAddr.append(":").append(requestURI.getPort());
+                request.setRequestAddr(sbAddr.toString());
 
             } else if (sipMessage instanceof gov.nist.javax.sip.message.SIPResponse) {
-                message = createSIPResponse((gov.nist.javax.sip.message.SIPResponse)sipMessage);
+                message = new SIPResponse();
+                gov.nist.javax.sip.message.SIPResponse sipResponse = (gov.nist.javax.sip.message.SIPResponse) sipMessage;
+                SIPResponse response = (SIPResponse) message;
+
+                response.setStatusCode(sipResponse.getStatusCode());
+                response.setReasonPhrase(sipResponse.getReasonPhrase());
+                response.setRelatedRequestMethod(sipResponse.getCSeq().getMethod());
             }
 
             if (message != null) {
-                // Copy SIPMessage attributes
-
-                // SIP Call-ID
                 message.setCallID(sipMessage.getCallId().getCallId());
 
                 // From user@domain
@@ -86,27 +101,6 @@ public class SIPFactory implements ParseExceptionListener {
         }
 
         return message;
-    }
-
-    private SIPRequest createSIPRequest(gov.nist.javax.sip.message.SIPRequest sipRequest) {
-        SIPRequest request = new SIPRequest();
-        request.setMethod(sipRequest.getMethod());
-        request.setMaxForwards(sipRequest.getMaxForwards().getMaxForwards());
-
-        // Request address host:port
-        SipURI requestURI = (SipURI) sipRequest.getRequestLine().getUri();
-        StringBuilder sbAddr = new StringBuilder(requestURI.getHost());
-        sbAddr.append(":").append(requestURI.getPort());
-        request.setRequestAddr(sbAddr.toString());
-        return request;
-    }
-
-    private SIPResponse createSIPResponse(gov.nist.javax.sip.message.SIPResponse sipResponse) {
-        SIPResponse response = new SIPResponse();
-        response.setStatusCode(sipResponse.getStatusCode());
-        response.setReasonPhrase(sipResponse.getReasonPhrase());
-        response.setRelatedRequestMethod(sipResponse.getCSeq().getMethod());
-        return response;
     }
 
     private String getUser(SipURI uri) {

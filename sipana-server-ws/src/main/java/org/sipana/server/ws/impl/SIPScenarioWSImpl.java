@@ -21,7 +21,7 @@ import java.util.StringTokenizer;
 import javax.ws.rs.core.StreamingOutput;
 import org.apache.log4j.Logger;
 import org.sipana.protocol.sip.SIPMessage;
-import org.sipana.server.ejb.SIPMessageManager;
+import org.sipana.server.dao.SIPMessageManager;
 import org.sipana.server.service.Service;
 import org.sipana.server.service.ServiceLocator;
 import org.sipana.server.ws.jpeg.SIPScenarioWSJPEG;
@@ -42,7 +42,7 @@ public class SIPScenarioWSImpl implements SIPScenarioWSJPEG {
 
     public StreamingOutput getSIPScenario(String strIdList) {
         List<Long> idList = createSIPSessionIdList(strIdList);
-        List<SIPMessage> messageList = sipMessageManager.findBySessionID(idList);
+        List<SIPMessage> messageList = sipMessageManager.getMessageListBySessionId(idList);
         return new SIPScenarioStreamingOutput(messageList);
     }
 

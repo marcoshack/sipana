@@ -15,7 +15,6 @@
  */
 package org.sipana.sip.scenario;
 
-import org.sipana.sip.SIPScenario;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;

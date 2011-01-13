@@ -15,9 +15,9 @@
  */
 package org.sipana.server.service;
 
-import org.sipana.server.ejb.impl.SIPMessageManagerBean;
-import org.sipana.server.ejb.impl.SIPSessionManagerBean;
-import org.sipana.server.ejb.impl.SIPPerformanceMetricsBean;
+import org.sipana.server.dao.SIPMessageManagerBean;
+import org.sipana.server.dao.SIPSessionManagerBean;
+import org.sipana.server.sip.SIPPerformanceMetricsBean;
 
 
 public interface Service {

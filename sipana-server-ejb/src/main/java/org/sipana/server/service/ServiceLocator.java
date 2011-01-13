@@ -18,9 +18,9 @@ package org.sipana.server.service;
 import javax.naming.InitialContext;
 
 import org.apache.log4j.Logger;
-import org.sipana.server.sip.SIPHandler;
 
 public class ServiceLocator {
+	private static final Object classLock = ServiceLocator.class;
 	private static ServiceLocator instance = null;
 	private Logger logger = Logger.getLogger(ServiceLocator.class);
 	
@@ -29,7 +29,7 @@ public class ServiceLocator {
 	}
 
 	public static ServiceLocator getInstance() {
-		synchronized (ServiceLocator.class) {
+		synchronized (classLock) {
 			if (instance == null) {
 				instance = new ServiceLocator();
 			}
@@ -59,8 +59,4 @@ public class ServiceLocator {
 			throw new ServiceLocatorException("Fail getting service " + serviceName, e);
 		}
 	}
-
-    public SIPHandler getSIPHandler() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

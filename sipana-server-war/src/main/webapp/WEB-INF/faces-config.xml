@@ -16,7 +16,9 @@
 
 	<managed-bean>
 		<managed-bean-name>sipSession</managed-bean-name>
-		<managed-bean-class>org.sipana.server.web.sip.SIPSessionController</managed-bean-class>
+		<managed-bean-class>
+			org.sipana.server.web.sip.session.SIPSessionController
+		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	
