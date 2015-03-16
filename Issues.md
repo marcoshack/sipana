@@ -1,0 +1,1 @@
+Sipana projets uses JIRA as issues tracking system **http://jira.vtlabs.org/browse/SIPANA**
